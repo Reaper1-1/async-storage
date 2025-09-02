@@ -45,7 +45,7 @@
   "workspaces": [
     "packages/api",
     "packages/async-storage",
-    "packages/async-storage/example",
+    "packages/async-storage-new",
     "packages/eslint-config",
     "packages/website",
     "examples/example-react-native"
