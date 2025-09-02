@@ -15,7 +15,7 @@ jobs:
           token: ${{ secrets.GH_RELEASE_TOKEN }}
           filters: |
             storage:
-              - 'packages/default-storage/**'
+              - 'packages/async-storage/**'
 
   android:
     name: Android
@@ -35,11 +35,11 @@ jobs:
         with:
           gradle-version: wrapper
           arguments: react-native-async-storage_async-storage:test
-          build-root-directory: packages/default-storage/example/android
+          build-root-directory: packages/async-storage/example/android
       - name: Build e2e binary
         run: |
           yarn build:e2e:android
-        working-directory: packages/default-storage/example
+        working-directory: packages/async-storage/example
 
   ios:
     name: iOS
@@ -54,7 +54,7 @@ jobs:
       - name: Cache /.ccache
         uses: actions/cache@v3
         with:
-          path: packages/default-storage/.ccache
+          path: packages/async-storage/.ccache
           key: ccache-ios-${{ hashFiles('yarn.lock') }}
           restore-keys: ccache-ios-
       - name: Install JS dependencies
@@ -63,15 +63,15 @@ jobs:
       - name: Bundle JS
         run: |
           yarn bundle:ios
-        working-directory: packages/default-storage/example
+        working-directory: packages/async-storage/example
       - name: Install Pods
         run: |
           RCT_NEW_ARCH_ENABLED=1 pod install
-        working-directory: packages/default-storage/example/ios
+        working-directory: packages/async-storage/example/ios
       - name: Build e2e binary
         run: |
           yarn build:e2e:ios
-        working-directory: packages/default-storage/example
+        working-directory: packages/async-storage/example
 
   macos:
     name: macOS
@@ -86,7 +86,7 @@ jobs:
       - name: Cache /.ccache
         uses: actions/cache@v3
         with:
-          path: packages/default-storage/.ccache
+          path: packages/async-storage/.ccache
           key: ccache-macos-${{ hashFiles('yarn.lock') }}
           restore-keys: ccache-macos-
       - name: Install JS dependencies
@@ -95,20 +95,20 @@ jobs:
       - name: Bundle JS
         run: |
           yarn bundle:macos
-        working-directory: packages/default-storage/example
+        working-directory: packages/async-storage/example
       - name: Install Pods
         run: |
           RCT_NEW_ARCH_ENABLED=1 pod install
-        working-directory: packages/default-storage/example/macos
+        working-directory: packages/async-storage/example/macos
       - name: Build
         run: |
           yarn build:e2e:macos
-        working-directory: packages/default-storage/example
+        working-directory: packages/async-storage/example
       - name: Test
         if: false
         run: |
           yarn test:e2e:macos
-        working-directory: packages/default-storage/example
+        working-directory: packages/async-storage/example
 
   windows:
     name: Windows
@@ -132,8 +132,8 @@ jobs:
       - name: Install Windows test app
         run: |
           yarn install-windows-test-app -p windows
-        working-directory: packages/default-storage/example
+        working-directory: packages/async-storage/example
       - name: Build
         run: |
           yarn react-native run-windows --release --arch x64 --logging --no-packager --no-launch --no-deploy --msbuildprops "BundleEntryFile=index.ts,UseBundle=false" --no-telemetry
-        working-directory: packages/default-storage/example
+        working-directory: packages/async-storage/example

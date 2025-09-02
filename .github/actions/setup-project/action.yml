@@ -3,7 +3,7 @@ description: Install required tools
 inputs:
   java-version:
     description: Desired Java version
-    default: "17"
+    default: "21.0.8"
   node-version:
     required: false
     description: node version to install

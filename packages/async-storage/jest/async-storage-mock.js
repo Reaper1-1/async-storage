@@ -1,5 +1,3 @@
-/* eslint-disable no-undef */
-
 const merge = require("merge-options").bind({
   concatArrays: true,
   ignoreUndefined: true,

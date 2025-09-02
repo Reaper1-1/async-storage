@@ -16,7 +16,7 @@
   "scripts": {
     "prepack": "yarn build",
     "build": "bob build",
-    "test:lint": "eslint $(git ls-files '*.js' '*.ts' '*.tsx')",
+    "test:lint": "eslint src",
     "test:ts": "tsc --noEmit"
   },
   "keywords": [
@@ -30,7 +30,7 @@
   "author": "Krzysztof Borowy <contact@kborowy.com>",
   "license": "MIT",
   "devDependencies": {
-    "eslint": "8.54.0",
+    "eslint": "9.34.0",
     "prettier": "2.8.8",
     "react-native-builder-bob": "0.20.0",
     "typescript": "5.9.2"
