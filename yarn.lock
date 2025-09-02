@@ -3939,9 +3939,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@react-native-async-storage/async-storage@workspace:packages/default-storage":
+"@react-native-async-storage/async-storage@workspace:packages/async-storage":
   version: 0.0.0-use.local
-  resolution: "@react-native-async-storage/async-storage@workspace:packages/default-storage"
+  resolution: "@react-native-async-storage/async-storage@workspace:packages/async-storage"
   dependencies:
     "@babel/core": "npm:^7.25.0"
     "@babel/preset-env": "npm:^7.25.0"
@@ -10532,9 +10532,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"example-defaultstorage@workspace:packages/default-storage/example":
+"example-defaultstorage@workspace:packages/async-storage/example":
   version: 0.0.0-use.local
-  resolution: "example-defaultstorage@workspace:packages/default-storage/example"
+  resolution: "example-defaultstorage@workspace:packages/async-storage/example"
   dependencies:
     "@babel/core": "npm:^7.25.2"
     "@babel/preset-env": "npm:^7.25.3"

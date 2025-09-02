@@ -44,8 +44,8 @@
   "packageManager": "yarn@4.2.2",
   "workspaces": [
     "packages/api",
-    "packages/default-storage",
-    "packages/default-storage/example",
+    "packages/async-storage",
+    "packages/async-storage/example",
     "packages/eslint-config",
     "packages/website"
   ]
