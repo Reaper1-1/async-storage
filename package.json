@@ -46,8 +46,6 @@
     "packages/api",
     "packages/default-storage",
     "packages/default-storage/example",
-    "packages/sqlite-storage",
-    "packages/sqlite-storage/example",
     "packages/eslint-config",
     "packages/website"
   ]
