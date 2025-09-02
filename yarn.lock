@@ -3025,10 +3025,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/js@npm:8.57.0":
-  version: 8.57.0
-  resolution: "@eslint/js@npm:8.57.0"
-  checksum: 10c0/9a518bb8625ba3350613903a6d8c622352ab0c6557a59fe6ff6178bf882bf57123f9d92aa826ee8ac3ee74b9c6203fe630e9ee00efb03d753962dcf65ee4bd94
+"@eslint/js@npm:8.54.0":
+  version: 8.54.0
+  resolution: "@eslint/js@npm:8.54.0"
+  checksum: 10c0/d61fb4a0be6af2d8cb290121c329697664a75d6255a29926d5454fb02aeb02b87112f67fdf218d10abac42f90c570ac366126751baefc5405d0e017ed0c946c5
   languageName: node
   linkType: hard
 
@@ -3428,7 +3428,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@humanwhocodes/config-array@npm:^0.11.14":
+"@humanwhocodes/config-array@npm:^0.11.13":
   version: 0.11.14
   resolution: "@humanwhocodes/config-array@npm:0.11.14"
   dependencies:
@@ -3932,10 +3932,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@react-native-async-storage/api@workspace:packages/api"
   dependencies:
-    eslint: "npm:^8.54.0"
-    prettier: "npm:^2.8.8"
+    eslint: "npm:8.54.0"
+    prettier: "npm:2.8.8"
     react-native-builder-bob: "npm:0.20.0"
-    typescript: "npm:^5.3.0"
+    typescript: "npm:5.9.2"
   languageName: unknown
   linkType: soft
 
@@ -3958,7 +3958,7 @@ __metadata:
     appium-uiautomator2-driver: "npm:^2.34.1"
     appium-xcuitest-driver: "npm:^5.9.1"
     concurrently: "npm:^8.2.2"
-    eslint: "npm:^8.54.0"
+    eslint: "npm:8.54.0"
     expo: "npm:^48.0.0"
     lodash: "npm:^4.17.21"
     merge-options: "npm:^3.0.4"
@@ -3971,7 +3971,7 @@ __metadata:
     react-native-web: "npm:~0.18.10"
     react-native-windows: "npm:^0.76.1"
     react-test-renderer: "npm:^18.2.0"
-    typescript: "npm:^5.3.0"
+    typescript: "npm:5.9.2"
     webdriverio: "npm:^8.24.0"
   peerDependencies:
     react-native: ^0.0.0-0 || >=0.65 <1.0
@@ -3986,7 +3986,7 @@ __metadata:
     "@eslint/js": "npm:^8.33.0"
     "@rnx-kit/eslint-plugin": "npm:^0.8.0"
     eslint-plugin-wdio: "npm:^8.20.0"
-    prettier: "npm:^2.8.8"
+    prettier: "npm:2.8.8"
   peerDependencies:
     eslint: ^8.54.0
   languageName: unknown
@@ -3998,10 +3998,10 @@ __metadata:
   dependencies:
     "@changesets/cli": "npm:^2.27.7"
     concurrently: "npm:^8.2.2"
-    eslint: "npm:^8.54.0"
-    prettier: "npm:^2.8.8"
-    turbo: "npm:^1.12.5"
-    typescript: "npm:^5.3.0"
+    eslint: "npm:8.54.0"
+    prettier: "npm:2.8.8"
+    turbo: "npm:2.5.6"
+    typescript: "npm:5.9.2"
   languageName: unknown
   linkType: soft
 
@@ -10379,15 +10379,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.54.0":
-  version: 8.57.0
-  resolution: "eslint@npm:8.57.0"
+"eslint@npm:8.54.0":
+  version: 8.54.0
+  resolution: "eslint@npm:8.54.0"
   dependencies:
     "@eslint-community/eslint-utils": "npm:^4.2.0"
     "@eslint-community/regexpp": "npm:^4.6.1"
-    "@eslint/eslintrc": "npm:^2.1.4"
-    "@eslint/js": "npm:8.57.0"
-    "@humanwhocodes/config-array": "npm:^0.11.14"
+    "@eslint/eslintrc": "npm:^2.1.3"
+    "@eslint/js": "npm:8.54.0"
+    "@humanwhocodes/config-array": "npm:^0.11.13"
     "@humanwhocodes/module-importer": "npm:^1.0.1"
     "@nodelib/fs.walk": "npm:^1.2.8"
     "@ungap/structured-clone": "npm:^1.2.0"
@@ -10423,7 +10423,7 @@ __metadata:
     text-table: "npm:^0.2.0"
   bin:
     eslint: bin/eslint.js
-  checksum: 10c0/00bb96fd2471039a312435a6776fe1fd557c056755eaa2b96093ef3a8508c92c8775d5f754768be6b1dddd09fdd3379ddb231eeb9b6c579ee17ea7d68000a529
+  checksum: 10c0/4f205f832bdbd0218cde374b067791f4f76d7abe8de86b2dc849c273899051126d912ebf71531ee49b8eeaa22cad77febdc8f2876698dc2a76e84a8cb976af22
   languageName: node
   linkType: hard
 
@@ -17919,7 +17919,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:2.8.8, prettier@npm:^2.7.1, prettier@npm:^2.8.8":
+"prettier@npm:2.8.8, prettier@npm:^2.7.1":
   version: 2.8.8
   resolution: "prettier@npm:2.8.8"
   bin:
@@ -21412,58 +21412,58 @@ __metadata:
   languageName: node
   linkType: hard
 
-"turbo-darwin-64@npm:1.12.5":
-  version: 1.12.5
-  resolution: "turbo-darwin-64@npm:1.12.5"
+"turbo-darwin-64@npm:2.5.6":
+  version: 2.5.6
+  resolution: "turbo-darwin-64@npm:2.5.6"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"turbo-darwin-arm64@npm:1.12.5":
-  version: 1.12.5
-  resolution: "turbo-darwin-arm64@npm:1.12.5"
+"turbo-darwin-arm64@npm:2.5.6":
+  version: 2.5.6
+  resolution: "turbo-darwin-arm64@npm:2.5.6"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"turbo-linux-64@npm:1.12.5":
-  version: 1.12.5
-  resolution: "turbo-linux-64@npm:1.12.5"
+"turbo-linux-64@npm:2.5.6":
+  version: 2.5.6
+  resolution: "turbo-linux-64@npm:2.5.6"
   conditions: os=linux & cpu=x64
   languageName: node
   linkType: hard
 
-"turbo-linux-arm64@npm:1.12.5":
-  version: 1.12.5
-  resolution: "turbo-linux-arm64@npm:1.12.5"
+"turbo-linux-arm64@npm:2.5.6":
+  version: 2.5.6
+  resolution: "turbo-linux-arm64@npm:2.5.6"
   conditions: os=linux & cpu=arm64
   languageName: node
   linkType: hard
 
-"turbo-windows-64@npm:1.12.5":
-  version: 1.12.5
-  resolution: "turbo-windows-64@npm:1.12.5"
+"turbo-windows-64@npm:2.5.6":
+  version: 2.5.6
+  resolution: "turbo-windows-64@npm:2.5.6"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
-"turbo-windows-arm64@npm:1.12.5":
-  version: 1.12.5
-  resolution: "turbo-windows-arm64@npm:1.12.5"
+"turbo-windows-arm64@npm:2.5.6":
+  version: 2.5.6
+  resolution: "turbo-windows-arm64@npm:2.5.6"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"turbo@npm:^1.12.5":
-  version: 1.12.5
-  resolution: "turbo@npm:1.12.5"
+"turbo@npm:2.5.6":
+  version: 2.5.6
+  resolution: "turbo@npm:2.5.6"
   dependencies:
-    turbo-darwin-64: "npm:1.12.5"
-    turbo-darwin-arm64: "npm:1.12.5"
-    turbo-linux-64: "npm:1.12.5"
-    turbo-linux-arm64: "npm:1.12.5"
-    turbo-windows-64: "npm:1.12.5"
-    turbo-windows-arm64: "npm:1.12.5"
+    turbo-darwin-64: "npm:2.5.6"
+    turbo-darwin-arm64: "npm:2.5.6"
+    turbo-linux-64: "npm:2.5.6"
+    turbo-linux-arm64: "npm:2.5.6"
+    turbo-windows-64: "npm:2.5.6"
+    turbo-windows-arm64: "npm:2.5.6"
   dependenciesMeta:
     turbo-darwin-64:
       optional: true
@@ -21479,7 +21479,7 @@ __metadata:
       optional: true
   bin:
     turbo: bin/turbo
-  checksum: 10c0/87c5891808b6c5f9a1e9e0179c4d2b1560fdd1b15753840464fb35d6b68208747f6deae93703ec9a5b95db65def95eff36d3670432e5613d427be6b896036dcd
+  checksum: 10c0/b9657bf211bbcfe3911496e4fee6c9a24526bc37e9cadf7f0c76d0376e9c9dfafaacec27f5a61bb621dfe330600ce68c1b21e4cdc19bdccd3ebfe66766fcf62f
   languageName: node
   linkType: hard
 
@@ -21704,13 +21704,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^5.3.0":
-  version: 5.4.2
-  resolution: "typescript@npm:5.4.2"
+"typescript@npm:5.9.2":
+  version: 5.9.2
+  resolution: "typescript@npm:5.9.2"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10c0/583ff68cafb0c076695f72d61df6feee71689568179fb0d3a4834dac343df6b6ed7cf7b6f6c801fa52d43cd1d324e2f2d8ae4497b09f9e6cfe3d80a6d6c9ca52
+  checksum: 10c0/cd635d50f02d6cf98ed42de2f76289701c1ec587a363369255f01ed15aaf22be0813226bff3c53e99d971f9b540e0b3cc7583dbe05faded49b1b0bed2f638a18
   languageName: node
   linkType: hard
 
@@ -21724,13 +21724,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^5.3.0#optional!builtin<compat/typescript>":
-  version: 5.4.2
-  resolution: "typescript@patch:typescript@npm%3A5.4.2#optional!builtin<compat/typescript>::version=5.4.2&hash=5adc0c"
+"typescript@patch:typescript@npm%3A5.9.2#optional!builtin<compat/typescript>":
+  version: 5.9.2
+  resolution: "typescript@patch:typescript@npm%3A5.9.2#optional!builtin<compat/typescript>::version=5.9.2&hash=5786d5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10c0/fcf6658073d07283910d9a0e04b1d5d0ebc822c04dbb7abdd74c3151c7aa92fcddbac7d799404e358197222006ccdc4c0db219d223d2ee4ccd9e2b01333b49be
+  checksum: 10c0/34d2a8e23eb8e0d1875072064d5e1d9c102e0bdce56a10a25c0b917b8aa9001a9cf5c225df12497e99da107dc379360bc138163c66b55b95f5b105b50578067e
   languageName: node
   linkType: hard
 

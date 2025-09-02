@@ -1,6 +1,6 @@
 {
-  "$schema": "https://turbo.build/schema.json",
-  "pipeline": {
+  "$schema": "https://turborepo.com/schema.v2.json",
+  "tasks": {
     "test:lint": {},
     "test:ts": {},
     "build": {

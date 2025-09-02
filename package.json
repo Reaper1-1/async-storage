@@ -16,10 +16,10 @@
   "devDependencies": {
     "@changesets/cli": "^2.27.7",
     "concurrently": "^8.2.2",
-    "eslint": "^8.54.0",
-    "prettier": "^2.8.8",
-    "turbo": "^1.12.5",
-    "typescript": "^5.3.0"
+    "eslint": "8.54.0",
+    "prettier": "2.8.8",
+    "turbo": "2.5.6",
+    "typescript": "5.9.2"
   },
   "resolutions": {
     "@react-native-mac/virtualized-lists": "^0.76.0",
