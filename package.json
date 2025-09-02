@@ -21,7 +21,7 @@
     "turbo": "2.5.6",
     "typescript": "5.9.2"
   },
-  "resolutions": {
+  "resolutions_to_remove": {
     "@react-native-mac/virtualized-lists": "^0.76.0",
     "@react-native-community/cli": "^15.0.0",
     "@react-native-community/cli-platform-android": "^15.0.0",
@@ -47,6 +47,7 @@
     "packages/async-storage",
     "packages/async-storage/example",
     "packages/eslint-config",
-    "packages/website"
+    "packages/website",
+    "examples/example-react-native"
   ]
 }

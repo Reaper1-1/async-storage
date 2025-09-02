@@ -55,7 +55,7 @@ function createPromise<Result, Callback extends OnResult>(
 function createPromiseAll<
   ReturnType,
   Result,
-  ResultProcessor extends OnMultiResult
+  ResultProcessor extends OnMultiResult,
 >(
   promises: Promise<Result>[],
   callback?: MultiCallback | MultiGetCallback,
