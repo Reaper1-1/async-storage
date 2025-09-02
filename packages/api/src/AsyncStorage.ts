@@ -9,7 +9,7 @@ import type { StorageExtension } from "./StorageExtension";
  */
 export interface AsyncStorage<
   S extends StorageModel,
-  E extends StorageExtension | unknown = unknown
+  E extends StorageExtension | unknown = unknown,
 > {
   /**
    * Retrieves a single item from storage based on the provided key.

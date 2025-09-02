@@ -1,6 +1,6 @@
 const workspaceDependencies = {
   eslint: "9.34.0",
-  prettier: "2.8.8",
+  prettier: "3.6.2",
   typescript: "5.9.2",
 };
 
