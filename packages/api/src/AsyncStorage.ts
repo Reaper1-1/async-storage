@@ -1,74 +1,61 @@
-import type { StorageKeys, StorageModel } from "./StorageModel";
-import type { StorageExtension } from "./StorageExtension";
-
 /**
- * AsyncStorage Interface
- * Provides methods for managing asynchronous storage operations.
- * @typeParam S - type of the storage model.
- * @typeParam E - type of the storage extension, or unknown, if no extension is provided.
+ * Asynchronous key-value storage interface compatible with the Web Storage API.
  */
-export interface AsyncStorage<
-  S extends StorageModel,
-  E extends StorageExtension | unknown = unknown,
-> {
+export interface AsyncStorage {
   /**
-   * Retrieves a single item from storage based on the provided key.
-   * @param key - The key to identify the item within the storage.
-   * @returns Promise resolving to the value associated with the key,
-   *          or null if the key does not exist.
+   * Retrieves a single item from storage.
+   * @param key - The key identifying the stored value.
+   * @returns A Promise resolving to the stored string value,
+   *          or `null` if the key does not exist.
    */
-  getItem<K extends StorageKeys<S>>(key: K): Promise<S[K]>;
+  getItem(key: string): Promise<string | null>;
 
   /**
-   * Sets the value of the specified item in the storage.
-   * @param key - The key under which the value should be stored.
-   * @param value - The value to be stored.
-   * @returns Promise that resolves when the operation is completed.
+   * Stores or updates an item in storage.
+   * @param key - The key under which the value will be stored.
+   * @param value - The string value to store.
+   * @returns A Promise that resolves once the value has been written.
    */
-  setItem<K extends StorageKeys<S>>(key: K, value: S[K]): Promise<void>;
+  setItem(key: string, value: string): Promise<void>;
 
   /**
-   * Removes the item from storage identified by the provided key.
-   * @param key - The key of the item to be removed.
-   * @returns Promise that resolves when the operation is completed.
+   * Removes an item from storage.
+   * @param key - The key of the item to remove.
+   * @returns A Promise that resolves once the key has been removed.
    */
-  removeItem<K extends StorageKeys<S>>(key: K): Promise<void>;
+  removeItem(key: string): Promise<void>;
 
   /**
-   * Retrieves multiple items from storage based on the provided keys.
-   * @param keys - An array of keys to identify the items to be retrieved.
-   * @returns Promise resolving to an object with key-value pairs,
-   *          where the values are associated with the keys,
-   *          or null if a key does not exist.
+   * Retrieves multiple items from storage.
+   * @param keys - An array of keys to retrieve.
+   * @returns A Promise resolving to an object mapping each key to its stored value,
+   *          or `null` for keys that do not exist.
    */
-  getMany<K extends StorageKeys<S>>(keys: K[]): Promise<{ [k in K]: S[k] }>;
+  getMany(keys: string[]): Promise<Record<string, string | null>>;
 
   /**
-   * Sets multiple items in the storage.
-   * @param entries - An object containing key-value pairs to be stored.
-   * @returns Promise that resolves when the operation is completed.
+   * Stores multiple items in storage.
+   * @param entries - An object containing key-value pairs to store.
+   * @returns A Promise that resolves once all items have been written.
    */
-  setMany<K extends StorageKeys<S>>(entries: {
-    [k in K]: S[k];
-  }): Promise<void>;
+  setMany(entries: Record<string, string>): Promise<void>;
 
   /**
-   * Removes multiple items from storage based on the provided keys.
-   * @param keys - An array of keys identifying the items to be removed.
-   * @returns Promise that resolves when the operation is completed.
+   * Removes multiple items from storage.
+   * @param keys - An array of keys to remove.
+   * @returns A Promise that resolves once all keys have been removed.
    */
-  removeMany<K extends StorageKeys<S>>(keys: K[]): Promise<void>;
+  removeMany(keys: string[]): Promise<void>;
 
   /**
-   * Clears all the data from the storage.
-   * @returns Promise that resolves when the operation is completed.
+   * Retrieves all keys currently stored.
+   * @returns A Promise resolving to an array of keys.
+   */
+  getKeys(): Promise<string[]>;
+
+  /**
+   * Clears all data from the storage.
+   * @returns A Promise that resolves once the storage has been cleared.
    */
   clear(): Promise<void>;
-
-  /**
-   * Represents the extension for providing additional functionality
-   * beyond the standard storage interface.
-   * See {@link StorageExtension} for more details.
-   */
-  ext: E;
 }
