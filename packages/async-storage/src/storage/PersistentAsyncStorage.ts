@@ -1,7 +1,7 @@
 /**
  * Asynchronous key-value storage interface compatible with the Web Storage API.
  */
-export interface AsyncStorage {
+export interface PersistentAsyncStorage {
   /**
    * Retrieves a single item from storage.
    * @param key - The key identifying the stored value.

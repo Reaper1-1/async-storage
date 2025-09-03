@@ -26,7 +26,6 @@
   },
   "packageManager": "yarn@4.9.4",
   "workspaces": [
-    "packages/api",
     "packages/async-storage",
     "packages/eslint-config",
     "packages/website",
