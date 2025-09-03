@@ -21,23 +21,6 @@
     "turbo": "2.5.6",
     "typescript": "5.9.2"
   },
-  "resolutions_to_remove": {
-    "@react-native-mac/virtualized-lists": "^0.76.0",
-    "@react-native-community/cli": "^15.0.0",
-    "@react-native-community/cli-platform-android": "^15.0.0",
-    "@react-native-community/cli-platform-ios": "^15.0.0",
-    "@react-native/assets-registry": "^0.76.0",
-    "@react-native/babel-plugin-codegen": "^0.76.0",
-    "@react-native/babel-preset": "^0.76.0",
-    "@react-native/codegen": "^0.76.0",
-    "@react-native/community-cli-plugin": "^0.76.0",
-    "@react-native/community-cli-plugin/@react-native-community/cli-server-api": "^15.0.0",
-    "@react-native/community-cli-plugin/@react-native-community/cli-tools": "^15.0.0",
-    "@react-native/gradle-plugin": "^0.76.0",
-    "@react-native/js-polyfills": "^0.76.0",
-    "@react-native/normalize-colors": "^0.76.0",
-    "@react-native/virtualized-lists": "^0.76.0"
-  },
   "engines": {
     "node": "^22.18.0"
   },
@@ -45,7 +28,6 @@
   "workspaces": [
     "packages/api",
     "packages/async-storage",
-    "packages/async-storage-new",
     "packages/eslint-config",
     "packages/website",
     "examples/example-react-native"

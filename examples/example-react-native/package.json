@@ -4,16 +4,15 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "windows": "react-native run-windows",
     "build:android": "yarn mkdist && react-native bundle --entry-file index.js --platform android --dev true --bundle-output dist/main.android.jsbundle --assets-dest dist/res",
     "build:ios": "yarn mkdist && react-native bundle --entry-file index.js --platform ios --dev true --bundle-output dist/main.ios.jsbundle --assets-dest dist",
     "build:windows": "yarn mkdist && react-native bundle --entry-file index.js --platform windows --dev true --bundle-output dist/main.windows.bundle --assets-dest dist",
-    "ios": "react-native run-ios",
     "test:lint": "eslint .",
     "test:ts": "tsc --noEmit",
     "mkdist": "node -e \"require('node:fs').mkdirSync('dist', { recursive: true, mode: 0o755 })\"",
-    "start": "react-native start",
-    "test": "jest",
-    "windows": "react-native run-windows"
+    "start": "react-native start"
   },
   "installConfig": {
     "hoistingLimits": "workspaces"
@@ -27,6 +26,7 @@
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.3",
     "@babel/runtime": "^7.25.0",
+    "@react-native-async-storage/async-storage": "workspace:*",
     "@react-native-async-storage/eslint-config": "workspace:*",
     "@react-native-community/cli": "18.0.0",
     "@react-native-community/cli-platform-android": "18.0.0",

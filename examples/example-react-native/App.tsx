@@ -24,6 +24,8 @@ import {
   ReloadInstructions,
 } from "react-native/Libraries/NewAppScreen";
 
+import { multiply } from "@react-native-async-storage/async-storage";
+
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;

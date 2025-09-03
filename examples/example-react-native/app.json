@@ -1,6 +1,6 @@
 {
   "name": "Example",
-  "displayName": "Example",
+  "displayName": "Example AsyncStorage",
   "components": [
     {
       "appKey": "Example",
