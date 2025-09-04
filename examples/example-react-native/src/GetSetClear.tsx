@@ -6,34 +6,35 @@
  */
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React from "react";
+import React, { useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 
 function GetSet() {
   const [storedNumber, setStoredNumber] = React.useState("");
   const [needsRestart, setNeedsRestart] = React.useState(false);
+  const [storage] = useState(() => new AsyncStorage(StorageDb));
 
   React.useEffect(() => {
-    AsyncStorage.getItem(STORAGE_KEY).then((value: string) => {
+    storage.getItem(STORAGE_KEY).then((value) => {
       if (value) {
-        setStoredNumber(value);
+        setStoredNumber(value || "");
       }
     });
-  }, []);
+  }, [storage]);
 
-  const increaseByTen = React.useCallback(async () => {
+  const increaseByTen = async () => {
     const newNumber = +storedNumber > 0 ? +storedNumber + 10 : 10;
 
-    await AsyncStorage.setItem(STORAGE_KEY, `${newNumber}`);
+    await storage.setItem(STORAGE_KEY, `${newNumber}`);
 
     setStoredNumber(`${newNumber}`);
     setNeedsRestart(true);
-  }, [setNeedsRestart, setStoredNumber, storedNumber]);
+  };
 
-  const clearItem = React.useCallback(async () => {
-    await AsyncStorage.removeItem(STORAGE_KEY);
+  const clearItem = async () => {
+    await storage.removeItem(STORAGE_KEY);
     setNeedsRestart(true);
-  }, [setNeedsRestart]);
+  };
 
   return (
     <View>
@@ -65,12 +66,6 @@ const styles = StyleSheet.create({
 });
 
 export const STORAGE_KEY = "random";
+const StorageDb = "test";
 
-export default {
-  title: "Simple Get/Set value",
-  testId: "get-set-clear",
-  description: "Store and retrieve persisted data",
-  render() {
-    return <GetSet />;
-  },
-};
+export default GetSet;

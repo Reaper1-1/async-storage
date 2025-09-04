@@ -1,7 +1,7 @@
 import React
 
 @objc
-public class AsyncStorageModule: NSObject
+public class PersistentStorage: NSObject
 {
     @objc
     public func get(
@@ -12,7 +12,7 @@ public class AsyncStorageModule: NSObject
     )
     {
         // TODO: call db, get results, call resolve/reject
-        _ = DatabaseRegistry.shared.getOrCreate(dbName: dbName)
+        _ = StorageRegistry.shared.getOrCreate(dbName: dbName)
         rejecter("ERR_01", "get not implemented", nil)
         
     }
@@ -26,7 +26,7 @@ public class AsyncStorageModule: NSObject
     )
     {
         // TODO: call db, save results, call resolve/reject
-        _ = DatabaseRegistry.shared.getOrCreate(dbName: dbName)
+        _ = StorageRegistry.shared.getOrCreate(dbName: dbName)
         rejecter("ERR_01", "set not implemented", nil)
     }
 
@@ -39,7 +39,7 @@ public class AsyncStorageModule: NSObject
     )
     {
         // TODO: call db, remove entries, call resolve/reject
-        _ = DatabaseRegistry.shared.getOrCreate(dbName: dbName)
+        _ = StorageRegistry.shared.getOrCreate(dbName: dbName)
         rejecter("ERR_01", "remove not implemented", nil)
     }
 
@@ -51,7 +51,7 @@ public class AsyncStorageModule: NSObject
     )
     {
         // TODO: get db, clear, call resolve/reject
-        _ = DatabaseRegistry.shared.getOrCreate(dbName: dbName)
+        _ = StorageRegistry.shared.getOrCreate(dbName: dbName)
         rejecter("ERR_01", "clear not implemented", nil)
     }
 
@@ -63,7 +63,7 @@ public class AsyncStorageModule: NSObject
     )
     {
         // TODO: get db, read keys, call resolve/reject
-        _ = DatabaseRegistry.shared.getOrCreate(dbName: dbName)
+        _ = StorageRegistry.shared.getOrCreate(dbName: dbName)
         rejecter("ERR_01", "allKeys not implemented", nil)
     }
 }

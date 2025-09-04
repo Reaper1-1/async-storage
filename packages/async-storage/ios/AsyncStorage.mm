@@ -2,7 +2,7 @@
 #import "AsyncStorage-Swift.h"
 
 @interface AsyncStorage()
-@property (nonatomic, strong) AsyncStorageModule *mod;
+@property (nonatomic, strong) PersistentStorage *mod;
 @end
 
 @implementation AsyncStorage
@@ -12,7 +12,7 @@ RCT_EXPORT_MODULE(RNAsyncStorage)
 {
     self = [super init];
     if (self) {
-        self.mod = [AsyncStorageModule new];
+        self.mod = [PersistentStorage new];
     }
     return self;
 }

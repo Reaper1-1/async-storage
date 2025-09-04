@@ -2,10 +2,10 @@
  * A registry for managing multiple AsyncStorage database instances.
  * Provides a shared singleton to get instance of AsyncStorage by name.
  */
-class DatabaseRegistry {
+class StorageRegistry {
     private init() {}
     
-    static let shared = DatabaseRegistry()
+    static let shared = StorageRegistry()
     
     private var databases: [String: Storage] = [:]
     
