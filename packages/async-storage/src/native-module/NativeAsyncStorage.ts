@@ -16,7 +16,7 @@ export interface Spec extends TurboModule {
 
   getKeys: (db: string) => Promise<string[]>;
 
-  clearStorage: (db: string) => Promise<string[]>;
+  clearStorage: (db: string) => Promise<void>;
 }
 
 export default TurboModuleRegistry.get<Spec>("RNAsyncStorage");

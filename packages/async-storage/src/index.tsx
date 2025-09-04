@@ -20,34 +20,34 @@ class AsyncStorage implements PersistentAsyncStorage {
     return value?.value ?? null;
   };
 
-  setItem(key: string, value: string): Promise<void> {
-    return Promise.reject(`todo setItem ${key} ${value}`);
-  }
+  setItem = async (key: string, value: string): Promise<void> => {
+    await this.db.setValues(this.dbName, [{ key, value }]);
+  };
 
-  removeItem(key: string): Promise<void> {
-    return Promise.reject(`todo removeItem ${key}`);
-  }
+  removeItem = async (key: string): Promise<void> =>
+    this.db.removeValues(this.dbName, [key]);
 
-  getMany(keys: string[]): Promise<Record<string, string | null>> {
-    return Promise.reject(`todo getMany ${keys}`);
-  }
+  getMany = async (keys: string[]): Promise<Record<string, string | null>> =>
+    this.db.getValues(this.dbName, keys).then((entries) =>
+      entries.reduce<Record<string, string | null>>((values, current) => {
+        values[current.key] = current.value;
+        return values;
+      }, {})
+    );
 
-  setMany(entries: Record<string, string>): Promise<void> {
-    return Promise.reject(`todo setMany ${entries}`);
-  }
+  setMany = async (entries: Record<string, string>): Promise<void> => {
+    await this.db.setValues(
+      this.dbName,
+      Object.entries(entries).map(([key, value]) => ({ key, value }))
+    );
+  };
 
-  removeMany(keys: string[]): Promise<void> {
-    return Promise.reject(`todo removeMany ${keys}`);
-  }
+  removeMany = async (keys: string[]): Promise<void> =>
+    this.db.removeValues(this.dbName, keys);
 
-  getKeys(): Promise<string[]> {
-    console.log('lets goo')
-    return this.db.getKeys(this.dbName);
-  }
+  getKeys = (): Promise<string[]> => this.db.getKeys(this.dbName);
 
-  clear(): Promise<void> {
-    return Promise.reject("todo clear");
-  }
+  clear = (): Promise<void> => this.db.clearStorage(this.dbName);
 }
 
 export default AsyncStorage;
