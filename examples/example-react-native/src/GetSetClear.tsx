@@ -5,7 +5,6 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-// @ts-expect-error cannot find module
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import React from "react";
 import { Button, StyleSheet, Text, View } from "react-native";

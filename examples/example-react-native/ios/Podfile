@@ -6,4 +6,7 @@ require "#{ws_dir}/node_modules/react-native-test-app/test_app.rb"
 
 workspace 'Example.xcworkspace'
 
+# 1 - enable new arch, 0 - disable it
+ENV["RCT_NEW_ARCH_ENABLED"]="1"
+
 use_test_app! :hermes_enabled => true, :fabric_enabled => true
