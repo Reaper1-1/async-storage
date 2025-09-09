@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
@@ -15,42 +16,36 @@ function GetSet() {
   const [storage] = useState(() => new AsyncStorage(StorageDb));
 
   React.useEffect(() => {
-    storage.getItem(STORAGE_KEY).then((value) => {
-      if (value) {
-        setStoredNumber(value || "");
-      }
-    });
+    storage
+      .getItem(STORAGE_KEY)
+      .then((value) => {
+        if (value) {
+          setStoredNumber(value || "");
+        }
+      })
+      .catch(console.error);
   }, [storage]);
 
   const increaseByTen = async () => {
     const newNumber = +storedNumber > 0 ? +storedNumber + 10 : 10;
 
-    await storage.setItem(STORAGE_KEY, `${newNumber}`);
+    await storage.setItem(STORAGE_KEY, `${newNumber}`).catch(console.error);
 
     setStoredNumber(`${newNumber}`);
     setNeedsRestart(true);
   };
 
-  const clearItem = async () => {
-    await storage.removeItem(STORAGE_KEY);
+  const removeItem = async () => {
+    await storage.removeItem(STORAGE_KEY).catch(console.error);
     setNeedsRestart(true);
   };
 
   return (
     <View>
       <Text style={styles.text}>Currently stored: </Text>
-      <Text testID="storedNumber_text" style={styles.text}>
-        {storedNumber}
-      </Text>
-
-      <Button
-        testID="increaseByTen_button"
-        title="Increase by 10"
-        onPress={increaseByTen}
-      />
-
-      <Button testID="clear_button" title="Clear item" onPress={clearItem} />
-
+      <Text style={styles.text}>{storedNumber}</Text>
+      <Button title="Increase by 10" onPress={increaseByTen} />
+      <Button title="remove item" onPress={removeItem} />
       {needsRestart ? <Text>Hit restart to see effect</Text> : null}
     </View>
   );
