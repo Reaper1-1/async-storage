@@ -6,4 +6,6 @@ expect open class TestRunner()
 
 expect class StorageUtils() {
     fun getStorage(): SharedStorage
+
+    fun cleanup()
 }

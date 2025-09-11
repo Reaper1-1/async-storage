@@ -2,7 +2,7 @@ package tests
 
 import org.asyncstorage.shared_storage.SharedStorage
 
-actual abstract class TestRunner actual constructor()
+actual open class TestRunner actual constructor()
 
 actual class StorageUtils actual constructor() {
   actual fun getStorage(): SharedStorage {

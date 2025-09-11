@@ -12,10 +12,12 @@ actual class StorageUtils actual constructor() {
     private var storage: SharedStorage? = null
 
     actual fun getStorage(): SharedStorage {
-        storage?.database?.close()
-
         return SharedStorage.createInMemory(RuntimeEnvironment.getApplication()).also {
             storage = it
         }
+    }
+
+    actual fun cleanup() {
+        storage?.database?.close()
     }
 }

@@ -1,31 +1,38 @@
 package org.asyncstorage.shared_storage
 
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import org.asyncstorage.shared_storage.database.StorageDatabase
 import org.asyncstorage.shared_storage.database.StorageEntry
 
-// keep database internal for tests
 class SharedStorage internal constructor(internal val database: StorageDatabase) {
 
     private val storage = database.storageDao()
 
-    suspend fun getValues(keys: List<String>): List<StorageEntry> {
-        TODO("implement getValues")
+    suspend fun getValues(keys: List<String>): List<Entry> {
+        return storage.getValues(keys).map(StorageEntry::toEntry)
     }
 
-    suspend fun setValues(entries: List<StorageEntry>) {
-        TODO("implement setValues")
+    fun getValuesFlow(keys: List<String>): Flow<List<Entry>> =
+        storage.getValuesFlow(keys).map { list -> list.map(StorageEntry::toEntry) }
+
+    suspend fun setValues(entries: List<Entry>): List<Entry> {
+        val values = entries.map(Entry::toStorageEntry)
+        return storage.setValuesAndGet(values).map(StorageEntry::toEntry)
     }
 
     suspend fun removeValues(keys: List<String>) {
-        TODO("implement removeValues")
+        return storage.removeValues(keys)
     }
 
     suspend fun getKeys(): List<String> {
-        TODO("implement getKeys")
+        return storage.getKeys()
     }
 
+    fun getKeysFlow(): Flow<List<String>> = storage.getKeysFlow()
+
     suspend fun clear() {
-        TODO("implement clear")
+        storage.clear()
     }
 
     companion object

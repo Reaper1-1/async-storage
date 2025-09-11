@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 private const val DATABASE_VERSION = 3
 
 @Entity(tableName = "storage")
-data class StorageEntry(@PrimaryKey val key: String, val value: String?)
+internal data class StorageEntry(@PrimaryKey val key: String, val value: String?)
 
 @Dao
 internal interface StorageDao {
@@ -20,6 +20,12 @@ internal interface StorageDao {
     @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun setValues(entries: List<StorageEntry>)
+
+    @Transaction
+    suspend fun setValuesAndGet(entries: List<StorageEntry>): List<StorageEntry> {
+        setValues(entries)
+        return getValues(entries.map { it.key })
+    }
 
     @Transaction
     @Query("DELETE FROM storage WHERE `key` in (:keys)")
