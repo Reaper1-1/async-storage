@@ -1,10 +1,18 @@
 package org.asyncstorage.shared_storage
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import org.asyncstorage.shared_storage.database.StorageDatabase
 import org.asyncstorage.shared_storage.database.StorageEntry
 
+/**
+ * Persistent Storage backed by SQLite.
+ *
+ * Note about [getValuesFlow]: Since SQLite database trigger notifications only on table level, not
+ * row level, non-observed requested keys will trigger emits. Therefor, flow returned has
+ * .distinctUntilChanged to mimic row level update.
+ */
 class SharedStorage internal constructor(internal val database: StorageDatabase) {
 
     private val storage = database.storageDao()
@@ -14,7 +22,10 @@ class SharedStorage internal constructor(internal val database: StorageDatabase)
     }
 
     fun getValuesFlow(keys: List<String>): Flow<List<Entry>> =
-        storage.getValuesFlow(keys).map { list -> list.map(StorageEntry::toEntry) }
+        storage
+            .getValuesFlow(keys)
+            .map { list -> list.map(StorageEntry::toEntry) }
+            .distinctUntilChanged()
 
     suspend fun setValues(entries: List<Entry>): List<Entry> {
         val values = entries.map(Entry::toStorageEntry)
