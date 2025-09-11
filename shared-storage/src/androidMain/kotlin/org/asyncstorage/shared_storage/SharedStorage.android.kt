@@ -4,27 +4,25 @@ import android.content.res.Resources
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.driver.AndroidSQLiteDriver
+import kotlin.math.max
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.newFixedThreadPoolContext
 import kotlinx.coroutines.newSingleThreadContext
 import org.asyncstorage.shared_storage.database.StorageDatabase
-import kotlin.math.max
 
 @OptIn(DelicateCoroutinesApi::class, ExperimentalCoroutinesApi::class)
 actual fun SharedStorage.Companion.create(
     context: PlatformContext,
     databaseName: String
 ): SharedStorage {
-  val appContext = context.applicationContext
 
-  val dbFile = appContext.getDatabasePath(databaseName)
-
+  val dbFile = context.getDatabasePath(databaseName)
   val writeDispatcher = newSingleThreadContext("$databaseName-writer")
   val readDispatcher = newFixedThreadPoolContext(getWALConnectionPoolSize(), "$databaseName-reader")
 
   val db =
-      Room.databaseBuilder<StorageDatabase>(appContext, name = dbFile.absolutePath)
+      Room.databaseBuilder<StorageDatabase>(context, name = dbFile.absolutePath)
           .setDriver(AndroidSQLiteDriver())
           .setQueryExecutor(readDispatcher.executor)
           .setTransactionExecutor(writeDispatcher.executor)
