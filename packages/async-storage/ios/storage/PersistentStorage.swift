@@ -1,69 +1,88 @@
 import React
+import SharedAsyncStorage
 
+/**
+ TODO:
+    - handle exceptions
+ */
 @objc
-public class PersistentStorage: NSObject
-{
+public class PersistentStorage: NSObject {
+    private let db: SharedStorage
+
+    init(databaseName: String) {
+        db = SharedStorage.companion.create(context: PlatformContext.Instance(), databaseName: databaseName)
+    }
+
     @objc
     public func get(
         keys: [String],
-        dbName: String,
         resolver: @escaping RCTPromiseResolveBlock,
-        rejecter: @escaping RCTPromiseRejectBlock
-    )
-    {
-        // TODO: call db, get results, call resolve/reject
-        _ = StorageRegistry.shared.getOrCreate(dbName: dbName)
-        rejecter("ERR_01", "get not implemented", nil)
-        
+        rejecter _: @escaping RCTPromiseRejectBlock
+    ) {
+        Task {
+            let result = try await self.db.getValues(keys: keys)
+            resolver(result.map { $0.toRNValue() })
+        }
     }
 
     @objc
     public func set(
-        entries: [[String: String]],
-        dbName: String,
+        values: [[String: String]],
         resolver: @escaping RCTPromiseResolveBlock,
-        rejecter: @escaping RCTPromiseRejectBlock
-    )
-    {
-        // TODO: call db, save results, call resolve/reject
-        _ = StorageRegistry.shared.getOrCreate(dbName: dbName)
-        rejecter("ERR_01", "set not implemented", nil)
+        rejecter _: @escaping RCTPromiseRejectBlock
+    ) {
+        Task {
+            let entries = values.map { entry in Entry.fromRNValue(rnValue: entry) }
+            let result = try await self.db.setValues(entries: entries)
+            resolver(result.map { entry in entry.toRNValue() })
+        }
     }
 
     @objc
     public func remove(
         keys: [String],
-        dbName: String,
         resolver: @escaping RCTPromiseResolveBlock,
-        rejecter: @escaping RCTPromiseRejectBlock
-    )
-    {
-        // TODO: call db, remove entries, call resolve/reject
-        _ = StorageRegistry.shared.getOrCreate(dbName: dbName)
-        rejecter("ERR_01", "remove not implemented", nil)
-    }
-
-    @objc
-    public func clear(
-        dbName: String,
-        resolver: @escaping RCTPromiseResolveBlock,
-        rejecter: @escaping RCTPromiseRejectBlock
-    )
-    {
-        // TODO: get db, clear, call resolve/reject
-        _ = StorageRegistry.shared.getOrCreate(dbName: dbName)
-        rejecter("ERR_01", "clear not implemented", nil)
+        rejecter _: @escaping RCTPromiseRejectBlock
+    ) {
+        Task {
+            try await self.db.removeValues(keys: keys)
+            resolver(nil)
+        }
     }
 
     @objc
     public func allKeys(
-        dbName: String,
         resolver: @escaping RCTPromiseResolveBlock,
-        rejecter: @escaping RCTPromiseRejectBlock
-    )
-    {
-        // TODO: get db, read keys, call resolve/reject
-        _ = StorageRegistry.shared.getOrCreate(dbName: dbName)
-        rejecter("ERR_01", "allKeys not implemented", nil)
+        rejecter _: @escaping RCTPromiseRejectBlock
+    ) {
+        Task {
+            let keys = try await self.db.getKeys()
+            resolver(keys)
+        }
+    }
+
+    @objc
+    public func clear(
+        resolver: @escaping RCTPromiseResolveBlock,
+        rejecter _: @escaping RCTPromiseRejectBlock
+    ) {
+        Task {
+            try await self.db.clear()
+            resolver(nil)
+        }
+    }
+}
+
+extension Entry {
+    // js expects: {key: string, value: string?}
+    func toRNValue() -> [String: String?] {
+        ["key": key, "value": value]
+    }
+
+    static func fromRNValue(rnValue: [String: String]) -> Entry {
+        let key: String = rnValue["key"]! // will throw in not there
+        let value = rnValue["value"]
+
+        return Entry(key: key, value: value)
     }
 }

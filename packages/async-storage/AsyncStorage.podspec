@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
   s.source_files = "ios/**/*.{h,m,mm,cpp,swift}"
   s.private_header_files = "ios/**/*.h"
   s.swift_version = "5.9.2"
-  s.vendored_frameworks = "ios/Frameworks/SharedStorage.xcframework"
+  s.vendored_frameworks = "ios/Frameworks/SharedAsyncStorage.xcframework"
 
 
   install_modules_dependencies(s)

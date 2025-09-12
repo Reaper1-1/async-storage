@@ -3,20 +3,20 @@ import { TurboModuleRegistry } from "react-native";
 
 export interface Spec extends TurboModule {
   getValues: (
-    db: string,
+    dbName: string,
     keys: string[]
   ) => Promise<{ key: string; value: string | null }[]>;
 
   setValues: (
-    db: string,
+    dbName: string,
     values: { key: string; value: string | null }[]
   ) => Promise<{ key: string; value: string | null }[]>;
 
-  removeValues: (db: string, keys: string[]) => Promise<void>;
+  removeValues: (dbName: string, keys: string[]) => Promise<void>;
 
-  getKeys: (db: string) => Promise<string[]>;
+  getKeys: (dbName: string) => Promise<string[]>;
 
-  clearStorage: (db: string) => Promise<void>;
+  clearStorage: (dbName: string) => Promise<void>;
 }
 
 export default TurboModuleRegistry.get<Spec>("RNAsyncStorage");

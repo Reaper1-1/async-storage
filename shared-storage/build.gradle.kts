@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.androidx.room)
     alias(libs.plugins.mavenPublish)
+    alias(libs.plugins.skie)
 }
 
 kotlin {
@@ -30,12 +31,13 @@ kotlin {
         withDeviceTest {}
     }
 
-    val xcfName = "SharedStorage"
+    val xcfName = "SharedAsyncStorage"
     val xcf = XCFramework(xcfName)
     listOf(iosX64(), iosArm64(), iosSimulatorArm64()).forEach {
         it.binaries.framework {
             baseName = xcfName
             xcf.add(this)
+            binaryOption("bundleId", "org.asyncstorage.shared_storage")
         }
     }
 
@@ -80,6 +82,12 @@ kotlin {
         add("kspIosX64", libs.androidx.room.compiler)
         add("kspIosArm64", libs.androidx.room.compiler)
         add("kspJvm", libs.androidx.room.compiler)
+    }
+}
+
+skie {
+    build {
+        produceDistributableFramework()
     }
 }
 

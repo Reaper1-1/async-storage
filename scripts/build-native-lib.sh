@@ -10,8 +10,8 @@ ANDROID_OUTPUT_DIR="$MODULE_NAME/build"
 ANDROID_RN_OUTPUT_DIR="$RN_MODULE_DIR/android"
 ANDROID_PUBLISH_TASK="publishAndroidPublicationToLocalRepoRepository"
 
-IOS_BUILD_TASK="assembleSharedStorageXCFramework"
-IOS_OUTPUT_NAME="SharedStorage.xcframework"
+IOS_BUILD_TASK="assembleSharedAsyncStorageXCFramework"
+IOS_OUTPUT_NAME="SharedAsyncStorage.xcframework"
 IOS_OUTPUT_DIR="$MODULE_NAME/build/XCFrameworks/release"
 IOS_RN_OUTPUT_DIR="$RN_MODULE_DIR/ios/Frameworks"
 
