@@ -4,6 +4,7 @@
   "version": "0.0.1-dev",
   "scripts": {
     "build": "turbo run build",
+    "build:native": "./scripts/build-native-lib.sh",
     "format": "concurrently 'yarn:format:*'",
     "format:c": "clang-format -i $(git ls-files '*.cpp' '*.h' '*.m' '*.mm') --style file:.config/.clang-format",
     "format:js": "prettier --write $(git ls-files '*.js' '*.json' '*.ts' '*.tsx' '*.yml' 'README.md')",
