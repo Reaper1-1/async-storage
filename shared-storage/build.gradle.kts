@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidKotlinMultiplatformLibrary)
@@ -12,6 +14,10 @@ kotlin {
         namespace = "org.asyncstorage.shared_storage"
         compileSdk = 36
         minSdk = 24
+
+        compilations.configureEach {
+            compilerOptions.configure { jvmTarget.set(JvmTarget.JVM_1_8) }
+        }
 
         withHostTest { isIncludeAndroidResources = true }
 
