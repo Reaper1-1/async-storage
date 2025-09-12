@@ -10,11 +10,10 @@ ANDROID_OUTPUT_DIR="$MODULE_NAME/build"
 ANDROID_RN_OUTPUT_DIR="$RN_MODULE_DIR/android"
 ANDROID_PUBLISH_TASK="publishAndroidPublicationToLocalRepoRepository"
 
-IOS_BUILD_TASK="linkReleaseFrameworkIosFat"
-IOS_OUTPUT_NAME="SharedStorage.framework"
-IOS_OUTPUT_DSYM_NAME="$IOS_OUTPUT_NAME.dSYM"
-IOS_OUTPUT_DIR="$MODULE_NAME/build/fat-framework/release"
-IOS_RN_OUTPUT_DIR="$RN_MODULE_DIR/ios/Framework"
+IOS_BUILD_TASK="assembleSharedStorageXCFramework"
+IOS_OUTPUT_NAME="SharedStorage.xcframework"
+IOS_OUTPUT_DIR="$MODULE_NAME/build/XCFrameworks/release"
+IOS_RN_OUTPUT_DIR="$RN_MODULE_DIR/ios/Frameworks"
 
 
 
@@ -36,10 +35,14 @@ build_android() {
 build_ios() {
   echo "👷 Assembling ios shared-storage"
   ./gradlew :$MODULE_NAME:$IOS_BUILD_TASK
-  echo "shared module built"
-  echo "move binary and dSYM to RN module"
+
+
+  echo "recreate Frameworks dir"
+  rm -rf $IOS_RN_OUTPUT_DIR
+  mkdir $IOS_RN_OUTPUT_DIR
+
+  echo "move xcframework to RN module"
   mv $IOS_OUTPUT_DIR/$IOS_OUTPUT_NAME $IOS_RN_OUTPUT_DIR/$IOS_OUTPUT_NAME
-  mv $IOS_OUTPUT_DIR/$IOS_OUTPUT_DSYM_NAME $IOS_RN_OUTPUT_DIR/$IOS_OUTPUT_DSYM_NAME
   echo "all done"
 }
 

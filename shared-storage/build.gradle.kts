@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -30,8 +31,12 @@ kotlin {
     }
 
     val xcfName = "SharedStorage"
+    val xcf = XCFramework(xcfName)
     listOf(iosX64(), iosArm64(), iosSimulatorArm64()).forEach {
-        it.binaries.framework { baseName = xcfName }
+        it.binaries.framework {
+            baseName = xcfName
+            xcf.add(this)
+        }
     }
 
     jvm()

@@ -27,10 +27,8 @@ yarn-error.log
 lib/
 
 # native shared-storage binaries
-android/local_repo/*
-!android/local_repo/.gitkeep
-ios/Framework/*
-!ios/Framework/.gitkeep
+android/local_repo
+ios/Frameworks
 
 # React Native Codegen
 ios/generated
