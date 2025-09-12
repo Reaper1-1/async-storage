@@ -6,14 +6,14 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createAsyncStorage } from "@react-native-async-storage/async-storage";
 import React, { useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 
 function GetSet() {
   const [storedNumber, setStoredNumber] = React.useState("");
   const [needsRestart, setNeedsRestart] = React.useState(false);
-  const [storage] = useState(() => new AsyncStorage(StorageDb));
+  const [storage] = useState(() => createAsyncStorage(StorageDb));
 
   React.useEffect(() => {
     storage
