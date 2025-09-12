@@ -27,8 +27,8 @@ yarn-error.log
 lib/
 
 # native shared-storage binaries
-android/libs/*
-!android/libs/.gitkeep
+android/local_repo/*
+!android/local_repo/.gitkeep
 ios/Framework/*
 !ios/Framework/.gitkeep
 
