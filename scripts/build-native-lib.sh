@@ -25,6 +25,9 @@ build_android() {
   echo "Publishing binaries to local repo"
   ./gradlew :$MODULE_NAME:$ANDROID_PUBLISH_TASK
 
+  echo "Remove old local repo"
+  rm -rf $ANDROID_RN_OUTPUT_DIR/$ANDROID_OUTPUT_NAME
+
   echo "Moving local repo to RN target"
   mv $ANDROID_OUTPUT_DIR/$ANDROID_OUTPUT_NAME $ANDROID_RN_OUTPUT_DIR/$ANDROID_OUTPUT_NAME
   echo "all done"

@@ -6,11 +6,9 @@ import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.module.model.ReactModuleInfo
 import com.facebook.react.module.model.ReactModuleInfoProvider
 
-internal const val AsyncStorageModuleName = "RNAsyncStorage"
-
 class AsyncStoragePackage : BaseReactPackage() {
     override fun getModule(name: String, reactContext: ReactApplicationContext): NativeModule? {
-        return if (name == AsyncStorageModuleName) {
+        return if (name == AsyncStorageModule.NAME) {
             AsyncStorageModule(reactContext)
         } else {
             null
@@ -20,9 +18,9 @@ class AsyncStoragePackage : BaseReactPackage() {
     override fun getReactModuleInfoProvider(): ReactModuleInfoProvider {
         return ReactModuleInfoProvider {
             val moduleInfos: MutableMap<String, ReactModuleInfo> = HashMap()
-            moduleInfos[AsyncStorageModuleName] =
+            moduleInfos[AsyncStorageModule.NAME] =
                 ReactModuleInfo(
-                    AsyncStorageModuleName,
+                    AsyncStorageModule.NAME,
                     AsyncStorageModule::class.java.name,
                     false, // canOverrideExistingModule
                     false, // needsEagerInit

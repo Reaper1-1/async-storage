@@ -4,33 +4,35 @@ import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.module.annotations.ReactModule
-import org.asyncstorage.storage.PersistentStorage
+import org.asyncstorage.storage.StorageRegistry
 
-@ReactModule(name = AsyncStorageModuleName)
-class AsyncStorageModule(reactContext: ReactApplicationContext) :
+@ReactModule(name = AsyncStorageModule.NAME)
+class AsyncStorageModule(private val reactContext: ReactApplicationContext) :
     NativeAsyncStorageSpec(reactContext) {
 
-    private val storage = PersistentStorage()
-
-    override fun getName() = AsyncStorageModuleName
+    override fun getName() = NAME
 
     override fun getValues(db: String, keys: ReadableArray, promise: Promise) {
-        storage.get(db, keys, promise)
+        StorageRegistry.getOrCreate(reactContext, db).run { get(keys, promise) }
     }
 
     override fun setValues(db: String, values: ReadableArray, promise: Promise) {
-        storage.set(db, values, promise)
+        StorageRegistry.getOrCreate(reactContext, db).run { set(values, promise) }
     }
 
     override fun removeValues(db: String, keys: ReadableArray, promise: Promise) {
-        storage.remove(db, keys, promise)
+        StorageRegistry.getOrCreate(reactContext, db).run { remove(keys, promise) }
     }
 
     override fun getKeys(db: String, promise: Promise) {
-        storage.allKeys(db, promise)
+        StorageRegistry.getOrCreate(reactContext, db).run { allKeys(promise) }
     }
 
     override fun clearStorage(db: String, promise: Promise) {
-        storage.clear(db, promise)
+        StorageRegistry.getOrCreate(reactContext, db).run { clear(promise) }
+    }
+
+    companion object {
+        const val NAME = "RNAsyncStorage"
     }
 }

@@ -40,4 +40,8 @@ class AsyncStorageModule(reactContext: ReactApplicationContext) :
     fun clearStorage(db: String, promise: Promise) {
         storage.clear(db, promise)
     }
+
+    companion object {
+        const val NAME = "RNAsyncStorage"
+    }
 }

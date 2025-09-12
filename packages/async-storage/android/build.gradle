@@ -81,6 +81,18 @@ android {
     }
 }
 
+project.afterEvaluate {
+    rootProject.allprojects {
+        println "projectname: ${it.name}"
+        repositories {
+            def proj = project(":react-native-async-storage_async-storage")
+            maven {
+                url = uri("${proj.projectDir}/local_repo")
+            }
+        }
+    }
+}
+
 repositories {
     mavenCentral()
     google()
@@ -88,4 +100,5 @@ repositories {
 
 dependencies {
     implementation "com.facebook.react:react-android"
+    implementation "org.asyncstorage.shared_storage:storage-android:1.0.0"
 }

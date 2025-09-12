@@ -1,27 +1,66 @@
 package org.asyncstorage.storage
 
+import android.content.Context
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReadableArray
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
+import kotlinx.coroutines.CoroutineName
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
+import org.asyncstorage.shared_storage.SharedStorage
+import org.asyncstorage.shared_storage.create
 
-class PersistentStorage {
-    fun get(db: String, rnKeys: ReadableArray, promise: Promise) {
-        // rnKeys.toArrayList().map { it.toString() }
-        promise.reject("ERR_01", "get not implemented")
+private val StorageScope = { name: String -> CoroutineScope(SupervisorJob() + CoroutineName(name)) }
+
+/**
+ * todo:
+ * - handle exceptions via coroutine exception handler or via try catch
+ */
+class PersistentStorage(
+    ctx: Context,
+    dbName: String,
+    coroutineContext: CoroutineContext = EmptyCoroutineContext,
+) {
+    private val scope = StorageScope(dbName) + coroutineContext
+    private val db = SharedStorage.create(ctx, dbName)
+
+    fun get(rnKeys: ReadableArray, promise: Promise) {
+        scope.launch {
+            val keys = rnKeys.toKeyList()
+            val result = db.getValues(keys).toRNResults()
+            promise.resolve(result)
+        }
     }
 
-    fun set(db: String, values: ReadableArray, promise: Promise) {
-        promise.reject("ERR_01", "set not implemented")
+    fun set(values: ReadableArray, promise: Promise) {
+        scope.launch {
+            val entries = values.toEntryList()
+            val result = db.setValues(entries).toRNResults()
+            promise.resolve(result)
+        }
     }
 
-    fun remove(db: String, keys: ReadableArray, promise: Promise) {
-        promise.reject("ERR_01", "remove not implemented")
+    fun remove(keys: ReadableArray, promise: Promise) {
+        scope.launch {
+            db.removeValues(keys.toKeyList())
+            promise.resolve(null)
+        }
     }
 
-    fun allKeys(db: String, promise: Promise) {
-        promise.reject("ERR_01", "allKeys not implemented")
+    fun allKeys(promise: Promise) {
+        scope.launch {
+            val result = db.getKeys().toRNKeys()
+            promise.resolve(result)
+        }
     }
 
-    fun clear(db: String, promise: Promise) {
-        promise.reject("ERR_01", "clear not implemented")
+    fun clear(promise: Promise) {
+        scope.launch {
+            db.clear()
+            promise.resolve(null)
+        }
     }
 }

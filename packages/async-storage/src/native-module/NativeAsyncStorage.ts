@@ -9,7 +9,7 @@ export interface Spec extends TurboModule {
 
   setValues: (
     db: string,
-    values: { key: string; value: string }[]
+    values: { key: string; value: string | null }[]
   ) => Promise<{ key: string; value: string | null }[]>;
 
   removeValues: (db: string, keys: string[]) => Promise<void>;

@@ -1,14 +1,11 @@
 package org.asyncstorage.storage
 
-typealias Storage = String
+import android.content.Context
 
 object StorageRegistry {
 
-    private val storages = mutableMapOf<String, Storage>()
+    private val storages = mutableMapOf<String, PersistentStorage>()
 
-    fun getOrCreate(name: String): Storage =
-        storages.getOrPut(name) {
-            // todo: create Storage
-            name
-        }
+    fun getOrCreate(ctx: Context, name: String): PersistentStorage =
+        storages.getOrPut(name) { PersistentStorage(ctx, name) }
 }
