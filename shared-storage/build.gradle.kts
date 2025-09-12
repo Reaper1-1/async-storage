@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.androidKotlinMultiplatformLibrary)
     alias(libs.plugins.ksp)
     alias(libs.plugins.androidx.room)
+    alias(libs.plugins.mavenPublish)
 }
 
 kotlin {
@@ -74,5 +75,14 @@ kotlin {
         add("kspIosX64", libs.androidx.room.compiler)
         add("kspIosArm64", libs.androidx.room.compiler)
         add("kspJvm", libs.androidx.room.compiler)
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "LocalRepo"
+            url = uri(layout.buildDirectory.dir("local_repo"))
+        }
     }
 }

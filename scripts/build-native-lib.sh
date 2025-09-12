@@ -5,9 +5,10 @@ MODULE_NAME="shared-storage"
 RN_MODULE_DIR="packages/async-storage"
 
 ANDROID_BUILD_TASK="bundleAndroidMainAar"
-ANDROID_OUTPUT_NAME="shared-storage.aar"
-ANDROID_OUTPUT_DIR="$MODULE_NAME/build/outputs/aar"
-ANDROID_RN_OUTPUT_DIR="$RN_MODULE_DIR/android/libs"
+ANDROID_OUTPUT_NAME="local_repo" # Maven local repo
+ANDROID_OUTPUT_DIR="$MODULE_NAME/build"
+ANDROID_RN_OUTPUT_DIR="$RN_MODULE_DIR/android"
+ANDROID_PUBLISH_TASK="publishAndroidPublicationToLocalRepoRepository"
 
 IOS_BUILD_TASK="linkReleaseFrameworkIosFat"
 IOS_OUTPUT_NAME="SharedStorage.framework"
@@ -19,9 +20,12 @@ IOS_RN_OUTPUT_DIR="$RN_MODULE_DIR/ios/Framework"
 
 build_android() {
   echo "👷 Assembling android shared-storage"
-  ./gradlew :$MODULE_NAME:$ANDROID_BUILD_TASK --rerun
-  echo "shared module built"
-  echo "move binary to RN module"
+  ./gradlew :$MODULE_NAME:$ANDROID_BUILD_TASK
+
+  echo "Publishing binaries to local repo"
+  ./gradlew :$MODULE_NAME:$ANDROID_PUBLISH_TASK
+
+  echo "Moving local repo to RN target"
   mv $ANDROID_OUTPUT_DIR/$ANDROID_OUTPUT_NAME $ANDROID_RN_OUTPUT_DIR/$ANDROID_OUTPUT_NAME
   echo "all done"
 }

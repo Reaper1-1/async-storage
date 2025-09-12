@@ -13,6 +13,7 @@ coroutines = "1.10.2"
 room = "2.8.0"
 sqlite = "2.6.0"
 ksp = "2.2.10-2.0.2" # must match kotlin
+publish = "0.34.0"
 
 [libraries]
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
@@ -40,3 +41,4 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 androidKotlinMultiplatformLibrary = { id = "com.android.kotlin.multiplatform.library", version.ref = "agp" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 androidx-room = { id = "androidx.room", version.ref = "room" }
+mavenPublish = { id = "com.vanniktech.maven.publish", version.ref = "publish" }
