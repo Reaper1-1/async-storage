@@ -45,7 +45,7 @@ class AsyncStorageImpl implements AsyncStorage {
   removeMany = async (keys: string[]): Promise<void> =>
     this.db.removeValues(this.dbName, keys);
 
-  getKeys = (): Promise<string[]> => this.db.getKeys(this.dbName);
+  getAllKeys = (): Promise<string[]> => this.db.getKeys(this.dbName);
 
   clear = (): Promise<void> => this.db.clearStorage(this.dbName);
 }

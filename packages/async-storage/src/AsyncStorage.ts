@@ -51,7 +51,7 @@ export interface AsyncStorage {
    * Retrieves all keys currently stored.
    * @returns A Promise resolving to an array of keys.
    */
-  getKeys(): Promise<string[]>;
+  getAllKeys(): Promise<string[]>;
 
   /**
    * Clears all data from the storage.
