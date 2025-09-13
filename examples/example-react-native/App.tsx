@@ -7,7 +7,7 @@
 
 import React from "react";
 import { StatusBar, useColorScheme, View } from "react-native";
-import GetSetClear from "./src/GetSetClear";
+import GetSetClear from "./src/BasicCrud";
 
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === "dark";
