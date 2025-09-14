@@ -33,7 +33,7 @@ kotlin {
 
     val xcfName = "SharedAsyncStorage"
     val xcf = XCFramework(xcfName)
-    listOf(iosX64(), iosArm64(), iosSimulatorArm64()).forEach {
+    listOf(iosX64(), iosArm64(), iosSimulatorArm64(), macosArm64(), macosX64()).forEach {
         it.binaries.framework {
             baseName = xcfName
             xcf.add(this)
@@ -54,7 +54,7 @@ kotlin {
 
         androidMain { dependencies {} }
 
-        iosMain { dependencies {} }
+        appleMain { dependencies {} }
 
         jvmMain { dependencies {} }
 
@@ -81,15 +81,13 @@ kotlin {
         add("kspIosSimulatorArm64", libs.androidx.room.compiler)
         add("kspIosX64", libs.androidx.room.compiler)
         add("kspIosArm64", libs.androidx.room.compiler)
+        add("kspMacosX64", libs.androidx.room.compiler)
+        add("kspMacosArm64", libs.androidx.room.compiler)
         add("kspJvm", libs.androidx.room.compiler)
     }
 }
 
-skie {
-    build {
-        produceDistributableFramework()
-    }
-}
+skie { build { produceDistributableFramework() } }
 
 publishing {
     repositories {

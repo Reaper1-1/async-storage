@@ -10,10 +10,10 @@ ANDROID_OUTPUT_DIR="$MODULE_NAME/build"
 ANDROID_RN_OUTPUT_DIR="$RN_MODULE_DIR/android"
 ANDROID_PUBLISH_TASK="publishAndroidPublicationToLocalRepoRepository"
 
-IOS_BUILD_TASK="assembleSharedAsyncStorageXCFramework"
-IOS_OUTPUT_NAME="SharedAsyncStorage.xcframework"
-IOS_OUTPUT_DIR="$MODULE_NAME/build/XCFrameworks/release"
-IOS_RN_OUTPUT_DIR="$RN_MODULE_DIR/ios/Frameworks"
+APPLE_BUILD_TASK="assembleSharedAsyncStorageXCFramework"
+APPLE_OUTPUT_NAME="SharedAsyncStorage.xcframework"
+APPLE_OUTPUT_DIR="$MODULE_NAME/build/XCFrameworks/release"
+APPLE_RN_OUTPUT_DIR="$RN_MODULE_DIR/apple/Frameworks"
 
 
 
@@ -32,17 +32,17 @@ build_android() {
   echo "all done"
 }
 
-build_ios() {
-  echo "👷 Assembling ios shared-storage"
-  ./gradlew :$MODULE_NAME:$IOS_BUILD_TASK
+build_apple() {
+  echo "👷 Assembling apple shared-storage"
+  ./gradlew :$MODULE_NAME:$APPLE_BUILD_TASK
 
 
   echo "recreate Frameworks dir"
-  rm -rf $IOS_RN_OUTPUT_DIR
-  mkdir $IOS_RN_OUTPUT_DIR
+  rm -rf $APPLE_RN_OUTPUT_DIR
+  mkdir $APPLE_RN_OUTPUT_DIR
 
   echo "move xcframework to RN module"
-  mv $IOS_OUTPUT_DIR/$IOS_OUTPUT_NAME $IOS_RN_OUTPUT_DIR/$IOS_OUTPUT_NAME
+  mv $APPLE_OUTPUT_DIR/$APPLE_OUTPUT_NAME $APPLE_RN_OUTPUT_DIR/$APPLE_OUTPUT_NAME
   echo "all done"
 }
 
@@ -52,14 +52,14 @@ case "$TARGET" in
   android)
     build_android
     ;;
-  ios)
-    build_ios
+  apple)
+    build_apple
     ;;
   all)
     build_all
     ;;
   *)
-    echo "Usage: $0 {android|ios}"
+    echo "Usage: $0 {android|apple}"
     exit 1
     ;;
 esac
