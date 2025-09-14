@@ -10,14 +10,14 @@ Pod::Spec.new do |s|
   s.license      = package["license"]
   s.authors      = package["author"]
 
-  s.platforms    = { :ios => min_ios_version_supported }
+  s.platforms    = { :ios => min_ios_version_supported, :osx => "12.0" }
   s.source       = { :git => "https://github.com/react-native-async-storage/async-storage.git", :tag => "#{s.version}" }
-  s.resource_bundles = { "AsyncStorage_resources" => "ios/PrivacyInfo.xcprivacy" }
+  s.resource_bundles = { "AsyncStorage_resources" => "apple/PrivacyInfo.xcprivacy" }
 
-  s.source_files = "ios/**/*.{h,m,mm,cpp,swift}"
-  s.private_header_files = "ios/**/*.h"
+  s.source_files = "apple/**/*.{h,m,mm,cpp,swift}"
+  s.private_header_files = "apple/**/*.h"
   s.swift_version = "5.9.2"
-  s.vendored_frameworks = "ios/Frameworks/SharedAsyncStorage.xcframework"
+  s.vendored_frameworks = "apple/Frameworks/SharedAsyncStorage.xcframework"
 
 
   install_modules_dependencies(s)

@@ -3972,6 +3972,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-macos/virtualized-lists@npm:0.79.0":
+  version: 0.79.0
+  resolution: "@react-native-macos/virtualized-lists@npm:0.79.0"
+  dependencies:
+    invariant: "npm:^2.2.4"
+    nullthrows: "npm:^1.1.1"
+  peerDependencies:
+    "@types/react": ^19.0.0
+    react: "*"
+    react-native: "*"
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 10c0/4faaba5ed057f2b2f29375027dbd7d4a84aeeec102ee1afe08eb12c2f5bdf1234a9977395d9ca01a8ee338dc8086fc938889a042a30be45752d7c0e57e3fca49
+  languageName: node
+  linkType: hard
+
 "@react-native-windows/cli@npm:0.79.3":
   version: 0.79.3
   resolution: "@react-native-windows/cli@npm:0.79.3"
@@ -9410,6 +9427,7 @@ __metadata:
     prettier: "npm:3.6.2"
     react: "npm:19.0.0"
     react-native: "npm:0.79.6"
+    react-native-macos: "npm:^0.79.0"
     react-native-test-app: "npm:^4.4.7"
     react-native-windows: "npm:^0.79.0"
     react-test-renderer: "npm:19.0.0"
@@ -15832,6 +15850,61 @@ __metadata:
   bin:
     bob: bin/bob
   checksum: 10c0/ea1da4db2ab919ba237cf8e090bd80ff6ddb35ba831d224f5c6866059c5a629c8c7a38af3ab327efbb1cf9a5d56c4295ba2cf34719cba1c19f5c0862282341eb
+  languageName: node
+  linkType: hard
+
+"react-native-macos@npm:^0.79.0":
+  version: 0.79.0
+  resolution: "react-native-macos@npm:0.79.0"
+  dependencies:
+    "@jest/create-cache-key-function": "npm:^29.7.0"
+    "@react-native-macos/virtualized-lists": "npm:0.79.0"
+    "@react-native/assets-registry": "npm:0.79.6"
+    "@react-native/codegen": "npm:0.79.6"
+    "@react-native/community-cli-plugin": "npm:0.79.6"
+    "@react-native/gradle-plugin": "npm:0.79.6"
+    "@react-native/js-polyfills": "npm:0.79.6"
+    "@react-native/normalize-colors": "npm:0.79.6"
+    "@react-native/virtualized-lists": "npm:0.79.6"
+    abort-controller: "npm:^3.0.0"
+    anser: "npm:^1.4.9"
+    ansi-regex: "npm:^5.0.0"
+    babel-jest: "npm:^29.7.0"
+    babel-plugin-syntax-hermes-parser: "npm:0.25.1"
+    base64-js: "npm:^1.5.1"
+    chalk: "npm:^4.0.0"
+    commander: "npm:^12.0.0"
+    event-target-shim: "npm:^5.0.1"
+    flow-enums-runtime: "npm:^0.0.6"
+    glob: "npm:^7.1.1"
+    invariant: "npm:^2.2.4"
+    jest-environment-node: "npm:^29.7.0"
+    memoize-one: "npm:^5.0.0"
+    metro-runtime: "npm:^0.82.0"
+    metro-source-map: "npm:^0.82.0"
+    nullthrows: "npm:^1.1.1"
+    pretty-format: "npm:^29.7.0"
+    promise: "npm:^8.3.0"
+    react-devtools-core: "npm:^6.1.1"
+    react-refresh: "npm:^0.14.0"
+    regenerator-runtime: "npm:^0.13.2"
+    scheduler: "npm:0.25.0"
+    semver: "npm:^7.1.3"
+    stacktrace-parser: "npm:^0.1.10"
+    whatwg-fetch: "npm:^3.0.0"
+    ws: "npm:^6.2.3"
+    yargs: "npm:^17.6.2"
+  peerDependencies:
+    "@types/react": ^19.0.0
+    react: ^19.0.0
+    react-native: 0.79.6
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  bin:
+    react-native: cli.js
+    react-native-macos: cli.js
+  checksum: 10c0/428fbf81ff931deee98b500829542aef127bbca555322327ecfacc2188b5d0cca9d90ec30a42451f304c21155499a4fd39b8fcb34c391e40551f53b4f193ec27
   languageName: node
   linkType: hard
 

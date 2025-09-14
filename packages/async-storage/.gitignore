@@ -28,10 +28,10 @@ lib/
 
 # native shared-storage binaries
 android/local_repo
-ios/Frameworks
+apple/Frameworks
 
 # React Native Codegen
-ios/generated
+apple/generated
 android/generated
 
 # React Native Nitro Modules
