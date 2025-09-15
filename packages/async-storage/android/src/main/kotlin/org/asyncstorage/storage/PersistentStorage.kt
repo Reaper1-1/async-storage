@@ -5,15 +5,18 @@ import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReadableArray
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CoroutineName
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 import org.asyncstorage.shared_storage.SharedStorage
-import org.asyncstorage.shared_storage.create
+import org.asyncstorage.shared_storage.StorageException
 
-private val StorageScope = { name: String -> CoroutineScope(SupervisorJob() + CoroutineName(name)) }
+private val createStorageScope = { name: String ->
+    CoroutineScope(SupervisorJob() + CoroutineName(name))
+}
 
 /**
  * todo:
@@ -24,43 +27,52 @@ class PersistentStorage(
     dbName: String,
     coroutineContext: CoroutineContext = EmptyCoroutineContext,
 ) {
-    private val scope = StorageScope(dbName) + coroutineContext
-    private val db = SharedStorage.create(ctx, dbName)
+    private val scope = createStorageScope(dbName) + coroutineContext
+    private val db = SharedStorage(ctx, dbName)
 
-    fun get(rnKeys: ReadableArray, promise: Promise) {
-        scope.launch {
+    fun get(rnKeys: ReadableArray, promise: Promise) =
+        scope.lunchWithRejection(promise) {
             val keys = rnKeys.toKeyList()
             val result = db.getValues(keys).toRNResults()
             promise.resolve(result)
         }
-    }
 
-    fun set(values: ReadableArray, promise: Promise) {
-        scope.launch {
+    fun set(values: ReadableArray, promise: Promise) =
+        scope.lunchWithRejection(promise) {
             val entries = values.toEntryList()
             val result = db.setValues(entries).toRNResults()
             promise.resolve(result)
         }
-    }
 
-    fun remove(keys: ReadableArray, promise: Promise) {
-        scope.launch {
+    fun remove(keys: ReadableArray, promise: Promise) =
+        scope.lunchWithRejection(promise) {
             db.removeValues(keys.toKeyList())
             promise.resolve(null)
         }
-    }
 
-    fun allKeys(promise: Promise) {
-        scope.launch {
+    fun allKeys(promise: Promise) =
+        scope.lunchWithRejection(promise) {
             val result = db.getKeys().toRNKeys()
             promise.resolve(result)
         }
-    }
 
-    fun clear(promise: Promise) {
-        scope.launch {
+    fun clear(promise: Promise) =
+        scope.lunchWithRejection(promise) {
             db.clear()
             promise.resolve(null)
+        }
+}
+
+private fun <T> CoroutineScope.lunchWithRejection(promise: Promise, block: suspend () -> T): Unit {
+    launch {
+        try {
+            block()
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: StorageException) {
+            promise.reject(code = "AsyncStorageException", message = e.message, throwable = e)
+        } catch (e: Exception) {
+            promise.reject(e)
         }
     }
 }
