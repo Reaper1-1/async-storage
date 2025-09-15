@@ -3,7 +3,7 @@ package org.asyncstorage.shared_storage.database
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 
-private const val DATABASE_VERSION = 3
+private const val DATABASE_VERSION = 1
 
 @Entity(tableName = "storage")
 internal data class StorageEntry(@PrimaryKey val key: String, val value: String?)
@@ -46,8 +46,6 @@ abstract class StorageDatabase : RoomDatabase() {
     companion object
 }
 
-// The Room compiler generates the `actual` implementations.
-@Suppress("KotlinNoActualForExpect")
 expect object StorageDatabaseConstructor : RoomDatabaseConstructor<StorageDatabase> {
     override fun initialize(): StorageDatabase
 }
