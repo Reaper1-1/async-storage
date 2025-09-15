@@ -8,10 +8,7 @@ import org.asyncstorage.shared_storage.database.StorageDatabase
 import platform.Foundation.*
 
 @Suppress("unused") // used on iOS side
-actual fun SharedStorage.Companion.create(
-    context: PlatformContext,
-    databaseName: String,
-): SharedStorage {
+actual fun SharedStorage(context: PlatformContext, databaseName: String): SharedStorage {
     val databases = getDatabasesPath()
     createDbDirectory(databases)
     val dbFilePath = "$databases/$databaseName"
@@ -21,19 +18,17 @@ actual fun SharedStorage.Companion.create(
             .setDriver(BundledSQLiteDriver())
             .build()
 
-    return SharedStorage(database = db)
+    return SharedStorageImpl(database = db)
 }
 
-internal actual fun SharedStorage.Companion.createInMemory(
-    context: PlatformContext
-): SharedStorage {
+internal actual fun sharedStorageInMemory(context: PlatformContext): SharedStorage {
     val db =
         Room.inMemoryDatabaseBuilder<StorageDatabase>()
             .setJournalMode(RoomDatabase.JournalMode.WRITE_AHEAD_LOGGING)
             .setDriver(BundledSQLiteDriver())
             .build()
 
-    return SharedStorage(database = db)
+    return SharedStorageImpl(database = db)
 }
 
 @OptIn(ExperimentalForeignApi::class, BetaInteropApi::class)

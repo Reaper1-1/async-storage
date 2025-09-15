@@ -13,10 +13,7 @@ import kotlin.math.max
 
 @Suppress("unused") // used in consumer app
 @OptIn(DelicateCoroutinesApi::class, ExperimentalCoroutinesApi::class)
-actual fun SharedStorage.Companion.create(
-    context: PlatformContext,
-    databaseName: String,
-): SharedStorage {
+actual fun SharedStorage(context: PlatformContext, databaseName: String): SharedStorage {
 
     val dbFile = context.getDatabasePath(databaseName)
     val writeDispatcher = newSingleThreadContext("$databaseName-writer")
@@ -31,18 +28,16 @@ actual fun SharedStorage.Companion.create(
             .setJournalMode(RoomDatabase.JournalMode.WRITE_AHEAD_LOGGING)
             .build()
 
-    return SharedStorage(db)
+    return SharedStorageImpl(db)
 }
 
-internal actual fun SharedStorage.Companion.createInMemory(
-    context: PlatformContext
-): SharedStorage {
+internal actual fun sharedStorageInMemory(context: PlatformContext): SharedStorage {
     val db =
         Room.inMemoryDatabaseBuilder<StorageDatabase>(context)
             .setJournalMode(RoomDatabase.JournalMode.WRITE_AHEAD_LOGGING)
             .build()
 
-    return SharedStorage(db)
+    return SharedStorageImpl(db)
 }
 
 // as per https://blog.p-y.wtf/parallelism-with-android-sqlite

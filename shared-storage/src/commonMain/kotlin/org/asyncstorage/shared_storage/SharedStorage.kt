@@ -1,57 +1,30 @@
 package org.asyncstorage.shared_storage
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.map
-import org.asyncstorage.shared_storage.database.StorageDatabase
-import org.asyncstorage.shared_storage.database.StorageEntry
 
 /**
- * Persistent Storage backed by SQLite.
+ * Cross-platform abstraction for a key-value storage backed by SQLite.
  *
- * Note about [getValuesFlow]: Since SQLite database trigger notifications only on table level, not
- * row level, non-observed requested keys will trigger emits. Therefor, flow returned has
- * .distinctUntilChanged to mimic row level update.
+ * This interface is designed to provide both direct suspend-based access and reactive Flow-based
+ * access to stored values.
  */
-class SharedStorage internal constructor(internal val database: StorageDatabase) {
+interface SharedStorage {
 
-    private val storage = database.storageDao()
+    suspend fun getValues(keys: List<String>): List<Entry>
 
-    suspend fun getValues(keys: List<String>): List<Entry> {
-        return storage.getValues(keys).map(StorageEntry::toEntry)
-    }
+    fun getValuesFlow(keys: List<String>): Flow<List<Entry>>
 
-    fun getValuesFlow(keys: List<String>): Flow<List<Entry>> =
-        storage
-            .getValuesFlow(keys)
-            .map { list -> list.map(StorageEntry::toEntry) }
-            .distinctUntilChanged()
+    suspend fun setValues(entries: List<Entry>): List<Entry>
 
-    suspend fun setValues(entries: List<Entry>): List<Entry> {
-        val values = entries.map(Entry::toStorageEntry)
-        return storage.setValuesAndGet(values).map(StorageEntry::toEntry)
-    }
+    suspend fun removeValues(keys: List<String>)
 
-    suspend fun removeValues(keys: List<String>) {
-        return storage.removeValues(keys)
-    }
+    suspend fun getKeys(): List<String>
 
-    suspend fun getKeys(): List<String> {
-        return storage.getKeys()
-    }
+    fun getKeysFlow(): Flow<List<String>>
 
-    fun getKeysFlow(): Flow<List<String>> = storage.getKeysFlow()
-
-    suspend fun clear() {
-        storage.clear()
-    }
-
-    companion object
+    suspend fun clear()
 }
 
-expect fun SharedStorage.Companion.create(
-    context: PlatformContext,
-    databaseName: String,
-): SharedStorage
+expect fun SharedStorage(context: PlatformContext, databaseName: String): SharedStorage
 
-internal expect fun SharedStorage.Companion.createInMemory(context: PlatformContext): SharedStorage
+internal expect fun sharedStorageInMemory(context: PlatformContext): SharedStorage
