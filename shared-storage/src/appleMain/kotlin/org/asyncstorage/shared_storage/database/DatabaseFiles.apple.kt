@@ -4,6 +4,7 @@ import kotlinx.cinterop.*
 import org.asyncstorage.shared_storage.PlatformContext
 import platform.Foundation.*
 
+@Throws(IllegalStateException::class, IllegalArgumentException::class)
 actual fun DatabaseFiles.Companion.of(
     context: PlatformContext,
     databaseName: String,

@@ -1,5 +1,6 @@
 package org.asyncstorage.shared_storage
 
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -10,18 +11,25 @@ import kotlinx.coroutines.flow.Flow
  */
 interface SharedStorage {
 
+    @Throws(StorageException::class, CancellationException::class)
     suspend fun getValues(keys: List<String>): List<Entry>
 
+    @Throws(StorageException::class)
     fun getValuesFlow(keys: List<String>): Flow<List<Entry>>
 
+    @Throws(StorageException::class, CancellationException::class)
     suspend fun setValues(entries: List<Entry>): List<Entry>
 
+    @Throws(StorageException::class, CancellationException::class)
     suspend fun removeValues(keys: List<String>)
 
+    @Throws(StorageException::class, CancellationException::class)
     suspend fun getKeys(): List<String>
 
+    @Throws(StorageException::class)
     fun getKeysFlow(): Flow<List<String>>
 
+    @Throws(StorageException::class, CancellationException::class)
     suspend fun clear()
 }
 
