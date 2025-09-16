@@ -10,16 +10,22 @@ import { createAsyncStorage } from "@react-native-async-storage/async-storage";
 import React, { useState } from "react";
 import { Alert, Button, StyleSheet, Text, View } from "react-native";
 
-function GetSet() {
+export const STORAGE_KEY = "random";
+
+const BasicCrud: React.FC = () => {
   const [storedNumber, setStoredNumber] = React.useState<number | null>(null);
   const [storage] = useState(() => createAsyncStorage("test-database"));
+
+  function reportError(e: any) {
+    Alert.alert(e?.name ?? "Error", JSON.stringify(e, null, 2));
+  }
 
   async function readCurrent() {
     try {
       const value = await storage.getItem(STORAGE_KEY);
       setStoredNumber(value ? Number(value) : null);
-    } catch (e) {
-      console.error(e);
+    } catch (e: any) {
+      reportError(e);
     }
   }
 
@@ -31,21 +37,21 @@ function GetSet() {
       setStoredNumber(newNumber);
       await readCurrent();
     } catch (e) {
-      console.error(e);
+      reportError(e);
     }
   };
 
   const removeItem = async () => {
-    await storage.removeItem(STORAGE_KEY).catch(console.error);
+    await storage.removeItem(STORAGE_KEY).catch(reportError);
     await readCurrent();
   };
 
   const listAllKeys = async () => {
     try {
-      const keys = await storage.getKeys();
+      const keys = await storage.getAllKeys();
       Alert.alert("keys", keys.join(", "));
     } catch (e) {
-      console.error(e);
+      reportError(e);
     }
   };
 
@@ -62,7 +68,7 @@ function GetSet() {
       <Button title="list all keys" onPress={listAllKeys} />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   text: {
@@ -73,6 +79,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export const STORAGE_KEY = "random";
-
-export default GetSet;
+export default BasicCrud;
