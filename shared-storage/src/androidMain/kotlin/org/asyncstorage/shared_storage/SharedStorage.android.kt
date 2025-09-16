@@ -8,27 +8,30 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.newFixedThreadPoolContext
 import kotlinx.coroutines.newSingleThreadContext
+import org.asyncstorage.shared_storage.database.DatabaseFiles
 import org.asyncstorage.shared_storage.database.StorageDatabase
+import org.asyncstorage.shared_storage.database.of
+import org.asyncstorage.shared_storage.database.ofInMemory
 import kotlin.math.max
 
 @Suppress("unused") // used in consumer app
 @OptIn(DelicateCoroutinesApi::class, ExperimentalCoroutinesApi::class)
 actual fun SharedStorage(context: PlatformContext, databaseName: String): SharedStorage {
 
-    val dbFile = context.getDatabasePath(databaseName)
+    val dbFiles = DatabaseFiles.of(context, databaseName)
     val writeDispatcher = newSingleThreadContext("$databaseName-writer")
     val readDispatcher =
         newFixedThreadPoolContext(getWALConnectionPoolSize(), "$databaseName-reader")
 
     val db =
-        Room.databaseBuilder<StorageDatabase>(context, name = dbFile.absolutePath)
+        Room.databaseBuilder<StorageDatabase>(context, name = dbFiles.fileAbsolutePath)
             .setDriver(AndroidSQLiteDriver())
             .setQueryExecutor(readDispatcher.executor)
             .setTransactionExecutor(writeDispatcher.executor)
             .setJournalMode(RoomDatabase.JournalMode.WRITE_AHEAD_LOGGING)
             .build()
 
-    return SharedStorageImpl(db)
+    return SharedStorageImpl(db, dbFiles)
 }
 
 internal actual fun sharedStorageInMemory(context: PlatformContext): SharedStorage {
@@ -37,7 +40,7 @@ internal actual fun sharedStorageInMemory(context: PlatformContext): SharedStora
             .setJournalMode(RoomDatabase.JournalMode.WRITE_AHEAD_LOGGING)
             .build()
 
-    return SharedStorageImpl(db)
+    return SharedStorageImpl(db, DatabaseFiles.ofInMemory())
 }
 
 // as per https://blog.p-y.wtf/parallelism-with-android-sqlite
