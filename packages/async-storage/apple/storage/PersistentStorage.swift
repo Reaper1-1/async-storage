@@ -10,16 +10,16 @@ public class PersistentStorage: NSObject {
     private let db: SharedStorage
 
     init(databaseName: String) {
-        db = SharedStorage.companion.create(context: PlatformContext.Instance(), databaseName: databaseName)
+        db = SharedStorage(context: PlatformContext.Instance(), databaseName: databaseName)
     }
 
     @objc
     public func get(
         keys: [String],
         resolver: @escaping RCTPromiseResolveBlock,
-        rejecter _: @escaping RCTPromiseRejectBlock
+        rejecter: @escaping RCTPromiseRejectBlock
     ) {
-        Task {
+        runWithReject(rejecter) {
             let result = try await self.db.getValues(keys: keys)
             resolver(result.map { $0.toRNValue() })
         }
@@ -29,9 +29,9 @@ public class PersistentStorage: NSObject {
     public func set(
         values: [[String: String]],
         resolver: @escaping RCTPromiseResolveBlock,
-        rejecter _: @escaping RCTPromiseRejectBlock
+        rejecter: @escaping RCTPromiseRejectBlock
     ) {
-        Task {
+        runWithReject(rejecter) {
             let entries = values.map { entry in Entry.fromRNValue(rnValue: entry) }
             let result = try await self.db.setValues(entries: entries)
             resolver(result.map { entry in entry.toRNValue() })
@@ -42,9 +42,9 @@ public class PersistentStorage: NSObject {
     public func remove(
         keys: [String],
         resolver: @escaping RCTPromiseResolveBlock,
-        rejecter _: @escaping RCTPromiseRejectBlock
+        rejecter: @escaping RCTPromiseRejectBlock
     ) {
-        Task {
+        runWithReject(rejecter) {
             try await self.db.removeValues(keys: keys)
             resolver(nil)
         }
@@ -53,9 +53,9 @@ public class PersistentStorage: NSObject {
     @objc
     public func allKeys(
         resolver: @escaping RCTPromiseResolveBlock,
-        rejecter _: @escaping RCTPromiseRejectBlock
+        rejecter: @escaping RCTPromiseRejectBlock
     ) {
-        Task {
+        runWithReject(rejecter) {
             let keys = try await self.db.getKeys()
             resolver(keys)
         }
@@ -64,9 +64,9 @@ public class PersistentStorage: NSObject {
     @objc
     public func clear(
         resolver: @escaping RCTPromiseResolveBlock,
-        rejecter _: @escaping RCTPromiseRejectBlock
+        rejecter: @escaping RCTPromiseRejectBlock
     ) {
-        Task {
+        runWithReject(rejecter) {
             try await self.db.clear()
             resolver(nil)
         }
@@ -84,5 +84,18 @@ extension Entry {
         let value = rnValue["value"]
 
         return Entry(key: key, value: value)
+    }
+}
+
+func runWithReject(_ reject: @escaping RCTPromiseRejectBlock, block: @escaping () async throws -> Void) {
+    Task {
+        do {
+            try await block()
+        } catch {
+            if error is CancellationError {
+                throw error
+            }
+            reject("AsyncStorageError", error.localizedDescription, error)
+        }
     }
 }
