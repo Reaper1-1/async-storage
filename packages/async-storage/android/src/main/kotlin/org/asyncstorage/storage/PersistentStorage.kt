@@ -1,8 +1,10 @@
 package org.asyncstorage.storage
 
 import android.content.Context
+import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReadableArray
+import com.facebook.react.bridge.WritableMap
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlinx.coroutines.CancellationException
@@ -12,6 +14,7 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 import org.asyncstorage.shared_storage.SharedStorage
+import org.asyncstorage.shared_storage.StorageException
 
 private val createStorageScope = { name: String ->
     CoroutineScope(SupervisorJob() + CoroutineName(name))
@@ -69,7 +72,26 @@ private fun <T> CoroutineScope.lunchWithRejection(promise: Promise, block: suspe
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
-            promise.reject(code = "AsyncStorageException", message = e.message, throwable = e)
+
+            var userInfo: WritableMap? = null
+
+            if (e is StorageException) {
+                userInfo =
+                    Arguments.createMap().also {
+                        if (e is StorageException.SqliteException) {
+                            it.putString("type", "SqliteException")
+                        } else {
+                            it.putString("type", "OtherException")
+                        }
+                    }
+            }
+
+            promise.reject(
+                code = "AsyncStorageError",
+                message = e.message,
+                throwable = e,
+                userInfo = userInfo,
+            )
         }
     }
 }

@@ -91,11 +91,33 @@ func runWithReject(_ reject: @escaping RCTPromiseRejectBlock, block: @escaping (
     Task {
         do {
             try await block()
-        } catch {
-            if error is CancellationError {
-                throw error
+        } catch let error as CancellationError {
+            throw error
+        } catch let error as NSError {
+            if let exception = error.getStorageException() {
+                reject("AsyncStorageError", exception.localizedDescription, exception)
+            } else {
+                reject("AsyncStorageError", error.localizedDescription, error)
             }
+        } catch {
             reject("AsyncStorageError", error.localizedDescription, error)
         }
+    }
+}
+
+extension NSError {
+    func getStorageException() -> NSError? {
+        guard let exception = userInfo["KotlinException"] as? StorageException else {
+            return nil
+        }
+
+        if exception is StorageException.SqliteException {
+            return NSError(domain: "SqliteException", code: 0, userInfo: [NSLocalizedDescriptionKey: exception.message ?? exception.description(), "type": "SqliteException"])
+
+        } else if exception is StorageException.SqliteException {
+            return NSError(domain: "OtherException", code: 0, userInfo: [NSLocalizedDescriptionKey: exception.message ?? exception.description(), "type": "OtherException"])
+        }
+
+        return nil
     }
 }
