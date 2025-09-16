@@ -12,7 +12,6 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.plus
 import org.asyncstorage.shared_storage.SharedStorage
-import org.asyncstorage.shared_storage.StorageException
 
 private val createStorageScope = { name: String ->
     CoroutineScope(SupervisorJob() + CoroutineName(name))
@@ -69,10 +68,8 @@ private fun <T> CoroutineScope.lunchWithRejection(promise: Promise, block: suspe
             block()
         } catch (e: CancellationException) {
             throw e
-        } catch (e: StorageException) {
-            promise.reject(code = "AsyncStorageException", message = e.message, throwable = e)
         } catch (e: Exception) {
-            promise.reject(e)
+            promise.reject(code = "AsyncStorageException", message = e.message, throwable = e)
         }
     }
 }
