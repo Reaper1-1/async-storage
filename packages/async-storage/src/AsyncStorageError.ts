@@ -5,6 +5,12 @@ enum AsyncStorageErrorType {
   NativeModuleError = "NativeModuleError",
 
   /**
+   * Related to web storage (indexedDB)
+   * https://developer.mozilla.org/en-US/docs/Web/API/IDBRequest/error
+   */
+  WebStorageError = "WebStorageError",
+
+  /**
    * Error thrown from Sqlite itself
    * https://www.sqlite.org/rescode.html
    */

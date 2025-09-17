@@ -37,6 +37,9 @@
     "!**/__mocks__",
     "!**/.*"
   ],
+  "dependencies": {
+    "idb": "8.0.3"
+  },
   "devDependencies": {
     "@react-native-community/cli": "18.0.0",
     "@types/react": "^19.0.0",

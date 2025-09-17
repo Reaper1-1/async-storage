@@ -21,7 +21,7 @@ class AsyncStorageImpl implements AsyncStorage {
   getItem = async (key: string): Promise<string | null> => {
     try {
       const result = await this.db.getValues(this.dbName, [key]);
-      const value = result[0] ?? null;
+      const value = result?.[0] ?? null;
       return value?.value ?? null;
     } catch (e) {
       throw AsyncStorageError.nativeError(e);

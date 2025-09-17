@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 private const val DATABASE_VERSION = 1
 
-@Entity(tableName = "storage")
+@Entity(tableName = "entries")
 internal data class StorageEntry(@PrimaryKey val key: String, val value: String?)
 
 @Dao
