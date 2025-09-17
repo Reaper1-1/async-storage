@@ -12,6 +12,7 @@ module.exports = [
       ...prettierConfig.rules,
       "prettier/prettier": "error",
       "no-console": "error",
+      "react/react-in-jsx-scope": "off",
     },
   },
 ];
