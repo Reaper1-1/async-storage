@@ -1,28 +1,13 @@
 import type { AsyncStorage } from "./AsyncStorage";
-import NativeAsyncStorage, {
-  type Spec as NativeAsyncStorageSpec,
-} from "./native-module/NativeAsyncStorage";
 import { AsyncStorageError } from "./AsyncStorageError";
 
-class AsyncStorageImpl implements AsyncStorage {
+class AsyncStorageWebImpl implements AsyncStorage {
   constructor(private readonly dbName: string) {}
-
-  private get db(): NativeAsyncStorageSpec {
-    const mod = NativeAsyncStorage;
-    if (!mod) {
-      throw AsyncStorageError.jsError(
-        `Native module is null, cannot create db`,
-        AsyncStorageError.Type.NativeModuleError
-      );
-    }
-    return mod;
-  }
 
   getItem = async (key: string): Promise<string | null> => {
     try {
-      const result = await this.db.getValues(this.dbName, [key]);
-      const value = result[0] ?? null;
-      return value?.value ?? null;
+      // todo:
+      return null;
     } catch (e) {
       throw AsyncStorageError.nativeError(e);
     }
@@ -30,7 +15,7 @@ class AsyncStorageImpl implements AsyncStorage {
 
   setItem = async (key: string, value: string): Promise<void> => {
     try {
-      await this.db.setValues(this.dbName, [{ key, value }]);
+      // todo
     } catch (e) {
       throw AsyncStorageError.nativeError(e);
     }
@@ -38,7 +23,7 @@ class AsyncStorageImpl implements AsyncStorage {
 
   removeItem = async (key: string): Promise<void> => {
     try {
-      await this.db.removeValues(this.dbName, [key]);
+      // todo
     } catch (e) {
       throw AsyncStorageError.nativeError(e);
     }
@@ -46,12 +31,8 @@ class AsyncStorageImpl implements AsyncStorage {
 
   getMany = async (keys: string[]): Promise<Record<string, string | null>> => {
     try {
-      return await this.db.getValues(this.dbName, keys).then((entries) =>
-        entries.reduce<Record<string, string | null>>((values, current) => {
-          values[current.key] = current.value;
-          return values;
-        }, {})
-      );
+      // todo
+      return {};
     } catch (e) {
       throw AsyncStorageError.nativeError(e);
     }
@@ -59,10 +40,7 @@ class AsyncStorageImpl implements AsyncStorage {
 
   setMany = async (entries: Record<string, string>): Promise<void> => {
     try {
-      await this.db.setValues(
-        this.dbName,
-        Object.entries(entries).map(([key, value]) => ({ key, value }))
-      );
+      // todo
     } catch (e) {
       throw AsyncStorageError.nativeError(e);
     }
@@ -70,7 +48,7 @@ class AsyncStorageImpl implements AsyncStorage {
 
   removeMany = async (keys: string[]): Promise<void> => {
     try {
-      await this.db.removeValues(this.dbName, keys);
+      // todo
     } catch (e) {
       throw AsyncStorageError.nativeError(e);
     }
@@ -78,7 +56,8 @@ class AsyncStorageImpl implements AsyncStorage {
 
   getAllKeys = async (): Promise<string[]> => {
     try {
-      return await this.db.getKeys(this.dbName);
+      // todo
+      return [];
     } catch (e) {
       throw AsyncStorageError.nativeError(e);
     }
@@ -86,7 +65,8 @@ class AsyncStorageImpl implements AsyncStorage {
 
   clear = async (): Promise<void> => {
     try {
-      return await this.db.clearStorage(this.dbName);
+      // return await this.db.clearStorage(this.dbName);
+      // todo
     } catch (e) {
       throw AsyncStorageError.nativeError(e);
     }
@@ -94,5 +74,5 @@ class AsyncStorageImpl implements AsyncStorage {
 }
 
 export function createAsyncStorage(databaseName: string): AsyncStorage {
-  return new AsyncStorageImpl(databaseName);
+  return new AsyncStorageWebImpl(databaseName);
 }
