@@ -10,6 +10,7 @@
   "ignore": [
     "@react-native-async-storage/eslint-config",
     "async-storage-website",
-    "example-react-native"
+    "example-react-native",
+    "example-web"
   ]
 }
