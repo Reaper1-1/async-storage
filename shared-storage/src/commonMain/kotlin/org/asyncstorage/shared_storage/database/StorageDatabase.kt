@@ -11,10 +11,10 @@ internal data class StorageEntry(@PrimaryKey val key: String, val value: String?
 @Dao
 internal interface StorageDao {
 
-    @Query("SELECT * FROM storage WHERE `key` IN (:keys)")
+    @Query("SELECT * FROM entries WHERE `key` IN (:keys)")
     suspend fun getValues(keys: List<String>): List<StorageEntry>
 
-    @Query("SELECT * FROM storage WHERE `key` IN (:keys)")
+    @Query("SELECT * FROM entries WHERE `key` IN (:keys)")
     fun getValuesFlow(keys: List<String>): Flow<List<StorageEntry>>
 
     @Transaction
@@ -28,14 +28,14 @@ internal interface StorageDao {
     }
 
     @Transaction
-    @Query("DELETE FROM storage WHERE `key` in (:keys)")
+    @Query("DELETE FROM entries WHERE `key` in (:keys)")
     suspend fun removeValues(keys: List<String>)
 
-    @Query("SELECT `key` FROM storage") suspend fun getKeys(): List<String>
+    @Query("SELECT `key` FROM entries") suspend fun getKeys(): List<String>
 
-    @Query("SELECT `key` FROM storage") fun getKeysFlow(): Flow<List<String>>
+    @Query("SELECT `key` FROM entries") fun getKeysFlow(): Flow<List<String>>
 
-    @Transaction @Query("DELETE FROM storage") suspend fun clear()
+    @Transaction @Query("DELETE FROM entries") suspend fun clear()
 }
 
 @Database(entities = [StorageEntry::class], version = DATABASE_VERSION, exportSchema = true)

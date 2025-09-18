@@ -2,10 +2,10 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "4d8baac8b3ec8e6bbde4d79eb33fbcd9",
+    "identityHash": "33b0559bdc8fe1befd1a1927fc3f3caa",
     "entities": [
       {
-        "tableName": "storage",
+        "tableName": "entries",
         "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`key` TEXT NOT NULL, `value` TEXT, PRIMARY KEY(`key`))",
         "fields": [
           {
@@ -30,7 +30,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '4d8baac8b3ec8e6bbde4d79eb33fbcd9')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '33b0559bdc8fe1befd1a1927fc3f3caa')"
     ]
   }
 }
