@@ -1,5 +1,6 @@
 #import "AsyncStorage.h"
 #import "AsyncStorage-Swift.h"
+#import "RNCAsyncStorage.h" // legacy storage
 
 @implementation AsyncStorage
 RCT_EXPORT_MODULE(RNAsyncStorage)
@@ -41,24 +42,106 @@ RCT_EXPORT_MODULE(RNAsyncStorage)
 
 
 - (void)legacy_multiGet:(nonnull NSArray *)keys resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject {
-    resolve(nil);
+    RNCAsyncStorage *legacy = [RNCAsyncStorage sharedInstance];
 
+
+    dispatch_async([legacy methodQueue], ^{
+        NSError *error = nil;
+        NSDictionary<NSString *, NSString *> *result = [legacy multiGet:keys error:&error];
+        if (error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                reject(@"AsyncStorageError", @"Failed to get values for keys", error);
+            });
+            return;
+        }
+        
+        NSMutableArray *formatted = [NSMutableArray arrayWithCapacity:keys.count];
+        for (NSString *key in keys) {
+            id value = result[key];
+            if (value == [NSNull null] || value == nil) {
+                value = (id)kCFNull;
+            }
+            [formatted addObject:@[key, value]];
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            resolve(formatted);
+        });
+        
+    });
 }
 
 - (void)legacy_multiSet:(nonnull NSArray *)kvPairs resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject {
-    resolve(nil);
+    RNCAsyncStorage *legacy = [RNCAsyncStorage sharedInstance];
+
+    dispatch_async([legacy methodQueue], ^{
+        NSError *error = nil;
+        BOOL success = [legacy multiSet:kvPairs error:&error];
+        
+        if (!success) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                reject(@"AsyncStorageError", @"Failed to set key-value pairs", error);
+            });
+            return;
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            resolve(nil);
+        }); 
+    });
 }
 
 - (void)legacy_multiRemove:(nonnull NSArray *)keys resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject {
-    resolve(nil);
+    RNCAsyncStorage *legacy = [RNCAsyncStorage sharedInstance];
+
+    dispatch_async([legacy methodQueue], ^{
+        NSError *error = nil;
+        BOOL success = [legacy multiRemove:keys error:&error];
+
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (!success) {
+                reject(@"AsyncStorageError", @"Failed to remove keys", error);
+            } else {
+                resolve(nil);
+            }
+        });
+    });
 }
 
-- (void)legacy_getAllKeys:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject { 
-    resolve(nil);
+- (void)legacy_getAllKeys:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject {
+    RNCAsyncStorage *legacy = [RNCAsyncStorage sharedInstance];
+    
+    dispatch_async([legacy methodQueue], ^{
+        NSError *error = nil;
+        NSArray<NSString *> *keys = [legacy getAllKeys:&error];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (!keys) {
+                reject(@"AsyncStorageError", @"Failed to get all keys", error);
+            } else {
+                resolve(keys);
+            }
+        });
+    });
 }
 
 - (void)legacy_clear:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject {
-    resolve(nil);
+    
+    RNCAsyncStorage *legacy = [RNCAsyncStorage sharedInstance];
+    
+    dispatch_async([legacy methodQueue], ^{
+        NSError *error = nil;
+        BOOL success = [legacy clear:&error];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (!success) {
+                reject(@"AsyncStorageError", @"Failed to clear storage", error);
+            } else {
+                resolve(nil);
+            }
+        });
+    });
 }
 
 - (void)legacy_multiMerge:(nonnull NSArray *)kvPairs resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject { 
