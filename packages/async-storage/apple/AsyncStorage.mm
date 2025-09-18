@@ -37,6 +37,35 @@ RCT_EXPORT_MODULE(RNAsyncStorage)
 }
 
 
+#pragma mark - Legacy Storage
+
+
+- (void)legacy_multiGet:(nonnull NSArray *)keys resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject {
+    resolve(nil);
+
+}
+
+- (void)legacy_multiSet:(nonnull NSArray *)kvPairs resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject {
+    resolve(nil);
+}
+
+- (void)legacy_multiRemove:(nonnull NSArray *)keys resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject {
+    resolve(nil);
+}
+
+- (void)legacy_getAllKeys:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject { 
+    resolve(nil);
+}
+
+- (void)legacy_clear:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject {
+    resolve(nil);
+}
+
+- (void)legacy_multiMerge:(nonnull NSArray *)kvPairs resolve:(nonnull RCTPromiseResolveBlock)resolve reject:(nonnull RCTPromiseRejectBlock)reject { 
+    // merge is removed
+    resolve(nil);
+}
+
 #ifdef RCT_NEW_ARCH_ENABLED
 - (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:
 (const facebook::react::ObjCTurboModule::InitParams &)params
