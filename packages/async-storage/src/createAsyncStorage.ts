@@ -96,3 +96,7 @@ class AsyncStorageWebImpl implements AsyncStorage {
 export function createAsyncStorage(databaseName: string): AsyncStorage {
   return new AsyncStorageWebImpl(databaseName);
 }
+
+export function getLegacyStorage(): AsyncStorage {
+  throw new Error("todo");
+}

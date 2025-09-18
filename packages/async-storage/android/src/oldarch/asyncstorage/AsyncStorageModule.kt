@@ -6,39 +6,70 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
 import com.facebook.react.bridge.ReadableArray
 import com.facebook.react.module.annotations.ReactModule
-import org.asyncstorage.storage.PersistentStorage
+import org.asyncstorage.legacy_storage.LegacyStorageModule
+import org.asyncstorage.storage.StorageRegistry
 
-@ReactModule(name = AsyncStorageModuleName)
-class AsyncStorageModule(reactContext: ReactApplicationContext) :
+@ReactModule(name = AsyncStorageModule.NAME)
+class AsyncStorageModule(private val reactContext: ReactApplicationContext) :
     ReactContextBaseJavaModule(reactContext) {
 
-    private val storage = PersistentStorage()
+    override fun getName() = NAME
 
-    override fun getName() = AsyncStorageModuleName
+    private val legacyStorage = LegacyStorageModule(reactContext)
 
     @ReactMethod
     fun getValues(db: String, keys: ReadableArray, promise: Promise) {
-        storage.get(db, keys, promise)
+        StorageRegistry.getOrCreate(reactContext, db).run { get(keys, promise) }
     }
 
     @ReactMethod
     fun setValues(db: String, values: ReadableArray, promise: Promise) {
-        storage.set(db, values, promise)
+        StorageRegistry.getOrCreate(reactContext, db).run { set(values, promise) }
     }
 
     @ReactMethod
     fun removeValues(db: String, keys: ReadableArray, promise: Promise) {
-        storage.remove(db, keys, promise)
+        StorageRegistry.getOrCreate(reactContext, db).run { remove(keys, promise) }
     }
 
     @ReactMethod
     fun getKeys(db: String, promise: Promise) {
-        storage.allKeys(db, promise)
+        StorageRegistry.getOrCreate(reactContext, db).run { allKeys(promise) }
     }
 
     @ReactMethod
     fun clearStorage(db: String, promise: Promise) {
-        storage.clear(db, promise)
+        StorageRegistry.getOrCreate(reactContext, db).run { clear(promise) }
+    }
+
+    @ReactMethod
+    fun legacy_multiGet(keys: ReadableArray, promise: Promise) {
+        legacyStorage.multiGet(keys, promise)
+    }
+
+    @ReactMethod
+    fun legacy_multiSet(kvPairs: ReadableArray, promise: Promise) {
+        legacyStorage.multiSet(kvPairs, promise)
+    }
+
+    @ReactMethod
+    fun legacy_getAllKeys(promise: Promise) {
+        legacyStorage.getAllKeys(promise)
+    }
+
+    @ReactMethod
+    fun legacy_multiRemove(keys: ReadableArray, promise: Promise) {
+        legacyStorage.multiRemove(keys, promise)
+    }
+
+    @ReactMethod
+    fun legacy_multiMerge(kvPairs: ReadableArray, promise: Promise) {
+        legacyStorage.multiMerge(kvPairs, promise)
+    }
+
+    @ReactMethod
+    fun legacy_clear(promise: Promise) {
+        legacyStorage.clear(promise)
     }
 
     companion object {

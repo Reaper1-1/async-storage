@@ -1,7 +1,7 @@
-import { createAsyncStorage } from "./createAsyncStorage";
+import { getLegacyStorage } from "./createAsyncStorage";
 
 export type { AsyncStorage } from "./AsyncStorage";
 export { createAsyncStorage } from "./createAsyncStorage";
 
-// exported as default for quick usage
-export default createAsyncStorage("default-async-storage");
+// Legacy storage that is proxy to an old storage data.
+export default getLegacyStorage();

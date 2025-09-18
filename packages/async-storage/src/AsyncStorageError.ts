@@ -17,7 +17,7 @@ enum AsyncStorageErrorType {
   SqliteStorageError = "SqliteStorageError",
 
   /**
-   * Other errors related to Native Shared Storage
+   * Other errors related to Native Shared Storage or Legacy Storage exception.
    * ex. Storage could not be initialized
    */
   OtherStorageError = "OtherStorageError",
@@ -87,16 +87,25 @@ function getNativeError(e: unknown): AsyncStorageNativeError | null {
 
   const errorType = e.userInfo ? e.userInfo["type"] : null;
 
-  if (errorType === "SqliteException") {
-    return {
-      type: "SqliteException",
-      message: e.message,
-    };
-  } else if (errorType === "OtherException") {
-    return {
-      type: "OtherException",
-      message: e.message,
-    };
+  switch (errorType) {
+    case "SqliteException": {
+      return {
+        type: "SqliteException",
+        message: e.message,
+      };
+    }
+    case "OtherException": {
+      return {
+        type: "OtherException",
+        message: e.message,
+      };
+    }
+    case "LegacyStorageException": {
+      return {
+        type: "LegacyStorageException",
+        message: e.message,
+      };
+    }
   }
 
   return null;
@@ -104,7 +113,7 @@ function getNativeError(e: unknown): AsyncStorageNativeError | null {
 
 type AsyncStorageNativeError = {
   message: string;
-  type: "SqliteException" | "OtherException";
+  type: "SqliteException" | "OtherException" | "LegacyStorageException";
 };
 
 type PotentialNativeError = {
