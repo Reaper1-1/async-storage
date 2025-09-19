@@ -158,7 +158,16 @@ class StorageSupplier internal constructor(db: StorageDb) : AsyncStorageAccess {
 
     private val access = db.storage()
 
-    override suspend fun getValues(keys: List<String>) = access.getValues(keys)
+    override suspend fun getValues(keys: List<String>): List<Entry> {
+        val values = access.getValues(keys)
+        return keys.fold(values) { values, current ->
+            if (values.find { it.key == current } != null) {
+                values
+            } else {
+                values + Entry(current, null)
+            }
+        }
+    }
 
     override suspend fun setValues(entries: List<Entry>) = access.setValues(entries)
 
