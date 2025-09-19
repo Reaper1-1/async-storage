@@ -89,6 +89,23 @@ const BasicTests: React.FC<Props> = ({ storage }) => {
     }
   };
 
+  const saveBigData = async () => {
+    try {
+      const key = "big-data";
+      const data = JSON.stringify(new Array(500_000).fill("a"));
+      addLog(`Saving ${key} with data size ${data.length}`);
+      const timeNow = +Date.now();
+      await storage.setItem(key, data);
+      addLog(`saving took ${+Date.now() - timeNow}ms`);
+
+      addLog(`reading ${key}`);
+      const res = await storage.getItem(key);
+      addLog(`size of result: ${res?.length}`);
+    } catch (e) {
+      reportError(e);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center px-4">
       <div className="flex flex-col max-w-64 items-center gap-2">
@@ -104,6 +121,13 @@ const BasicTests: React.FC<Props> = ({ storage }) => {
           className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
         >
           Test CRUD on many entries
+        </button>
+
+        <button
+          onClick={saveBigData}
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          Test big data
         </button>
       </div>
 

@@ -90,6 +90,25 @@ const BasicTests: React.FC<Props> = ({ storage }) => {
     }
   };
 
+  const saveBigData = async () => {
+    try {
+      const key = "big-data";
+      const data = JSON.stringify(
+        new Array(500_000).fill("a")
+      );
+      addLog(`Saving ${key} with data size ${data.length}`);
+      const timeNow = +Date.now();
+      await storage.setItem(key, data);
+      addLog(`saving took ${+Date.now() - timeNow}ms`);
+
+      addLog(`reading ${key}`);
+      const res = await storage.getItem(key);
+      addLog(`size of result: ${res?.length}`);
+    } catch (e) {
+      reportError(e);
+    }
+  };
+
   return (
     <View style={{ paddingHorizontal: 16, flex: 1 }}>
       <View style={{ gap: 8 }}>
@@ -98,6 +117,7 @@ const BasicTests: React.FC<Props> = ({ storage }) => {
           onPress={testSingleSetCrudKey}
         />
         <Button title="Test CRUD on many entries" onPress={testMultiKey} />
+        <Button title="Test big data" onPress={saveBigData} />
       </View>
 
       <View style={{ width: "100%", alignItems: "flex-end" }}>
