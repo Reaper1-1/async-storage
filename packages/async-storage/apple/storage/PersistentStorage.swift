@@ -1,10 +1,7 @@
 import React
 import SharedAsyncStorage
 
-/**
- TODO:
-    - handle exceptions
- */
+
 @objc
 public class PersistentStorage: NSObject {
     private let db: SharedStorage

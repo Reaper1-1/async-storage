@@ -98,5 +98,53 @@ export function createAsyncStorage(databaseName: string): AsyncStorage {
 }
 
 export function getLegacyStorage(): AsyncStorage {
-  throw new Error("todo");
+  return LegacyAsyncStorageWebImpl.instance;
+}
+
+class LegacyAsyncStorageWebImpl implements AsyncStorage {
+  private constructor() {}
+  static instance = new LegacyAsyncStorageWebImpl();
+
+  private get storage() {
+    return window.localStorage;
+  }
+
+  getItem = async (key: string): Promise<string | null> => {
+    return this.storage.getItem(key) ?? null;
+  };
+
+  setItem = async (key: string, value: string): Promise<void> => {
+    this.storage.setItem(key, value);
+  };
+
+  removeItem = async (key: string): Promise<void> => {
+    this.storage.removeItem(key);
+  };
+
+  getMany = async (keys: string[]): Promise<Record<string, string | null>> => {
+    return keys.reduce<Record<string, string | null>>((entries, current) => {
+      entries[current] = this.storage.getItem(current) ?? null;
+      return entries;
+    }, {});
+  };
+
+  setMany = async (entries: Record<string, string>): Promise<void> => {
+    Object.entries(entries).forEach(([key, value]) => {
+      this.storage.setItem(key, value);
+    });
+  };
+
+  removeMany = async (keys: string[]): Promise<void> => {
+    keys.forEach((key) => {
+      this.storage.removeItem(key);
+    });
+  };
+
+  getAllKeys = async (): Promise<string[]> => {
+    return Object.keys(this.storage);
+  };
+
+  clear = async (): Promise<void> => {
+    this.storage.clear();
+  };
 }

@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "start": "vite",
     "build": "tsc -b && vite build",
     "test:lint": "eslint .",
     "test:ts": "tsc --noEmit -p tsconfig.app.json",
@@ -13,8 +14,10 @@
   "dependencies": {
     "@react-native-async-storage/async-storage": "workspace:*",
     "@react-native-async-storage/eslint-config": "workspace:*",
+    "@tailwindcss/vite": "^4.1.13",
     "react": "19.1.1",
-    "react-dom": "19.1.1"
+    "react-dom": "19.1.1",
+    "tailwindcss": "^4.1.13"
   },
   "installConfig": {
     "hoistingLimits": "workspaces"

@@ -102,10 +102,14 @@ class AsyncStorageImpl implements AsyncStorage {
  * Usage is highly discouraged and should be used only as a measure to transition v3.
  */
 export function getLegacyStorage(): AsyncStorage {
-  return new LegacyAsyncStorageImpl();
+  return LegacyAsyncStorageImpl.instance;
 }
 
 class LegacyAsyncStorageImpl implements AsyncStorage {
+  private constructor() {}
+
+  static instance = new LegacyAsyncStorageImpl();
+
   private get db(): NativeAsyncStorageSpec {
     const mod = NativeAsyncStorage;
     if (!mod) {

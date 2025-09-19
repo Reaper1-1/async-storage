@@ -1,6 +1,5 @@
 import type { AsyncStorage } from "@react-native-async-storage/async-storage";
 import React, { useState } from "react";
-import { Alert, Button, Pressable, ScrollView, Text, View } from "react-native";
 
 type Props = {
   storage: AsyncStorage;
@@ -27,12 +26,12 @@ const BasicTests: React.FC<Props> = ({ storage }) => {
   }
 
   function reportError(e: any) {
-    Alert.alert(e?.name ?? "Error", JSON.stringify(e, null, 2));
+    alert(JSON.stringify(e, null, 2));
   }
 
   const testSingleSetCrudKey = async () => {
     try {
-      const key = "my-test-key";
+      const key = "single-set";
       let value = `value-${Math.round(Math.random() * 1000)}`;
 
       addLog(`setting ${key} with value ${value}`);
@@ -55,7 +54,7 @@ const BasicTests: React.FC<Props> = ({ storage }) => {
       addLog(`current ${key} value:`, await storage.getItem(key));
 
       value = `value-${Math.round(Math.random() * 1000)}`;
-      addLog(`Overriding ${key} value: ${value}`);
+      addLog(`Overriding n ${key} value: ${value}`);
       await storage.setItem(key, value);
       addLog(`current ${key} value:`, await storage.getItem(key));
 
@@ -91,38 +90,40 @@ const BasicTests: React.FC<Props> = ({ storage }) => {
   };
 
   return (
-    <View style={{ paddingHorizontal: 16, flex: 1 }}>
-      <View style={{ gap: 8 }}>
-        <Button
-          title="Test CRUD on single entry"
-          onPress={testSingleSetCrudKey}
-        />
-        <Button title="Test CRUD on many entries" onPress={testMultiKey} />
-      </View>
-
-      <View style={{ width: "100%", alignItems: "flex-end" }}>
-        <Pressable
-          onPress={clearLog}
-          style={({ pressed }) => [
-            {
-              padding: 12,
-              width: 90,
-              backgroundColor: pressed ? "rgb(210, 230, 255)" : "transparent",
-            },
-          ]}
+    <div className="flex flex-col items-center px-4">
+      <div className="flex flex-col max-w-64 items-center gap-2">
+        <button
+          onClick={testSingleSetCrudKey}
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
         >
-          <Text>clear logs</Text>
-        </Pressable>
-      </View>
+          Test CRUD on single entry
+        </button>
 
-      <ScrollView contentContainerStyle={{ gap: 12 }}>
+        <button
+          onClick={testMultiKey}
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          Test CRUD on many entries
+        </button>
+      </div>
+
+      <div className="w-full flex justify-end max-w-1/4 mt-2">
+        <button
+          onClick={clearLog}
+          className="w-[90px] px-3 py-2 rounded hover:bg-blue-100"
+        >
+          clear logs
+        </button>
+      </div>
+
+      <div className="flex flex-col gap-3 overflow-y-auto mt-4">
         {logs.map((l, i) => (
-          <Text style={{ fontSize: 14 }} key={i}>
+          <p key={i} className="text-sm">
             {l}
-          </Text>
+          </p>
         ))}
-      </ScrollView>
-    </View>
+      </div>
+    </div>
   );
 };
 
