@@ -11,6 +11,9 @@ import org.asyncstorage.shared_storage.database.StorageEntry
 /**
  * Default implementation of [SharedStorage] interface.
  *
+ * Storage always returns entries that were requested - if requested `key` is not in database
+ * the result is not omitted and Entry(`key`, null) is returned.
+ *
  * Note about [getValuesFlow]: Since SQLite database trigger notifications only on table level, not
  * row level, non-observed requested keys will trigger emits. Therefor, flow returned has
  * .distinctUntilChanged to mimic row level update.
@@ -26,19 +29,19 @@ internal class SharedStorageImpl(val database: StorageDatabase, files: DatabaseF
     }
 
     override suspend fun getValues(keys: List<String>): List<Entry> =
-        catchStorageException(log) { storage.getValues(keys).map(StorageEntry::toEntry) }
+        catchStorageException(log) { storage.getValues(keys).toRequestedEntry(keys) }
 
     override fun getValuesFlow(keys: List<String>): Flow<List<Entry>> =
         storage
             .getValuesFlow(keys)
-            .map { list -> list.map(StorageEntry::toEntry) }
+            .map { list -> list.toRequestedEntry(keys) }
             .distinctUntilChanged()
             .catchStorageException(log)
 
     override suspend fun setValues(entries: List<Entry>): List<Entry> =
         catchStorageException(log) {
             val values = entries.map(Entry::toStorageEntry)
-            storage.setValuesAndGet(values).map(StorageEntry::toEntry)
+            storage.setValuesAndGet(values).toRequestedEntry(entries.map { it.key })
         }
 
     override suspend fun removeValues(keys: List<String>) =
@@ -50,4 +53,13 @@ internal class SharedStorageImpl(val database: StorageDatabase, files: DatabaseF
         storage.getKeysFlow().catchStorageException(log)
 
     override suspend fun clear() = catchStorageException(log) { storage.clear() }
+
+
+    private fun List<StorageEntry>.toRequestedEntry(keys: List<String>): List<Entry> {
+        val lookup = associateBy { it.key }
+        return keys.map { key ->
+            lookup[key]?.toEntry() ?: Entry(key, null)
+        }
+    }
+
 }

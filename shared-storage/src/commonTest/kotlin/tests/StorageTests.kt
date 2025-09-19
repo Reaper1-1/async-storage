@@ -176,4 +176,28 @@ class SharedStorageTest : TestRunner() {
             assertEquals(0, awaitItem().size)
         }
     }
+
+    @Test
+    fun `returns requested values, even if not existing`() = runTest {
+        val entry1 = Entry("key1", "value1")
+        val result = storage.setValues(listOf(entry1))
+        assertEquals(entry1, result.first())
+
+
+        val entries = storage.getValues(listOf("key1", "key2", "key3")).sortedBy { it.key }
+
+        assertEquals(3, entries.size)
+
+        assertContentEquals(
+            listOf(entry1, Entry("key2", null), Entry("key3", null)).sortedBy { it.key },
+            entries
+        )
+
+
+        assertContentEquals(
+            listOf(Entry("non-existing", null), Entry("another-null", null)),
+            storage.getValues(listOf("non-existing", "another-null"))
+        )
+
+    }
 }
