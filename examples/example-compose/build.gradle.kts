@@ -1,4 +1,3 @@
-import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
@@ -19,8 +18,6 @@ kotlin {
         }
     }
 
-    jvm()
-
     sourceSets {
         androidMain.dependencies {
             implementation(compose.preview)
@@ -39,11 +36,6 @@ kotlin {
         }
 
         commonTest.dependencies { implementation(libs.tests.kotlin) }
-
-        jvmMain.dependencies {
-            implementation(compose.desktop.currentOs)
-            implementation(libs.kotlinx.coroutines.swing)
-        }
     }
 }
 
@@ -68,14 +60,3 @@ android {
 
 dependencies { debugImplementation(compose.uiTooling) }
 
-compose.desktop {
-    application {
-        mainClass = "org.asyncstorage.example.sharedstorage.MainKt"
-
-        nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "org.asyncstorage.example.sharedstorage"
-            packageVersion = "1.0.0"
-        }
-    }
-}

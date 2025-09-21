@@ -10,6 +10,11 @@ plugins {
     alias(libs.plugins.skie)
 }
 
+
+/**
+ * Windows as native target is not currently supported by Room db.
+ * https://issuetracker.google.com/issues/363195546
+ */
 kotlin {
     room { schemaDirectory("$projectDir/schemas") }
 
@@ -41,7 +46,6 @@ kotlin {
         }
     }
 
-    jvm()
 
     sourceSets {
         commonMain {
@@ -56,8 +60,6 @@ kotlin {
         androidMain { dependencies {} }
 
         appleMain { dependencies {} }
-
-        jvmMain { dependencies {} }
 
         commonTest {
             dependencies {
@@ -84,7 +86,6 @@ kotlin {
         add("kspIosArm64", libs.androidx.room.compiler)
         add("kspMacosX64", libs.androidx.room.compiler)
         add("kspMacosArm64", libs.androidx.room.compiler)
-        add("kspJvm", libs.androidx.room.compiler)
     }
 }
 
