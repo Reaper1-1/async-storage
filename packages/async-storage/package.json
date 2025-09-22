@@ -14,11 +14,10 @@
   },
   "scripts": {
     "prepare": "yarn build",
-    "build": "bob build",
-    "build:watch": "watch 'yarn build' src",
+    "build": "del-cli lib && bob build",
+    "build:watch": "watch 'bob build' src",
     "test:ts": "tsc --noEmit",
-    "test:lint": "eslint src/*.{js,ts,tsx}",
-    "clean": "del-cli android/build lib"
+    "test:lint": "eslint src/*.{js,ts,tsx}"
   },
   "files": [
     "src",
