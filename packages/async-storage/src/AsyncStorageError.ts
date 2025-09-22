@@ -18,7 +18,7 @@ enum AsyncStorageErrorType {
 
   /**
    * Other errors related to Native Shared Storage or Legacy Storage exception.
-   * ex. Storage could not be initialized
+   * ex. Storage could not be initialized or wrongly formatted output is generated
    */
   OtherStorageError = "OtherStorageError",
 

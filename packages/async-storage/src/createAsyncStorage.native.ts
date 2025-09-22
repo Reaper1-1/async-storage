@@ -114,7 +114,7 @@ class LegacyAsyncStorageImpl implements AsyncStorage {
     const mod = NativeAsyncStorage;
     if (!mod) {
       throw AsyncStorageError.jsError(
-        `Native module is null, access legacy storage`,
+        `Native module is null, cannot access legacy storage`,
         AsyncStorageError.Type.NativeModuleError
       );
     }
