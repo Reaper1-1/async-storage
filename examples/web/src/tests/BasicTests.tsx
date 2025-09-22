@@ -11,7 +11,7 @@ const BasicTests: React.FC<Props> = ({ storage }) => {
 
   return (
     <div className="flex flex-col items-center px-4">
-      <div className="flex flex-col max-w-64 items-center gap-2">
+      <div className="flex flex-row flex-wrap gap-2">
         {tests.map((test) => {
           return (
             <button

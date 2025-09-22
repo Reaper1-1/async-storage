@@ -86,7 +86,7 @@ export function useBasicTest(storage: AsyncStorage) {
     }
   };
 
-  const saveBigData = async () => {
+  const testSavingBigData = async () => {
     try {
       tests.clear();
       const key = "big-data";
@@ -104,7 +104,7 @@ export function useBasicTest(storage: AsyncStorage) {
     }
   };
 
-  const clearStorage = async () => {
+  const testClearingStorage = async () => {
     try {
       tests.clear();
       await storage.clear();
@@ -117,6 +117,88 @@ export function useBasicTest(storage: AsyncStorage) {
         await storage.getAllKeys(),
         "should return single value"
       );
+    } catch (e) {
+      tests.report(e);
+    }
+  };
+
+  const testRemoveNonExistentKeys = async () => {
+    try {
+      tests.clear();
+      await storage.clear();
+
+      const missingKeys = ["missing1", "missing2"];
+      tests.info(`Attempting to remove non-existent keys: ${missingKeys}`);
+      await storage.removeMany(missingKeys);
+      tests.assert(
+        [],
+        await storage.getAllKeys(),
+        "Removing missing keys is safe"
+      );
+    } catch (e) {
+      tests.report(e);
+    }
+  };
+
+  const testConcurrentSetAndGet = async () => {
+    try {
+      tests.clear();
+      await storage.clear();
+
+      const key1 = "concurrent1";
+      const key2 = "concurrent2";
+      const key3 = "concurrent3";
+      const key4 = "concurrent4";
+      const key5 = "concurrent5";
+
+      tests.info("Setting multiple keys concurrently");
+      await Promise.all([
+        storage.setItem(key1, key1),
+        storage.setItem(key2, key2),
+        storage.setItem(key3, key3),
+        storage.setItem(key4, key4),
+        storage.setItem(key5, key5),
+      ]);
+
+      const values = await storage.getMany([key1, key2, key3, key4, key5]);
+      tests.assert(
+        {
+          [key1]: key1,
+          [key2]: key2,
+          [key3]: key3,
+          [key4]: key4,
+          [key5]: key5,
+        },
+        values,
+        "Concurrent set/get works"
+      );
+    } catch (e) {
+      tests.report(e);
+    }
+  };
+
+  const testLargeNumberOfKeys = async () => {
+    try {
+      tests.clear();
+      await storage.clear();
+
+      const entries: Record<string, string> = {};
+      for (let i = 0; i < 1000; i++) {
+        entries[`key-${i}`] = `value-${i}`;
+      }
+
+      tests.info("Saving 1000 keys at once");
+      await storage.setMany(entries);
+
+      const keys = await storage.getAllKeys();
+      tests.assert(
+        Object.keys(entries).sort(),
+        keys.sort(),
+        "All keys are stored"
+      );
+
+      const fetched = await storage.getMany(Object.keys(entries));
+      tests.assert(entries, fetched, "All values match");
     } catch (e) {
       tests.report(e);
     }
@@ -136,11 +218,23 @@ export function useBasicTest(storage: AsyncStorage) {
       },
       {
         name: "Big data set",
-        run: saveBigData,
+        run: testSavingBigData,
       },
       {
         name: "Storage clearance",
-        run: clearStorage,
+        run: testClearingStorage,
+      },
+      {
+        name: "Safe removal",
+        run: testRemoveNonExistentKeys,
+      },
+      {
+        name: "Concurrent set and get",
+        run: testConcurrentSetAndGet,
+      },
+      {
+        name: "Test large number of keys",
+        run: testLargeNumberOfKeys,
       },
     ],
   };
