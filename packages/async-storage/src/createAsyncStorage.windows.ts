@@ -32,19 +32,18 @@ class LegacyAsyncStorageImpl implements AsyncStorage {
 
   getItem = async (key: string): Promise<string | null> => {
     try {
-      return await new Promise((resolve, reject) => {
+      return await new Promise<string | null>((resolve, reject) => {
         this.db.multiGet([key], (errors, result) => {
-          if (errors?.length) {
-            const error = errors[0]!;
-            reject(
+          const error = this.getError(errors);
+          if (error) {
+            return reject(
               AsyncStorageError.jsError(
                 error.message,
                 AsyncStorageError.Type.OtherStorageError
               )
             );
-          } else {
-            resolve(result?.[0]?.[1] ?? null);
           }
+          resolve(result?.[0]?.[1] ?? null);
         });
       });
     } catch (e) {
@@ -54,7 +53,20 @@ class LegacyAsyncStorageImpl implements AsyncStorage {
 
   setItem = async (key: string, value: string): Promise<void> => {
     try {
-      throw new Error("todo");
+      await new Promise<void>((resolve, reject) => {
+        this.db.multiSet([[key, value]], (errors) => {
+          const error = this.getError(errors);
+          if (error) {
+            return reject(
+              AsyncStorageError.jsError(
+                error.message,
+                AsyncStorageError.Type.OtherStorageError
+              )
+            );
+          }
+          resolve();
+        });
+      });
     } catch (e) {
       throw AsyncStorageError.nativeError(e);
     }
@@ -62,7 +74,20 @@ class LegacyAsyncStorageImpl implements AsyncStorage {
 
   removeItem = async (key: string): Promise<void> => {
     try {
-      throw new Error("todo");
+      await new Promise<void>((resolve, reject) => {
+        this.db.multiRemove([key], (errors) => {
+          const error = this.getError(errors);
+          if (error) {
+            return reject(
+              AsyncStorageError.jsError(
+                error.message,
+                AsyncStorageError.Type.OtherStorageError
+              )
+            );
+          }
+          resolve();
+        });
+      });
     } catch (e) {
       throw AsyncStorageError.nativeError(e);
     }
@@ -70,7 +95,25 @@ class LegacyAsyncStorageImpl implements AsyncStorage {
 
   getMany = async (keys: string[]): Promise<Record<string, string | null>> => {
     try {
-      throw new Error("todo");
+      return await new Promise((resolve, reject) => {
+        this.db.multiGet(keys, (errors, result) => {
+          const error = this.getError(errors);
+          if (error) {
+            return reject(
+              AsyncStorageError.jsError(
+                error.message,
+                AsyncStorageError.Type.OtherStorageError
+              )
+            );
+          }
+          const resultMap = new Map(result);
+          const entries: Record<string, string | null> = {};
+          for (const key of keys) {
+            entries[key] = resultMap.get(key) ?? null;
+          }
+          resolve(entries);
+        });
+      });
     } catch (e) {
       throw AsyncStorageError.nativeError(e);
     }
@@ -78,7 +121,20 @@ class LegacyAsyncStorageImpl implements AsyncStorage {
 
   setMany = async (entries: Record<string, string>): Promise<void> => {
     try {
-      throw new Error("todo");
+      await new Promise<void>((resolve, reject) => {
+        this.db.multiSet(Object.entries(entries), (errors) => {
+          const error = this.getError(errors);
+          if (error) {
+            return reject(
+              AsyncStorageError.jsError(
+                error.message,
+                AsyncStorageError.Type.OtherStorageError
+              )
+            );
+          }
+          resolve();
+        });
+      });
     } catch (e) {
       throw AsyncStorageError.nativeError(e);
     }
@@ -86,7 +142,20 @@ class LegacyAsyncStorageImpl implements AsyncStorage {
 
   removeMany = async (keys: string[]): Promise<void> => {
     try {
-      throw new Error("todo");
+      await new Promise<void>((resolve, reject) => {
+        this.db.multiRemove(keys, (errors) => {
+          const error = this.getError(errors);
+          if (error) {
+            return reject(
+              AsyncStorageError.jsError(
+                error.message,
+                AsyncStorageError.Type.OtherStorageError
+              )
+            );
+          }
+          resolve();
+        });
+      });
     } catch (e) {
       throw AsyncStorageError.nativeError(e);
     }
@@ -94,7 +163,29 @@ class LegacyAsyncStorageImpl implements AsyncStorage {
 
   getAllKeys = async (): Promise<string[]> => {
     try {
-      throw new Error("todo");
+      return await new Promise((resolve, reject) => {
+        this.db.getAllKeys((errors, result) => {
+          const error = this.getError(errors);
+          if (error) {
+            return reject(
+              AsyncStorageError.jsError(
+                error.message,
+                AsyncStorageError.Type.OtherStorageError
+              )
+            );
+          }
+          if (!result) {
+            return reject(
+              AsyncStorageError.jsError(
+                "Invalid state, no error and no values returned",
+                AsyncStorageError.Type.UnknownError
+              )
+            );
+          }
+
+          resolve(result);
+        });
+      });
     } catch (e) {
       throw AsyncStorageError.nativeError(e);
     }
@@ -102,10 +193,40 @@ class LegacyAsyncStorageImpl implements AsyncStorage {
 
   clear = async (): Promise<void> => {
     try {
-      throw new Error("todo");
+      await new Promise<void>((resolve, reject) => {
+        this.db.clear((errors) => {
+          const error = this.getError(errors);
+          if (error) {
+            return reject(
+              AsyncStorageError.jsError(
+                error.message,
+                AsyncStorageError.Type.OtherStorageError
+              )
+            );
+          }
+          resolve();
+        });
+      });
     } catch (e) {
       throw AsyncStorageError.nativeError(e);
     }
+  };
+
+  private getError = (potentialError: any): ErrorLike | null => {
+    if (!potentialError) {
+      return null;
+    }
+
+    if (Array.isArray(potentialError) && potentialError.length) {
+      const firstError = potentialError.find((e): e is ErrorLike => e?.message);
+      if (firstError) {
+        return firstError;
+      }
+      return null;
+    } else if (potentialError?.message) {
+      return potentialError;
+    }
+    return null;
   };
 }
 
@@ -141,7 +262,7 @@ interface NativeAsyncStorageSpec extends TurboModule {
     callback: (error?: ErrorLike[]) => void
   ) => void;
   getAllKeys: (
-    callback: (error?: ErrorLike[], result?: [string, string][]) => void
+    callback: (error?: ErrorLike[], result?: string[]) => void
   ) => void;
   clear: (callback: (error?: ErrorLike[]) => void) => void;
 }
