@@ -45,6 +45,8 @@ const BasicTests: React.FC<Props> = ({ storage }) => {
         await storage.getMany(keysToFetch)
       );
 
+      addLog(`all keys: `, await storage.getAllKeys());
+
       addLog(`removing ${key}`);
       await storage.removeItem(key);
       addLog(`current ${key} value:`, await storage.getItem(key));
@@ -93,9 +95,7 @@ const BasicTests: React.FC<Props> = ({ storage }) => {
   const saveBigData = async () => {
     try {
       const key = "big-data";
-      const data = JSON.stringify(
-        new Array(500_000).fill("a")
-      );
+      const data = JSON.stringify(new Array(500_000).fill("a"));
       addLog(`Saving ${key} with data size ${data.length}`);
       const timeNow = +Date.now();
       await storage.setItem(key, data);

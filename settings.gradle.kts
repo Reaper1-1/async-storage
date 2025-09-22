@@ -34,4 +34,4 @@ dependencyResolutionManagement {
 plugins { id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0" }
 
 include(":shared-storage")
-include(":examples:example-compose")
+include(":examples:compose")

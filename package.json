@@ -32,8 +32,9 @@
     "packages/async-storage",
     "packages/eslint-config",
     "packages/website",
-    "examples/example-react-native",
-    "examples/example-web"
+    "examples/react-native",
+    "examples/web",
+    "examples/common-tests"
   ],
   "dependencies": {
     "vite": "^7.1.5"
