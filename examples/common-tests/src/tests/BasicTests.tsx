@@ -1,114 +1,130 @@
 import type { AsyncStorage } from "@react-native-async-storage/async-storage";
-import { useLogs, type TestLogs } from "../useLogs";
-import type { RunTest } from "../types";
+import { useTests } from "../useTests";
 
-export function useBasicTest(storage: AsyncStorage): {
-  logs: TestLogs;
-  tests: RunTest[];
-} {
-  const logs = useLogs();
+export function useBasicTest(storage: AsyncStorage) {
+  const tests = useTests();
 
   const testSingleSetCrudKey = async () => {
     try {
-      logs.clear();
+      tests.clear();
+      tests.info("clearing storage");
+      await storage.clear();
       const key = "single-set";
       let value = `value-${Math.round(Math.random() * 1000)}`;
-
-      logs.add(`setting ${key} with value ${value}`);
+      tests.info(`setting ${key} with value ${value}`);
       await storage.setItem(key, value);
-      logs.add(`stored ${key} value:`, await storage.getItem(key));
+      tests.assert(value, await storage.getItem(key), "retrieves stored value");
 
       let keysToFetch = [key, "missing-key-1", "missing-key-2"];
-      logs.add(
-        `fetching keys (${keysToFetch}): `,
-        await storage.getMany(keysToFetch)
+      tests.assert(
+        { [key]: value, "missing-key-1": null, "missing-key-2": null },
+        await storage.getMany(keysToFetch),
+        "fetches requested values"
       );
 
-      logs.add(`all keys: `, await storage.getAllKeys());
+      tests.assert([key], await storage.getAllKeys(), "reads all stored keys");
 
-      logs.add(`removing ${key}`);
+      tests.info(`removing ${key}`);
       await storage.removeItem(key);
-      logs.add(`current ${key} value:`, await storage.getItem(key));
+      tests.assert(
+        null,
+        await storage.getItem(key),
+        `removes stored value for ${key}`
+      );
 
       value = `value-${Math.round(Math.random() * 1000)}`;
-      logs.add(`Saving new ${key} value: ${value}`);
+      tests.info(`Saving new ${key} value: ${value}`);
       await storage.setItem(key, value);
-      logs.add(`current ${key} value:`, await storage.getItem(key));
+      tests.assert(value, await storage.getItem(key), `saved value ${value}`);
 
       value = `value-${Math.round(Math.random() * 1000)}`;
-      logs.add(`Overriding n ${key} value: ${value}`);
+      tests.info(`Overriding n ${key} value: ${value}`);
       await storage.setItem(key, value);
-      logs.add(`current ${key} value:`, await storage.getItem(key));
+      tests.assert(
+        value,
+        await storage.getItem(key),
+        `Overriding n ${key} value: ${value}`
+      );
 
-      keysToFetch = [key, "missing-key-1", "missing-key-2"];
-      logs.add(
-        `fetching keys (${keysToFetch}): `,
-        await storage.getMany(keysToFetch)
+      keysToFetch = [key, "miss1", "miss2"];
+      tests.assert(
+        { [key]: value, miss1: null, miss2: null },
+        await storage.getMany(keysToFetch),
+        `final values keys for keys: ${keysToFetch}`
       );
     } catch (e) {
-      logs.report(e);
+      tests.report(e);
     }
   };
 
   const testMultiKey = async () => {
     try {
-      logs.clear();
+      tests.clear();
+      await storage.clear();
       const entries = { key1: "value1", key2: "42", key3: "true" };
-      logs.add("MultiSet test with entries:", entries);
-      await storage.setMany(entries);
-      logs.add("fetching keys", ["key1", "key2", "key3", "missing"]);
-      const values = await storage.getMany(["key1", "key2", "key3", "missing"]);
-      logs.add("result", values);
+      tests.assert(
+        undefined,
+        await storage.setMany(entries),
+        "MultiSet test with entries"
+      );
 
-      logs.add("removing key1 and key2");
+      tests.assert(
+        { ...entries, missing: null },
+        await storage.getMany(["key1", "key2", "key3", "missing"]),
+        "read stored values"
+      );
+
+      tests.info("removing key1 and key2");
       await storage.removeMany(["key1", "key2"]);
       const remainingKeys = await storage.getAllKeys();
-      logs.add("remaining keys after removing:", remainingKeys);
+      tests.assert(["key3"], remainingKeys, "Should be one key left");
 
       const final = await storage.getMany(remainingKeys);
-      logs.add("get many remaining values:", final);
+      tests.assert({ key3: "true" }, final, "value is still there");
     } catch (e) {
-      logs.report(e);
+      tests.report(e);
     }
   };
 
   const saveBigData = async () => {
     try {
-      logs.clear();
+      tests.clear();
       const key = "big-data";
       const data = JSON.stringify(new Array(500_000).fill("a"));
-      logs.add(`Saving ${key} with data size ${data.length}`);
+      tests.info(`Saving ${key} with data size ${data.length}`);
       const timeNow = +Date.now();
       await storage.setItem(key, data);
-      logs.add(`saving took ${+Date.now() - timeNow}ms`);
+      tests.info(`saving took ${+Date.now() - timeNow}ms`);
 
-      logs.add(`reading ${key}`);
+      tests.info(`reading ${key}`);
       const res = await storage.getItem(key);
-      logs.add(`size of result: ${res?.length}`);
+      tests.assert(res?.length, data.length, "restored data is same size");
     } catch (e) {
-      logs.report(e);
+      tests.report(e);
     }
   };
 
   const clearStorage = async () => {
     try {
-      logs.clear();
-      logs.add("Currently stored keys: ", await storage.getAllKeys());
+      tests.clear();
+      await storage.clear();
+      tests.assert([], await storage.getAllKeys(), "should be empty storage");
 
-      logs.add("deleting everything");
-      storage.clear();
-      logs.add("keys after deletion: ", await storage.getAllKeys());
-      logs.add("saving some values");
-
-      await storage.setItem("key-after-delete", "my item");
-      logs.add("keys after saving: ", await storage.getAllKeys());
+      tests.info("saving some values");
+      await storage.setItem("i should be here", "my item");
+      tests.assert(
+        ["i should be here"],
+        await storage.getAllKeys(),
+        "should return single value"
+      );
     } catch (e) {
-      logs.report(e);
+      tests.report(e);
     }
   };
 
   return {
-    logs,
+    logs: tests.logs,
+    clearLogs: tests.clear,
     tests: [
       {
         name: "Single key set",

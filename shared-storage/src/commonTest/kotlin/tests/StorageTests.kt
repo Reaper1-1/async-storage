@@ -32,7 +32,7 @@ class SharedStorageTest : TestRunner() {
     @Test
     fun `performs basic crud operation`() = runTest {
         var data = storage.getValues(listOf("key1", "key2"))
-        assertEquals(0, data.size)
+        assertEquals(2, data.size, "not returned requested items")
 
         val entry1 = Entry("key1", "value1")
         val entry2 = Entry("key2", "value2")
@@ -42,8 +42,11 @@ class SharedStorageTest : TestRunner() {
 
         storage.removeValues(listOf("key2"))
         data = storage.getValues(listOf("key1", "key2"))
-        assertEquals(1, data.size)
+        assertEquals(2, data.size)
         assertEquals("key1", data.first().key)
+        assertEquals("value1", data.first().value)
+        assertEquals(data[1].key, "key2")
+        assertNull(data[1].value, "value 2 not removed")
     }
 
     @Test
@@ -98,24 +101,26 @@ class SharedStorageTest : TestRunner() {
     }
 
     @Test
-    fun `returns only existing entries`() = runTest {
+    fun `returns all requested entries`() = runTest {
         val testValues =
             listOf(Entry("key1", "value1"), Entry("key2", "value2"), Entry("key3", "value3"))
         val result = storage.setValues(testValues)
         assertEquals(3, result.size)
 
-        assertEquals(0, storage.getValues(listOf("nonex1", "nonex2")).size)
+        assertEquals(2, storage.getValues(listOf("nonex1", "nonex2")).size)
+        assertEquals(listOf(null, null), storage.getValues(listOf("nonex1", "nonex2")).map { it.value })
 
         val values =
             storage.getValues(listOf("key1", "key2", "key3", "not existing", "diff key", "key4"))
-        assertEquals(3, values.size)
+        assertEquals(6, values.size)
     }
 
     @Test
-    fun `emits values when updating them`() = runTest {
+    fun `emits values when updating`() = runTest {
         val original = Entry("original", "one")
         storage.getValuesFlow(listOf(original.key)).test {
-            assertEquals(0, awaitItem().size)
+            val item =
+                assertEquals(1, awaitItem().size, "initial value should be 1")
 
             storage.setValues(listOf(original))
             var items = awaitItem()
@@ -124,12 +129,13 @@ class SharedStorageTest : TestRunner() {
 
             storage.setValues(listOf(original.copy(value = "two")))
             items = awaitItem()
-            assertEquals(1, items.size)
+            assertEquals(1, items.size, "size not matching after set")
             assertEquals("two", items.first().value)
 
             storage.removeValues(listOf(original.key))
             items = awaitItem()
-            assertEquals(0, items.size)
+            assertEquals(1, items.size, "should be 1, as requested")
+            assertEquals(null, items.first()?.value, "value not removed")
 
             storage.setValues(listOf(original.copy(value = "three")))
             items = awaitItem()
@@ -178,7 +184,7 @@ class SharedStorageTest : TestRunner() {
     }
 
     @Test
-    fun `returns requested values, even if not existing`() = runTest {
+    fun `returns requested values even if not existing`() = runTest {
         val entry1 = Entry("key1", "value1")
         val result = storage.setValues(listOf(entry1))
         assertEquals(entry1, result.first())

@@ -7,7 +7,7 @@ type Props = {
 };
 
 const BasicTests: React.FC<Props> = ({ storage }) => {
-  const { tests, logs } = useBasicTest(storage);
+  const { tests, clearLogs, logs } = useBasicTest(storage);
 
   return (
     <div className="flex flex-col items-center px-4">
@@ -27,7 +27,7 @@ const BasicTests: React.FC<Props> = ({ storage }) => {
 
       <div className="w-full flex justify-end max-w-1/4 mt-2">
         <button
-          onClick={logs.clear}
+          onClick={clearLogs}
           className="w-[90px] px-3 py-2 rounded hover:bg-blue-100"
         >
           clear logs
@@ -35,9 +35,12 @@ const BasicTests: React.FC<Props> = ({ storage }) => {
       </div>
 
       <div className="flex flex-col gap-3 overflow-y-auto mt-4">
-        {logs.logs.map((l, i) => (
-          <p key={i} className="text-sm">
-            {l}
+        {logs.map((l, i) => (
+          <p
+            key={i}
+            className={`text-sm ${l.type === "ok" ? "text-green-500" : ""} ${l.type === "err" ? "text-red-500" : ""}`}
+          >
+            {l.message}
           </p>
         ))}
       </div>

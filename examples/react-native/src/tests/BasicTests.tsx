@@ -8,7 +8,7 @@ type Props = {
 };
 
 const BasicTests: React.FC<Props> = ({ storage }) => {
-  const { tests, logs } = useBasicTest(storage);
+  const { tests, logs, clearLogs } = useBasicTest(storage);
 
   return (
     <View style={{ paddingHorizontal: 16, flex: 1 }}>
@@ -22,7 +22,7 @@ const BasicTests: React.FC<Props> = ({ storage }) => {
 
       <View style={{ width: "100%", alignItems: "flex-end" }}>
         <Pressable
-          onPress={logs.clear}
+          onPress={clearLogs}
           style={({ pressed }) => [
             {
               padding: 12,
@@ -36,9 +36,15 @@ const BasicTests: React.FC<Props> = ({ storage }) => {
       </View>
 
       <ScrollView contentContainerStyle={{ gap: 12 }}>
-        {logs.logs.map((l, i) => (
-          <Text style={{ fontSize: 14 }} key={i}>
-            {l}
+        {logs.map((l, i) => (
+          <Text
+            style={{
+              fontSize: 14,
+              color: l.type === "ok" ? "green" : l.type === "err" ? "red" : "",
+            }}
+            key={i}
+          >
+            {l.message}
           </Text>
         ))}
       </ScrollView>
