@@ -1,19 +1,16 @@
 import type { AsyncStorage } from "@react-native-async-storage/async-storage";
 import { useLogs, type TestLogs } from "../useLogs";
-
-type Test = {
-  run: () => void;
-  name: string;
-};
+import type { RunTest } from "../types";
 
 export function useBasicTest(storage: AsyncStorage): {
   logs: TestLogs;
-  tests: Test[];
+  tests: RunTest[];
 } {
   const logs = useLogs();
 
   const testSingleSetCrudKey = async () => {
     try {
+      logs.clear();
       const key = "single-set";
       let value = `value-${Math.round(Math.random() * 1000)}`;
 
@@ -55,6 +52,7 @@ export function useBasicTest(storage: AsyncStorage): {
 
   const testMultiKey = async () => {
     try {
+      logs.clear();
       const entries = { key1: "value1", key2: "42", key3: "true" };
       logs.add("MultiSet test with entries:", entries);
       await storage.setMany(entries);
@@ -76,6 +74,7 @@ export function useBasicTest(storage: AsyncStorage): {
 
   const saveBigData = async () => {
     try {
+      logs.clear();
       const key = "big-data";
       const data = JSON.stringify(new Array(500_000).fill("a"));
       logs.add(`Saving ${key} with data size ${data.length}`);
@@ -93,6 +92,7 @@ export function useBasicTest(storage: AsyncStorage): {
 
   const clearStorage = async () => {
     try {
+      logs.clear();
       logs.add("Currently stored keys: ", await storage.getAllKeys());
 
       logs.add("deleting everything");

@@ -44,6 +44,7 @@
     "@types/react": "^19.0.0",
     "@types/react-test-renderer": "^19.0.0",
     "eslint": "9.34.0",
+    "example-common-tests": "workspace:*",
     "jest": "^29.6.3",
     "prettier": "3.6.2",
     "react-native-test-app": "^4.4.7",
