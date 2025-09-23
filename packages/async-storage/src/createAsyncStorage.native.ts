@@ -90,7 +90,7 @@ class AsyncStorageImpl implements AsyncStorage {
 
   clear = async (): Promise<void> => {
     try {
-      return await this.db.clearStorage(this.dbName);
+      await this.db.clearStorage(this.dbName);
     } catch (e) {
       throw AsyncStorageError.nativeError(e);
     }
@@ -186,7 +186,7 @@ class LegacyAsyncStorageImpl implements AsyncStorage {
 
   clear = async (): Promise<void> => {
     try {
-      return await this.db.legacy_clear();
+      await this.db.legacy_clear();
     } catch (e) {
       throw AsyncStorageError.nativeError(e);
     }

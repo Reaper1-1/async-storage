@@ -76,7 +76,7 @@ class AsyncStorageWebImpl implements AsyncStorage {
 
   clear = async (): Promise<void> => {
     try {
-      return await this.db.clearStorage();
+      await this.db.clearStorage();
     } catch (e) {
       throw this.createError(e);
     }
