@@ -1,7 +1,13 @@
 import { useState } from "react";
 import isEqual from "lodash.isequal";
 
-type Log = { type: "info" | "ok" | "err"; message: string };
+type Log = { type: "info" | "ok" | "err"; messages: string[] };
+
+export type TestRunner = {
+  logs: Log[];
+  clearLogs: () => void;
+  tests: { name: string; run: (() => void) | (() => Promise<void>) }[];
+};
 
 type TestValue =
   | string
@@ -15,16 +21,25 @@ type TestValue =
 export function useTests() {
   const [logs, setLogs] = useState<Log[]>([]);
 
-  function addLog(message: string) {
-    setLogs((l) => [...l, { type: "info", message }]);
+  function addLog(message: string | string[]) {
+    setLogs((l) => [
+      ...l,
+      { type: "info", messages: Array.isArray(message) ? message : [message] },
+    ]);
   }
 
-  function addErr(message: string) {
-    setLogs((l) => [...l, { type: "err", message }]);
+  function addErr(message: string | string[]) {
+    setLogs((l) => [
+      ...l,
+      { type: "err", messages: Array.isArray(message) ? message : [message] },
+    ]);
   }
 
-  function addOk(message: string) {
-    setLogs((l) => [...l, { type: "ok", message }]);
+  function addOk(message: string | string[]) {
+    setLogs((l) => [
+      ...l,
+      { type: "ok", messages: Array.isArray(message) ? message : [message] },
+    ]);
   }
 
   function clearLog() {
@@ -32,7 +47,11 @@ export function useTests() {
   }
 
   function reportError(e: any) {
-    alert(JSON.stringify(e, null, 2));
+    if (e instanceof Error) {
+      alert(e.name + "\n" + e.message);
+    } else {
+      alert(JSON.stringify(e, null, 2));
+    }
   }
 
   function assertEqual(
@@ -41,11 +60,18 @@ export function useTests() {
     testName: string
   ) {
     if (!isEqual(expected, actual)) {
-      addErr(
-        `${testName} failed: | Expected: ${JSON.stringify(expected)} | Actual: ${JSON.stringify(actual)}`
-      );
+      addErr([
+        `failed: ${testName}`,
+        `expected:`,
+        `${JSON.stringify(expected)}`,
+        `actual:`,
+        `${JSON.stringify(actual)}`,
+      ]);
+      const error = new Error(testName);
+      error.name = "assertion failed";
+      throw error;
     } else {
-      addOk(`${testName} | Actual: ${JSON.stringify(actual)}`);
+      addOk([testName, `result: ${JSON.stringify(actual)}`]);
     }
   }
 
