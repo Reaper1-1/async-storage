@@ -15,7 +15,7 @@ class IndexedDBStorage {
       const result = await Promise.all(
         keys.map(async (key) => {
           const entry = await store.get(key);
-          return { key, value: entry || null };
+          return { key, value: entry ?? null };
         })
       );
 
