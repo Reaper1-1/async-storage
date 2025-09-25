@@ -38,6 +38,11 @@ export class AsyncStorageError extends Error {
   }
 
   static nativeError(e: unknown): AsyncStorageError {
+    // do not override own error
+    if(e instanceof AsyncStorageError) {
+      throw e
+    }
+
     const error = getNativeError(e);
     if (!error) {
       return new AsyncStorageError(

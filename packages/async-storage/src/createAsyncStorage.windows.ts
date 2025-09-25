@@ -50,12 +50,7 @@ class LegacyAsyncStorageImpl implements AsyncStorage {
         this.db.multiGet([key], (errors, result) => {
           const error = this.getError(errors);
           if (error) {
-            return reject(
-              AsyncStorageError.jsError(
-                error.message,
-                AsyncStorageError.Type.OtherStorageError
-              )
-            );
+            return reject(error);
           }
           resolve(result?.[0]?.[1] ?? null);
         });
@@ -71,12 +66,7 @@ class LegacyAsyncStorageImpl implements AsyncStorage {
         this.db.multiSet([[key, value]], (errors) => {
           const error = this.getError(errors);
           if (error) {
-            return reject(
-              AsyncStorageError.jsError(
-                error.message,
-                AsyncStorageError.Type.OtherStorageError
-              )
-            );
+            return reject(error);
           }
           resolve();
         });
@@ -92,12 +82,7 @@ class LegacyAsyncStorageImpl implements AsyncStorage {
         this.db.multiRemove([key], (errors) => {
           const error = this.getError(errors);
           if (error) {
-            return reject(
-              AsyncStorageError.jsError(
-                error.message,
-                AsyncStorageError.Type.OtherStorageError
-              )
-            );
+            return reject(error);
           }
           resolve();
         });
@@ -113,12 +98,7 @@ class LegacyAsyncStorageImpl implements AsyncStorage {
         this.db.multiGet(keys, (errors, result) => {
           const error = this.getError(errors);
           if (error) {
-            return reject(
-              AsyncStorageError.jsError(
-                error.message,
-                AsyncStorageError.Type.OtherStorageError
-              )
-            );
+            return reject(error);
           }
           const resultMap = new Map(result);
           const entries: Record<string, string | null> = {};
@@ -139,12 +119,7 @@ class LegacyAsyncStorageImpl implements AsyncStorage {
         this.db.multiSet(Object.entries(entries), (errors) => {
           const error = this.getError(errors);
           if (error) {
-            return reject(
-              AsyncStorageError.jsError(
-                error.message,
-                AsyncStorageError.Type.OtherStorageError
-              )
-            );
+            return reject(error);
           }
           resolve();
         });
@@ -160,12 +135,7 @@ class LegacyAsyncStorageImpl implements AsyncStorage {
         this.db.multiRemove(keys, (errors) => {
           const error = this.getError(errors);
           if (error) {
-            return reject(
-              AsyncStorageError.jsError(
-                error.message,
-                AsyncStorageError.Type.OtherStorageError
-              )
-            );
+            return reject(error);
           }
           resolve();
         });
@@ -181,12 +151,7 @@ class LegacyAsyncStorageImpl implements AsyncStorage {
         this.db.getAllKeys((errors, result) => {
           const error = this.getError(errors);
           if (error) {
-            return reject(
-              AsyncStorageError.jsError(
-                error.message,
-                AsyncStorageError.Type.OtherStorageError
-              )
-            );
+            return reject(error);
           }
           if (!result) {
             return reject(
@@ -211,12 +176,7 @@ class LegacyAsyncStorageImpl implements AsyncStorage {
         this.db.clear((errors) => {
           const error = this.getError(errors);
           if (error) {
-            return reject(
-              AsyncStorageError.jsError(
-                error.message,
-                AsyncStorageError.Type.OtherStorageError
-              )
-            );
+            return reject(error);
           }
           resolve();
         });
