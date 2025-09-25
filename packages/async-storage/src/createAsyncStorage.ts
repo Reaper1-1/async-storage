@@ -2,6 +2,18 @@ import type { AsyncStorage } from "./AsyncStorage";
 import { AsyncStorageError } from "./AsyncStorageError";
 import IndexedDBStorage from "./web-module/IndexedDBStorage";
 
+/**
+ * Creates a new AsyncStorage instance bound to a given database name.
+ * @param databaseName - The name of the database to open or create.
+ */
+export function createAsyncStorage(databaseName: string): AsyncStorage {
+  return new AsyncStorageWebImpl(databaseName);
+}
+
+/**
+ * AsyncStorage implementation for web using IndexedDB.
+ * Each instance operates on its own IndexedDB database.
+ */
 class AsyncStorageWebImpl implements AsyncStorage {
   private db: IndexedDBStorage;
 
@@ -93,14 +105,20 @@ class AsyncStorageWebImpl implements AsyncStorage {
   }
 }
 
-export function createAsyncStorage(databaseName: string): AsyncStorage {
-  return new AsyncStorageWebImpl(databaseName);
-}
 
+/**
+ * Returns a singleton instance of the legacy (v2) web AsyncStorage implementation.
+ *
+ * ⚠️ Usage is discouraged. This is provided only as a migration path to v3.
+ */
 export function getLegacyStorage(): AsyncStorage {
   return LegacyAsyncStorageWebImpl.instance;
 }
 
+/**
+ * Legacy AsyncStorage implementation, backed by LocalStorage Web API.
+ * Singleton to ensure consistent state across calls.
+ */
 class LegacyAsyncStorageWebImpl implements AsyncStorage {
   private constructor() {}
   static instance = new LegacyAsyncStorageWebImpl();

@@ -3,13 +3,27 @@ import { AsyncStorageError } from "./AsyncStorageError";
 import { TurboModuleRegistry, type TurboModule } from "react-native";
 
 /**
- * Because of missing support for Windows native target by Room KMP,
- * Windows target uses v2 implementation of AsyncStorage.
+ * Due to Windows native target not being supported by Room KMP,
+ * custom storages are not available. Instead, this module falls back
+ * to the legacy v2 AsyncStorage implementation.
+ */
+let warned = false;
+
+/**
+ * Creates an AsyncStorage instance.
+ * On Windows, always falls back to legacy storage.
  */
 export function createAsyncStorage(_: string): AsyncStorage {
+  if (!warned && __DEV__) {
+    warned = true;
+    console.warn(
+      "[AsyncStorage] Warning: Creating custom storages is not supported on Windows. Falling back to the legacy implementation."
+    );
+  }
   return getLegacyStorage();
 }
 
+/** Returns a singleton instance of the legacy (v2) AsyncStorage implementation. */
 export function getLegacyStorage(): AsyncStorage {
   return LegacyAsyncStorageImpl.instance;
 }
@@ -231,10 +245,10 @@ class LegacyAsyncStorageImpl implements AsyncStorage {
 }
 
 /**
- *
- * This is a backward compatibility layer, to support Windows target in v3.
- * Room KMP does not support Windows native target currently, so shared-storage cannot be used.
- * https://issuetracker.google.com/issues/363195546
+ * Backward compatibility layer to support the Windows target in v3.
+ * Room KMP does not currently support the Windows native target,
+ * so shared-storage cannot be used on Windows.
+ * See: https://issuetracker.google.com/issues/363195546
  */
 const RNCAsyncStorage =
   TurboModuleRegistry.get<NativeAsyncStorageSpec>("RNCAsyncStorage");

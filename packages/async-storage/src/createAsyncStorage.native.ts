@@ -4,10 +4,18 @@ import NativeAsyncStorage, {
 } from "./native-module/NativeAsyncStorage";
 import { AsyncStorageError } from "./AsyncStorageError";
 
+/**
+ * Creates a new AsyncStorage instance bound to a given database name.
+ * @param databaseName - The name of the database to open or create.
+ */
 export function createAsyncStorage(databaseName: string): AsyncStorage {
   return new AsyncStorageImpl(databaseName);
 }
 
+/**
+ * AsyncStorage implementation backed by the shared-storage module.
+ * Each instance operates on a separate database identified by `dbName`.
+ */
 class AsyncStorageImpl implements AsyncStorage {
   constructor(private readonly dbName: string) {}
 
@@ -98,13 +106,18 @@ class AsyncStorageImpl implements AsyncStorage {
 }
 
 /**
- * This is a proxy to old storage implementation, to help with migration to v3.
- * Usage is highly discouraged and should be used only as a measure to transition v3.
+ * Returns a singleton instance of the legacy (v2) AsyncStorage implementation.
+ *
+ * ⚠️ Usage is discouraged. This is provided only as a migration path to v3.
  */
 export function getLegacyStorage(): AsyncStorage {
   return LegacyAsyncStorageImpl.instance;
 }
 
+/**
+ * Legacy AsyncStorage implementation, backed by the old native module API.
+ * Singleton to ensure consistent state across calls.
+ */
 class LegacyAsyncStorageImpl implements AsyncStorage {
   private constructor() {}
 
