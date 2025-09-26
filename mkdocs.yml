@@ -3,7 +3,24 @@ repo_url: https://github.com/react-native-async-storage/async-storage
 site_url: https://react-native-async-storage.github.io/
 
 nav:
-  - Introduction: index.md
+  - Overview: index.md
+  - Installation: Installation.md
+  - Usage: Usage.md
+  - API: API.md
+  - Advanced:
+      - Next Storage: advanced/Next.md
+      - Backup: advanced/Backup.md
+      - Brownfield Integration: advanced/BrownfieldIntegration.md
+      - Dedicated Executor: advanced/DedicatedExecutor.md
+      - Increase Database Size: advanced/IncreaseDbSize.md
+      - Jest integration: advanced/Jest-integration.md
+      - Where data is stored: advanced/Where-data-stored.md
+      - Known limits: advanced/Limits.md
+  - Debugging:
+      - Community packages: debugging/communityPackages.md
+  - Help:
+      - Troubleshooting: help/Troubleshooting.md
+
 
 theme:
   name: material
@@ -14,9 +31,7 @@ theme:
   favicon: assets/logo.png
   icon:
     repo: fontawesome/brands/github
-  feature:
-    - navigation.tabs
-    - navigation.footer
+  features:
     - content.code.copy
 
 extra_css:
