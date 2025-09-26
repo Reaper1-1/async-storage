@@ -1,44 +1,80 @@
 # React Native Async Storage
 
-An asynchronous, unencrypted, persistent, key-value storage system for React
-Native.
+Async Storage is asynchronous, unencrypted, persistent, key-value storage for your React Native application.  
+It provides a simple API compatible with the [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API), with a few extensions for batch operations and multi-database support.
+
+---
 
 ## Supported platforms
 
-- Android
-- iOS
-- [macOS](https://github.com/react-native-async-storage/async-storage/releases/tag/v1.8.1)
-- [visionOS](https://github.com/react-native-async-storage/async-storage/releases/tag/v1.22.0)
-- [Web](https://github.com/react-native-async-storage/async-storage/releases/tag/v1.9.0)
-- [Windows](https://github.com/react-native-async-storage/async-storage/releases/tag/v1.10.0)
+- **Android** (SQLite backend via Room KMP)
+- **iOS** (SQLite backend via Room KMP)
+- **Web** (IndexedDB backend)
+- **macOS** (SQLite backend via Room KMP)
+- **Windows** (legacy fallback, single database only)
 
-## Getting Started
+---
 
-Head over to the
-[documentation](https://react-native-async-storage.github.io/async-storage/docs/install)
-to learn more.
+## Installation
 
-## Running E2E locally
+```shell
+# using npm
+npm install @react-native-async-storage/async-storage
 
-### Android
+# using yarn
+yarn add @react-native-async-storage/async-storage
+```
 
-1. Create and start Android Emulator with Play services, API level 29
-2. Build app and run tests
-   ```shell
-   yarn bundle:android
-   yarn build:e2e:android
-   yarn test:e2e:android
-   ```
+On iOS/macOS, don’t forget to install pods:
 
-### iOS
+```shell
+# inside macos/ios directory
+pod install
+```
 
-1. Create and start iPhone 14 simulator with iOS version 16.4
-2. Build app and run tests
-   ```shell
-   yarn bundle:ios
-   yarn build:e2e:ios
-   yarn test:e2e:ios
-   ```
+## Usage
+
+### Basic
+
+```typescript
+import { createAsyncStorage } from "@react-native-async-storage/async-storage";
+
+// Create a storage instance
+const storage = createAsyncStorage("appDB");
+
+async function demo() {
+  // save value under "userToken" key
+  await storage.setItem("userToken", "abc123");
+
+  // read value stored at "userToken" key
+  const token = await storage.getItem("userToken");
+  console.log("Stored token:", token);
+
+  // remove value from storage
+  await storage.removeItem("userToken");
+}
+```
+
+### Multi-item operations
+
+Async Storage supports batch operations for efficiency:
+
+```typescript
+async function demo() {
+  // save multiple values at once
+  await storage.setMany({
+    theme: "dark",
+    language: "en",
+  });
+
+  // Retrieve multiple values
+  const values = await storage.getMany(["theme", "language", "different"]);
+  console.log(values); // { theme: "dark", language: "en", different: null }
+
+  // Remove multiple values
+  await storage.removeMany(["theme", "language"]);
+}
+```
 
 ## Contribution
 
