@@ -9,8 +9,8 @@
   "updateInternalDependencies": "patch",
   "ignore": [
     "@react-native-async-storage/eslint-config",
-    "async-storage-website",
     "example-react-native",
-    "example-web"
+    "example-web",
+    "example-common-tests"
   ]
 }
