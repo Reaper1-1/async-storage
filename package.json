@@ -14,7 +14,9 @@
     "test:ts": "turbo run test:ts",
     "test:format": "prettier --check --loglevel warn $(git ls-files '*.js' '*.json' '*.ts' '*.tsx' '*.yml' 'README.md')",
     "release:version": "./.github/scripts/setup-ci-git-user.sh && changeset version",
-    "release:publish": "./.github/scripts/setup-ci-git-user.sh && changeset publish"
+    "release:publish": "./.github/scripts/setup-ci-git-user.sh && changeset publish",
+    "docs:serve": "mkdocs serve",
+    "docs:build": "mkdocs build"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.7",

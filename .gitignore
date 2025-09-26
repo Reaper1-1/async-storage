@@ -50,3 +50,6 @@ captures
 .turbo
 /packages/*/lib
 build/
+
+# mkdocs
+site/

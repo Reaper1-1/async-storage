@@ -1,0 +1,46 @@
+site_name: Async Storage
+repo_url: https://github.com/react-native-async-storage/async-storage
+site_url: https://react-native-async-storage.github.io/
+
+nav:
+  - Introduction: index.md
+
+theme:
+  name: material
+  palette:
+    primary: custom
+    accent: custom
+  logo: assets/logo.png
+  favicon: assets/logo.png
+  icon:
+    repo: fontawesome/brands/github
+  feature:
+    - navigation.tabs
+    - navigation.footer
+    - content.code.copy
+
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - admonition
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - toc:
+      permalink: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      name: Async Storage
+      link: https://github.com/react-native-async-storage/async-storage
+  version:
+    provider: mike

@@ -1,0 +1,42 @@
+name: Deploy docs
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+      - 'CHANGELOG.md'
+  workflow_dispatch:
+jobs:
+  deploy-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          token: ${{ secrets.GH_BOT_TOKEN }}
+      - uses: actions/setup-python@v6
+        with:
+          python-version: 3.11
+      - name: Install MkDocs
+        run: pip install --no-deps -r .github/requirements.txt
+      - name: Copy changelog
+        run: |
+          cp packages/async-storage/CHANGELOG.md docs/changelog.md
+      - name: Setup git user
+        run: ./setup-ci-git-user.sh
+        working-directory: ./.github/scripts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
+          GITHUB_NAME: ${{ vars.GH_BOT_NAME }}
+          GITHUB_EMAIL: ${{ vars.GH_BOT_EMAIL }}
+          GIT_SET_GLOBAL_USER: true
+      - name: Build docs
+        run: mkdocs build
+      - name: Deploy docs
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: site
+          token: ${{ secrets.GH_BOT_TOKEN }}
+          git-config-name: ${{ vars.GH_BOT_NAME }}
+          git-config-email: ${{ vars.GH_BOT_EMAIL }}

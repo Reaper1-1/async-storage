@@ -1,0 +1,19 @@
+:root {
+  --md-primary-fg-color: #32b982;
+  --md-primary-fg-color--light: #4dcca0;
+  --md-primary-fg-color--dark: #24986b;
+
+  --md-accent-fg-color: #ff7a59;
+  --md-accent-fg-color--light: #ff9c85;
+  --md-accent-fg-color--dark: #cc6046;
+}
+
+a.md-header__button.md-logo {
+    padding: 0;
+    margin: 0;
+}
+
+.md-header__button.md-logo img {
+  height: 48px; /* adjust as needed */
+  width: auto; /* keep aspect ratio */
+}
