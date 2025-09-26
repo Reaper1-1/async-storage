@@ -6,7 +6,7 @@ on:
     paths:
       - 'docs/**'
       - 'mkdocs.yml'
-      - 'CHANGELOG.md'
+      - 'packages/async-storage/CHANGELOG.md'
   workflow_dispatch:
 jobs:
   deploy-docs:
@@ -18,25 +18,27 @@ jobs:
       - uses: actions/setup-python@v6
         with:
           python-version: 3.11
-      - name: Install MkDocs
-        run: pip install --no-deps -r .github/requirements.txt
-      - name: Copy changelog
+      - name: Read docs version
+        id: version
         run: |
-          cp packages/async-storage/CHANGELOG.md docs/changelog.md
+          VERSION_DOCS=$(node -p "require('./package.json').versionDocs || ''")
+          echo "versionDocs=$VERSION_DOCS" >> $GITHUB_OUTPUT
+      - name: Prepare MkDocs
+        run: |
+          pip install --no-deps -r .github/requirements.txt
+          .github/scripts/prepare-mkdocs.sh
+      # required for mike
       - name: Setup git user
         run: ./setup-ci-git-user.sh
-        working-directory: ./.github/scripts
+        working-directory: .github/scripts
         env:
           GITHUB_TOKEN: ${{ secrets.GH_RELEASE_TOKEN }}
           GITHUB_NAME: ${{ vars.GH_BOT_NAME }}
           GITHUB_EMAIL: ${{ vars.GH_BOT_EMAIL }}
           GIT_SET_GLOBAL_USER: true
-      - name: Build docs
-        run: mkdocs build
-      - name: Deploy docs
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: site
-          token: ${{ secrets.GH_BOT_TOKEN }}
-          git-config-name: ${{ vars.GH_BOT_NAME }}
-          git-config-email: ${{ vars.GH_BOT_EMAIL }}
+      # required for mike
+      - name: Setup gh-pages remote
+        run: |
+          git remote add docs https://github.com/react-native-async-storage/react-native-async-storage.github.io.git
+      - name: Deploy Docs with mike
+        run: mike deploy -u -r docs --push ${{ steps.version.outputs.versionDocs }} latest

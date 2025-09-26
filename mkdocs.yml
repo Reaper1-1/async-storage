@@ -4,6 +4,7 @@ site_url: https://react-native-async-storage.github.io/
 
 nav:
   - Overview: index.md
+  - Changelog: changelog.md
 
 
 theme:
