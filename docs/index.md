@@ -1,3 +1,7 @@
+---
+title: Overview
+---
+
 # Async Storage
 
 Async Storage is asynchronous, unencrypted, persistent, key-value storage for your React Native application.  
@@ -34,12 +38,10 @@ pod install
 
 ## Usage
 
-### Basic
-
 ```typescript
 import { createAsyncStorage } from "@react-native-async-storage/async-storage";
 
-// Create a storage instance
+// create a storage instance
 const storage = createAsyncStorage("appDB");
 
 async function demo() {
@@ -48,30 +50,11 @@ async function demo() {
 
   // read value stored at "userToken" key
   const token = await storage.getItem("userToken");
-  console.log("Stored token:", token);
+  console.log("Stored token:", token); // abc123
 
   // remove value from storage
   await storage.removeItem("userToken");
 }
 ```
 
-### Multi-item operations
-
-Async Storage supports batch operations for efficiency:
-
-```typescript
-async function demo() {
-  // save multiple values at once
-  await storage.setMany({
-    theme: "dark",
-    language: "en",
-  });
-
-  // Retrieve multiple values
-  const values = await storage.getMany(["theme", "language", "different"]);
-  console.log(values); // { theme: "dark", language: "en", different: null }
-
-  // Remove multiple values
-  await storage.removeMany(["theme", "language"]);
-}
-```
+Head over to [Usage page](api/usage.md) to learn more.

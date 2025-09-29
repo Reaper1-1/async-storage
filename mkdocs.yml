@@ -4,6 +4,10 @@ site_url: https://react-native-async-storage.github.io/
 
 nav:
   - Overview: index.md
+  - API:
+      - Usage: api/usage.md
+      - 'Error handling': api/errors.md
+  - 'Migration to v3': migration-to-3.md
   - Changelog: changelog.md
 
 
