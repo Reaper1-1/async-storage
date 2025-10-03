@@ -3,11 +3,11 @@ import SharedAsyncStorage
 
 
 @objc
-public class PersistentStorage: NSObject {
+public class RNStorage: NSObject {
     private let db: SharedStorage
-
-    init(databaseName: String) {
-        db = SharedStorage(context: PlatformContext.Instance(), databaseName: databaseName)
+    
+    init(db: SharedStorage) {
+        self.db = db
     }
 
     @objc

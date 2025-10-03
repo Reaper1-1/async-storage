@@ -1,6 +1,5 @@
 package org.asyncstorage.storage
 
-import android.content.Context
 import com.facebook.react.bridge.Arguments
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReadableArray
@@ -20,17 +19,12 @@ private val createStorageScope = { name: String ->
     CoroutineScope(SupervisorJob() + CoroutineName(name))
 }
 
-/**
- * todo:
- * - handle exceptions via coroutine exception handler or via try catch
- */
-class PersistentStorage(
-    ctx: Context,
+class RNStorage(
+    private val db: SharedStorage,
     dbName: String,
     coroutineContext: CoroutineContext = EmptyCoroutineContext,
 ) {
     private val scope = createStorageScope(dbName) + coroutineContext
-    private val db = SharedStorage(ctx, dbName)
 
     fun get(rnKeys: ReadableArray, promise: Promise) =
         scope.lunchWithRejection(promise) {
@@ -65,7 +59,7 @@ class PersistentStorage(
         }
 }
 
-private fun <T> CoroutineScope.lunchWithRejection(promise: Promise, block: suspend () -> T): Unit {
+private fun <T> CoroutineScope.lunchWithRejection(promise: Promise, block: suspend () -> T) {
     launch {
         try {
             block()

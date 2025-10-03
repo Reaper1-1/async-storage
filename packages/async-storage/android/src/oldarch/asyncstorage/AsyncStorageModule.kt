@@ -19,27 +19,27 @@ class AsyncStorageModule(private val reactContext: ReactApplicationContext) :
 
     @ReactMethod
     fun getValues(db: String, keys: ReadableArray, promise: Promise) {
-        StorageRegistry.getOrCreate(reactContext, db).run { get(keys, promise) }
+        StorageRegistry.getRNStorage(reactContext, db).run { get(keys, promise) }
     }
 
     @ReactMethod
     fun setValues(db: String, values: ReadableArray, promise: Promise) {
-        StorageRegistry.getOrCreate(reactContext, db).run { set(values, promise) }
+        StorageRegistry.getRNStorage(reactContext, db).run { set(values, promise) }
     }
 
     @ReactMethod
     fun removeValues(db: String, keys: ReadableArray, promise: Promise) {
-        StorageRegistry.getOrCreate(reactContext, db).run { remove(keys, promise) }
+        StorageRegistry.getRNStorage(reactContext, db).run { remove(keys, promise) }
     }
 
     @ReactMethod
     fun getKeys(db: String, promise: Promise) {
-        StorageRegistry.getOrCreate(reactContext, db).run { allKeys(promise) }
+        StorageRegistry.getRNStorage(reactContext, db).run { allKeys(promise) }
     }
 
     @ReactMethod
     fun clearStorage(db: String, promise: Promise) {
-        StorageRegistry.getOrCreate(reactContext, db).run { clear(promise) }
+        StorageRegistry.getRNStorage(reactContext, db).run { clear(promise) }
     }
 
     @ReactMethod

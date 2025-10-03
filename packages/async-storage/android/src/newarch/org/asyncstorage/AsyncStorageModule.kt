@@ -16,23 +16,23 @@ class AsyncStorageModule(private val reactContext: ReactApplicationContext) :
     override fun getName() = NAME
 
     override fun getValues(db: String, keys: ReadableArray, promise: Promise) {
-        StorageRegistry.getOrCreate(reactContext, db).run { get(keys, promise) }
+        StorageRegistry.getRNStorage(reactContext, db).run { get(keys, promise) }
     }
 
     override fun setValues(db: String, values: ReadableArray, promise: Promise) {
-        StorageRegistry.getOrCreate(reactContext, db).run { set(values, promise) }
+        StorageRegistry.getRNStorage(reactContext, db).run { set(values, promise) }
     }
 
     override fun removeValues(db: String, keys: ReadableArray, promise: Promise) {
-        StorageRegistry.getOrCreate(reactContext, db).run { remove(keys, promise) }
+        StorageRegistry.getRNStorage(reactContext, db).run { remove(keys, promise) }
     }
 
     override fun getKeys(db: String, promise: Promise) {
-        StorageRegistry.getOrCreate(reactContext, db).run { allKeys(promise) }
+        StorageRegistry.getRNStorage(reactContext, db).run { allKeys(promise) }
     }
 
     override fun clearStorage(db: String, promise: Promise) {
-        StorageRegistry.getOrCreate(reactContext, db).run { clear(promise) }
+        StorageRegistry.getRNStorage(reactContext, db).run { clear(promise) }
     }
 
     override fun legacy_multiGet(keys: ReadableArray, promise: Promise) {
