@@ -13,11 +13,14 @@ Similar to Web, AsyncStorage deals with data that should be already serialized (
 
 To create a new storage, call `createAsyncStorage` with your database name:
 
+!!! note "About naming"
+
+    It's best to avoid adding an extensions to the name. Read more at [Database naming](db-naming.md) section.
+
 ```typescript
 import { createAsyncStorage } from "@react-native-async-storage/async-storage";
 
-// any name is fine, you can even add an extension!
-const userStorage = createAsyncStorage("john.db");
+const userStorage = createAsyncStorage("john");
 ```
 
 This returns an instance of `AsyncStorage` and each instance is uniquely identified by the name you provide.
