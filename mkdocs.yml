@@ -8,6 +8,7 @@ nav:
       - Usage: api/usage.md
       - 'Database naming': api/db-naming.md
       - 'Error handling': api/errors.md
+      - 'Brownfield integration': api/brownfield.md
   - 'Migration to v3': migration-to-3.md
   - Changelog: changelog.md
 
