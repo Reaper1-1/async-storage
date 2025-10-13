@@ -1,4 +1,4 @@
-import { TestRunner } from "example-common-tests";
+import type { TestRunner } from "example-common-tests";
 import React from "react";
 import { Button, Pressable, ScrollView, Text, View } from "react-native";
 

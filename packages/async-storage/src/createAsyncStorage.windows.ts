@@ -16,6 +16,7 @@ let warned = false;
 export function createAsyncStorage(_: string): AsyncStorage {
   if (!warned && __DEV__) {
     warned = true;
+    // eslint-disable-next-line
     console.warn(
       "[AsyncStorage] Warning: Creating custom storages is not supported on Windows. Falling back to the legacy implementation."
     );

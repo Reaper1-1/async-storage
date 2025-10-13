@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { useState } from "react";
 import isEqual from "lodash.isequal";
 import { AsyncStorageError } from "@react-native-async-storage/async-storage";
@@ -49,10 +50,13 @@ export function useTests() {
 
   function reportError(e: any) {
     if (e instanceof AsyncStorageError) {
+      // @ts-ignore
       alert("AsyncStorageError" + "\n" + `type: ${e.type}` + "\n" + e.message);
     } else if (e instanceof Error) {
+      // @ts-ignore
       alert(e.name + "\n" + e.message);
     } else {
+      // @ts-ignore
       alert(JSON.stringify(e, null, 2));
     }
   }
