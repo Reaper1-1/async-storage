@@ -36,7 +36,6 @@ build_apple() {
   echo "👷 Assembling apple shared-storage"
   ./gradlew :$MODULE_NAME:$APPLE_BUILD_TASK
 
-
   echo "recreate Frameworks dir"
   rm -rf $APPLE_RN_OUTPUT_DIR
   mkdir $APPLE_RN_OUTPUT_DIR

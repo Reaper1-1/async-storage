@@ -1,6 +1,32 @@
 # Development Guide
 
+## shared-storage
 
+The **shared-storage** module is a **Kotlin Multiplatform (KMP)** library that encapsulates the storage logic.
+It is used as the core backend for android and apple platforms.
+
+### Android
+
+Android's `shared-storage` is distributed via maven local repo, which is then consumed by React Native module.
+To build the sdk, run:
+
+```shell
+yarn build:android
+```
+
+The artifact is then moved to `packages/async-storage/android/local_repo` for distribution.
+
+### Apple (iOS/macOS)
+
+`shared-storage` for apple platforms is distributed as `xcframework` containing both Debug and Release binaries.
+
+To build it:
+
+```shell
+yarn build:apple
+```
+
+The artifact is then moved to `packages/async-storage/apple/Frameworks` for distribution.
 
 ## Documentation
 
@@ -38,8 +64,3 @@ Run `mike deploy` to deploy docs and mark them as latest:
 ```shell
 mike deploy -u -r docs --push DOCS_VERSION_FROM_PCK_JSON latest
 ```
-
-
-
-
-
