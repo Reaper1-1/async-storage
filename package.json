@@ -37,8 +37,5 @@
     "examples/react-native",
     "examples/web",
     "examples/common-tests"
-  ],
-  "dependencies": {
-    "vite": "^7.1.5"
-  }
+  ]
 }

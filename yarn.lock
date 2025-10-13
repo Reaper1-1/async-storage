@@ -3056,7 +3056,6 @@ __metadata:
     prettier: "npm:3.6.2"
     turbo: "npm:2.5.6"
     typescript: "npm:5.9.2"
-    vite: "npm:^7.1.5"
   languageName: unknown
   linkType: soft
 
@@ -14052,7 +14051,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:7.1.5, vite@npm:^7.1.5":
+"vite@npm:7.1.5":
   version: 7.1.5
   resolution: "vite@npm:7.1.5"
   dependencies:
