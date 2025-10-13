@@ -4,9 +4,9 @@ on:
     branches:
       - main
     paths:
-      - 'docs/**'
-      - 'mkdocs.yml'
-      - 'packages/async-storage/CHANGELOG.md'
+      - "docs/**"
+      - "mkdocs.yml"
+      - "packages/async-storage/CHANGELOG.md"
   workflow_dispatch:
 jobs:
   deploy-docs:

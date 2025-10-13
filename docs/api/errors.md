@@ -7,24 +7,20 @@ This class extends the standard `Error` class, by adding a `type` property to he
 
 The error type is an enum `AsyncStorageError.Type` with the following possible values:
 
-
 ### NativeModuleError
 
 Raised when the RN native module itself fails — for example,
 the module is null at app startup, or not initialized correctly.
-
 
 ### WebStorageError
 
 Web only, when an IndexedDB operation fails.
 [See IndexedDB error codes](https://developer.mozilla.org/en-US/docs/Web/API/IDBRequest/error.
 
-
 ### SqliteStorageError
 
 Raised when SQLite itself fails on iOS, macOS, or Android.
 [See SQLite error codes](https://www.sqlite.org/rescode.html).
-
 
 ### OtherStorageError
 
@@ -38,14 +34,16 @@ Examples include:
 - Legacy storage exceptions (any error thrown by v2 implementation falls here)
 
 ### UnknownError
-A catch-all for cases where the system cannot classify the error.
 
+A catch-all for cases where the system cannot classify the error.
 
 ## Example of error handling
 
-
 ```typescript
-import { createAsyncStorage, AsyncStorageError } from "@react-native-async-storage/async-storage";
+import {
+  createAsyncStorage,
+  AsyncStorageError,
+} from "@react-native-async-storage/async-storage";
 
 const storage = createAsyncStorage("user");
 

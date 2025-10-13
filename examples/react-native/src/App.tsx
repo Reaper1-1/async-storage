@@ -56,7 +56,9 @@ function App(): React.JSX.Element {
             case "legacy-basic":
               return <BasicTests key={example} storageName={null} />;
             case "perf":
-              return <PerformanceTests key={example} storageName="test-db-storage" />;
+              return (
+                <PerformanceTests key={example} storageName="test-db-storage" />
+              );
             case "legacy-perf":
               return <PerformanceTests key={example} storageName={null} />;
           }

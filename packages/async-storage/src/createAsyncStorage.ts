@@ -105,7 +105,6 @@ class AsyncStorageWebImpl implements AsyncStorage {
   }
 }
 
-
 /**
  * Returns a singleton instance of the legacy (v2) web AsyncStorage implementation.
  *

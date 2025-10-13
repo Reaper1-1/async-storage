@@ -22,9 +22,7 @@
         ],
         "primaryKey": {
           "autoGenerate": false,
-          "columnNames": [
-            "key"
-          ]
+          "columnNames": ["key"]
         }
       }
     ],

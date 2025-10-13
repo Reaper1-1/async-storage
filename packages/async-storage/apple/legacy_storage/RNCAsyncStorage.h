@@ -24,7 +24,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface RNCAsyncStorage : NSObject<RCTInvalidating>
+@interface RNCAsyncStorage : NSObject <RCTInvalidating>
 
 @property (nonatomic, assign) BOOL clearOnInvalidate;
 
@@ -43,11 +43,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable NSDictionary<NSString *, NSString *> *)multiGet:(NSArray<NSString *> *)keys
                                                       error:(NSError **)error;
 
-- (BOOL)multiSet:(NSArray<NSArray<NSString *> *> *)kvPairs
-           error:(NSError **)error;
+- (BOOL)multiSet:(NSArray<NSArray<NSString *> *> *)kvPairs error:(NSError **)error;
 
-- (BOOL)multiRemove:(NSArray<NSString *> *)keys
-              error:(NSError **)error;
+- (BOOL)multiRemove:(NSArray<NSString *> *)keys error:(NSError **)error;
 
 - (nullable NSArray<NSString *> *)getAllKeys:(NSError **)error;
 

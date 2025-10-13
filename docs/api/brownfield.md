@@ -28,7 +28,6 @@ runBlocking {
 }
 ```
 
-
 ### iOS / macOS
 
 On iOS/macOS, the `StorageRegistry` singleton provides the same functionality in Swift/Objc.

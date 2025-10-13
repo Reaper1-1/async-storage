@@ -6,13 +6,12 @@ nav:
   - Overview: index.md
   - API:
       - Usage: api/usage.md
-      - 'Database naming': api/db-naming.md
-      - 'Error handling': api/errors.md
-      - 'Brownfield integration': api/brownfield.md
-  - 'Migration to v3': migration-to-3.md
+      - "Database naming": api/db-naming.md
+      - "Error handling": api/errors.md
+      - "Brownfield integration": api/brownfield.md
+  - "Migration to v3": migration-to-3.md
   - Contributing: contributing.md
   - Changelog: changelog.md
-
 
 theme:
   name: material

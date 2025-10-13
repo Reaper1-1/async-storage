@@ -426,11 +426,12 @@ RCTStorageDirectoryMigrationCheck(NSString *fromStorageDirectory,
     return NO;
 }
 
-+ (instancetype)sharedInstance {
++ (instancetype)sharedInstance
+{
     static RNCAsyncStorage *sharedInstance = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        sharedInstance = [[RNCAsyncStorage alloc] init];
+      sharedInstance = [[RNCAsyncStorage alloc] init];
     });
     return sharedInstance;
 }
@@ -666,7 +667,6 @@ RCTStorageDirectoryMigrationCheck(NSString *fromStorageDirectory,
     callback(@[RCTNullIfNil(errors), result]);
 }
 
-
 #pragma mark - Async Storage main functions
 
 // clang-format off
@@ -683,29 +683,26 @@ RCTStorageDirectoryMigrationCheck(NSString *fromStorageDirectory,
         }
         return nil;
     }
-    
+
     NSMutableDictionary<NSString *, NSString *> *results = [NSMutableDictionary dictionary];
     for (NSString *key in keys) {
         NSDictionary *keyError = nil;
         NSString *value = [self _getValueForKey:key errorOut:&keyError];
-        
+
         if (keyError) {
             if (error) {
-                *error = [NSError errorWithDomain:@"AsyncStorageError"
-                                             code:1
-                                         userInfo:keyError];
+                *error = [NSError errorWithDomain:@"AsyncStorageError" code:1 userInfo:keyError];
             }
             return nil;
         }
 
         results[key] = value ?: (NSString *)[NSNull null];
     }
-    
+
     return [results copy];
 }
 
-- (BOOL)multiSet:(NSArray<NSArray<NSString *> *> *)kvPairs
-           error:(NSError **)error;
+- (BOOL)multiSet:(NSArray<NSArray<NSString *> *> *)kvPairs error:(NSError **)error;
 {
     NSDictionary *ensureSetupErrorOut = [self _ensureSetup];
     if (ensureSetupErrorOut) {
@@ -725,21 +722,20 @@ RCTStorageDirectoryMigrationCheck(NSString *fromStorageDirectory,
     if (changedManifest) {
         [self _writeManifest:&errors];
     }
-    
-    if(errors.count > 0) {
+
+    if (errors.count > 0) {
         if (error) {
             *error = [NSError errorWithDomain:@"AsyncStorageError"
                                          code:1
-                                     userInfo:@{ @"errors": errors }];
+                                     userInfo:@{@"errors": errors}];
         }
         return NO;
     }
-    
+
     return YES;
 }
 
-- (BOOL)multiRemove:(NSArray<NSString *> *)keys
-              error:(NSError **)error;
+- (BOOL)multiRemove:(NSArray<NSString *> *)keys error:(NSError **)error;
 
 {
     NSDictionary *ensureSetupErrorOut = [self _ensureSetup];
@@ -771,16 +767,16 @@ RCTStorageDirectoryMigrationCheck(NSString *fromStorageDirectory,
     if (changedManifest) {
         [self _writeManifest:&errors];
     }
-    
+
     if (errors.count > 0) {
         if (error) {
             *error = [NSError errorWithDomain:@"AsyncStorageError"
                                          code:1
-                                     userInfo:@{ @"errors": errors }];
+                                     userInfo:@{@"errors": errors}];
         }
         return NO;
     }
-    
+
     return YES;
 }
 
@@ -795,12 +791,12 @@ RCTStorageDirectoryMigrationCheck(NSString *fromStorageDirectory,
         }
         return NO;
     }
-    
+
     [_manifest removeAllObjects];
     [RCTGetCache() removeAllObjects];
     NSDictionary *errors = RCTDeleteStorageDirectory();
-    
-    if(errors.count > 0) {
+
+    if (errors.count > 0) {
         return NO;
     } else {
         return YES;
@@ -818,7 +814,7 @@ RCTStorageDirectoryMigrationCheck(NSString *fromStorageDirectory,
         }
         return nil;
     }
-    
+
     NSArray<NSString *> *keys = [_manifest allKeys];
     return keys ?: @[];
 }
