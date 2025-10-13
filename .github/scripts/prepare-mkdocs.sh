@@ -8,3 +8,4 @@
 
 
 cp packages/async-storage/CHANGELOG.md docs/changelog.md
+cp .github/CONTRIBUTING.md docs/contributing.md

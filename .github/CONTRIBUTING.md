@@ -1,22 +1,18 @@
 # Contributing to React Native Async Storage
 
 Thank you for helping out with Async Storage! We'd like to make contributions as
-pleasent as possible, so here's a small guide of how we see it. Happy to hear
+pleasant as possible, so here's a small guide of how we see it. Happy to hear
 your feedback about anything, so please let us know.
 
 ## Tests
 
 We use TypeScript for type check, `eslint` with `prettier` for
-linting/formatting, `jest/detox` for tests (unit and e2e). All tests are run on
-CircleCI for all opened pull requests, but you should use them locally when
+linting/formatting. All tests are run on Github Actions for all opened pull requests, but you should use them locally when
 making changes.
 
-- `yarn test`: Run all tests, except for e2e (see note below).
 - `yarn test:lint`: Run `eslint` check.
 - `yarn test:ts`: Run `tsc` type check.
-- `yarn test:e2e:<ios|android|macos>`: Runs e2e tests. Before you can run it,
-  you should build the app that can be run, by using
-  `yarn build:e2e:<ios|android|macos>`.
+- `yarn test:format`: Run `prettier` check for formatting mistakes.
 
 ## Sending a pull request
 
@@ -65,16 +61,15 @@ Most notably prefixes you'll see:
 
 ## Release process
 
-We use [Semantic Release](http://semantic-release.org) to automatically release
-new versions of the library when changes are merged into `main` branch, which
-we plan to keep stable. Bug fixes take priority in the release order.
+We use [Changeset](https://github.com/changesets/changesets) to manage releases. 
+In your PR, run `yarn changeset` to create a new changeset, describing your changes.
+The Changeset Bot will help you out during opening a PR.
 
 ## Reporting issues
 
 You can report issues on our
-[bug tracker](https://github.com/react-native-community/react-native-async-storage/issues).
-Please search for existing issues and follow the issue template when opening an
-one.
+[bug tracker](https://github.com/react-native-async-storage/async-storage/issues).
+Please search for existing issues and follow the issue template when opening a one.
 
 ## License
 
