@@ -23,12 +23,12 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [macos-15-xlarge, ubuntu-24.04]
+        os: [macos-latest, ubuntu-24.04]
         testName:
           [cleanTestAndroidHostTest, macosArm64Test, iosSimulatorArm64Test]
         exclude:
           - testName: cleanTestAndroidHostTest
-            os: macos-15-xlarge
+            os: macos-latest
           - testName: macosArm64Test
             os: ubuntu-24.04
           - testName: iosSimulatorArm64Test
