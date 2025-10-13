@@ -8,7 +8,7 @@ jobs:
     outputs:
       changed: ${{ steps.filter.outputs.storage }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: dorny/paths-filter@v3
         id: filter
         with:
@@ -18,37 +18,29 @@ jobs:
               - 'packages/async-storage/**'
 
   android:
-    name: Android
+    name: Android RN
     needs: changes
     if: ${{ needs.changes.outputs.changed == 'true' }}
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Setup project
         uses: ./.github/actions/setup-project
       - name: Install JS dependencies
-        run: |
-          yarn
-      - name: Test Next Storage
-        uses: gradle/gradle-build-action@v2
-        with:
-          gradle-version: wrapper
-          arguments: react-native-async-storage_async-storage:test
-          build-root-directory: packages/async-storage/example/android
-      - name: Build e2e binary
-        run: |
-          yarn build:e2e:android
-        working-directory: packages/async-storage/example
+        run: yarn
+      - name: Bundle JS
+        run: yarn bundle:android
+        working-directory: examples/react-native
 
   ios:
-    name: iOS
+    name: iOS RN
     needs: changes
     if: ${{ needs.changes.outputs.changed == 'true' }}
     runs-on: macos-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Setup project
         uses: ./.github/actions/setup-project
       - name: Cache /.ccache
@@ -58,60 +50,35 @@ jobs:
           key: ccache-ios-${{ hashFiles('yarn.lock') }}
           restore-keys: ccache-ios-
       - name: Install JS dependencies
-        run: |
-          yarn
+        run: yarn
       - name: Bundle JS
-        run: |
-          yarn bundle:ios
-        working-directory: packages/async-storage/example
-      - name: Install Pods
-        run: |
-          RCT_NEW_ARCH_ENABLED=1 pod install
-        working-directory: packages/async-storage/example/ios
-      - name: Build e2e binary
-        run: |
-          yarn build:e2e:ios
-        working-directory: packages/async-storage/example
+        run: yarn bundle:ios
+        working-directory: examples/react-native
 
-  macos:
-    name: macOS
+  macOS:
+    name: macOS RN
     needs: changes
     if: ${{ needs.changes.outputs.changed == 'true' }}
     runs-on: macos-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Setup project
         uses: ./.github/actions/setup-project
       - name: Cache /.ccache
         uses: actions/cache@v3
         with:
           path: packages/async-storage/.ccache
-          key: ccache-macos-${{ hashFiles('yarn.lock') }}
-          restore-keys: ccache-macos-
+          key: ccache-ios-${{ hashFiles('yarn.lock') }}
+          restore-keys: ccache-ios-
       - name: Install JS dependencies
-        run: |
-          yarn
+        run: yarn
       - name: Bundle JS
-        run: |
-          yarn bundle:macos
-        working-directory: packages/async-storage/example
-      - name: Install Pods
-        run: |
-          RCT_NEW_ARCH_ENABLED=1 pod install
-        working-directory: packages/async-storage/example/macos
-      - name: Build
-        run: |
-          yarn build:e2e:macos
-        working-directory: packages/async-storage/example
-      - name: Test
-        if: false
-        run: |
-          yarn test:e2e:macos
-        working-directory: packages/async-storage/example
+        run: yarn bundle:macos
+        working-directory: examples/react-native
 
   windows:
-    name: Windows
+    name: Windows RN
     needs: changes
     if: ${{ needs.changes.outputs.changed == 'true' }}
     runs-on: windows-2022
@@ -121,19 +88,13 @@ jobs:
       - name: Setup VSTest.console.exe
         uses: darenm/Setup-VSTest@v1.2
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Setup project
         uses: ./.github/actions/setup-project
         with:
           windows-fix: true
       - name: Install JS dependencies
-        run: |
-          yarn
-      - name: Install Windows test app
-        run: |
-          yarn install-windows-test-app -p windows
-        working-directory: packages/async-storage/example
-      - name: Build
-        run: |
-          yarn react-native run-windows --release --arch x64 --logging --no-packager --no-launch --no-deploy --msbuildprops "BundleEntryFile=index.ts,UseBundle=false" --no-telemetry
-        working-directory: packages/async-storage/example
+        run: yarn
+      - name: Bundle JS
+        run: yarn bundle:windows
+        working-directory: examples/react-native
