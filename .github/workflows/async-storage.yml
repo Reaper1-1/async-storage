@@ -29,6 +29,8 @@ jobs:
         uses: ./.github/actions/setup-project
       - name: Install JS dependencies
         run: yarn
+      - name: Build async-storage js
+        run: yarn build:js
       - name: Bundle JS
         run: yarn bundle:android
         working-directory: examples/react-native
@@ -51,6 +53,8 @@ jobs:
           restore-keys: ccache-ios-
       - name: Install JS dependencies
         run: yarn
+      - name: Build async-storage js
+        run: yarn build:js
       - name: Bundle JS
         run: yarn bundle:ios
         working-directory: examples/react-native
@@ -73,6 +77,8 @@ jobs:
           restore-keys: ccache-ios-
       - name: Install JS dependencies
         run: yarn
+      - name: Build async-storage js
+        run: yarn build:js
       - name: Bundle JS
         run: yarn bundle:macos
         working-directory: examples/react-native
@@ -95,6 +101,8 @@ jobs:
           windows-fix: true
       - name: Install JS dependencies
         run: yarn
+      - name: Build async-storage js
+        run: yarn build:js
       - name: Bundle JS
         run: yarn bundle:windows
         working-directory: examples/react-native
