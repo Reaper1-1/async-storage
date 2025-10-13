@@ -27,9 +27,9 @@ jobs:
       matrix:
         os: [macos-latest, ubuntu-24.04]
         testName:
-          [cleanTestAndroidHostTest, macosArm64Test, iosSimulatorArm64Test]
+          [testAndroidHostTest, macosArm64Test, iosSimulatorArm64Test]
         exclude:
-          - testName: cleanTestAndroidHostTest
+          - testName: testAndroidHostTest
             os: macos-latest
           - testName: macosArm64Test
             os: ubuntu-24.04
