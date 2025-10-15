@@ -34,7 +34,11 @@
     "!**/__tests__",
     "!**/__fixtures__",
     "!**/__mocks__",
-    "!**/.*"
+    "!**/.*",
+    "!docs",
+    "!examples",
+    "!scripts",
+    "!shared-storage"
   ],
   "dependencies": {
     "idb": "8.0.3"

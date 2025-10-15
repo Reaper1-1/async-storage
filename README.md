@@ -1,9 +1,8 @@
 # React Native Async Storage
 
-Async Storage is asynchronous, unencrypted, persistent, key-value storage for your React Native application.  
-It provides a simple API compatible with the [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API), with a few extensions for batch operations and multi-database support.
+Async Storage is an asynchronous, unencrypted, persistent key-value storage solution for your React Native application.
+It provides a simple API compatible with the [Web Storage API]((https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API)), with additional extensions for batch operations and multi-database support.
 
----
 
 ## Supported platforms
 
@@ -13,19 +12,49 @@ It provides a simple API compatible with the [Web Storage API](https://developer
 - **macOS** (SQLite backend via Room KMP)
 - **Windows** (legacy fallback, single database only)
 
+
+## Supported versions
+
+| Component       | Minimum Version |
+|-----------------|-----------------|
+| React Native    | 0.76            |
+| Kotlin          | 2.1.0           |
+| KSP             | 2.1.0-1.0.28    |
+| Android min sdk | 24              |
+
+
 ---
 
 ## Installation
 
 ```shell
-# using npm
+# Using npm
 npm install @react-native-async-storage/async-storage
 
-# using yarn
+# Using yarn
 yarn add @react-native-async-storage/async-storage
 ```
 
-On iOS/macOS, don’t forget to install pods:
+### Android
+
+Inside your `android/build.gradle(.kts)` file, add link to local maven repo:
+
+```groovy
+allprojects {
+    repositories {
+        // ... others like google(), mavenCentral()
+
+        maven {
+            // or uri("path/to/node_modules/@react-native-async-storage/async-storage/android/local_repo")
+            url = uri(project(":react-native-async-storage_async-storage").file("local_repo"))
+        }
+    }
+}
+```
+
+### iOS/macOS
+
+Install cocoapods dependencies:
 
 ```shell
 # inside macos/ios directory
@@ -34,12 +63,10 @@ pod install
 
 ## Usage
 
-### Basic
-
 ```typescript
 import { createAsyncStorage } from "@react-native-async-storage/async-storage";
 
-// Create a storage instance
+// create a storage instance
 const storage = createAsyncStorage("appDB");
 
 async function demo() {
@@ -48,40 +75,15 @@ async function demo() {
 
   // read value stored at "userToken" key
   const token = await storage.getItem("userToken");
-  console.log("Stored token:", token);
+  console.log("Stored token:", token); // abc123
 
   // remove value from storage
   await storage.removeItem("userToken");
 }
 ```
 
-### Multi-item operations
+Head over to [Usage page](api/usage.md) to learn more.
 
-Async Storage supports batch operations for efficiency:
-
-```typescript
-async function demo() {
-  // save multiple values at once
-  await storage.setMany({
-    theme: "dark",
-    language: "en",
-  });
-
-  // Retrieve multiple values
-  const values = await storage.getMany(["theme", "language", "different"]);
-  console.log(values); // { theme: "dark", language: "en", different: null }
-
-  // Remove multiple values
-  await storage.removeMany(["theme", "language"]);
-}
-```
-
-## Contribution
-
-Pull requests are welcome. Please open an issue first to discuss what you would
-like to change.
-
-See the [CONTRIBUTING](.github/CONTRIBUTING.md) file for more information.
 
 ## License
 
