@@ -4,28 +4,28 @@ title: Overview
 
 # Async Storage
 
-Async Storage is asynchronous, unencrypted, persistent, key-value storage for your React Native application.  
-It provides a simple API compatible with the [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API), with a few extensions for batch operations and multi-database support.
+Async Storage is an asynchronous, unencrypted, persistent key-value storage solution for your React Native application.
+It provides a simple API compatible with the [Web Storage API]((https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API)), with additional extensions for batch operations and multi-database support.
 
 ---
 
-## Supported platforms
+## Supported Platforms
 
 - **Android** (SQLite backend via Room KMP)
 - **iOS** (SQLite backend via Room KMP)
 - **Web** (IndexedDB backend)
 - **macOS** (SQLite backend via Room KMP)
-- **Windows** (legacy fallback, single database only)
+- **Windows** (legacy fallback, single-database only)
 
 ---
 
 ## Installation
 
 ```shell
-# using npm
+# Using npm
 npm install @react-native-async-storage/async-storage
 
-# using yarn
+# Using yarn
 yarn add @react-native-async-storage/async-storage
 ```
 
@@ -36,7 +36,7 @@ Inside your `android/build.gradle(.kts)` file, add link to local maven repo:
 ```groovy
 allprojects {
     repositories {
-        // ... others like google(), mavenCenterl()
+        // ... others like google(), mavenCentral()
 
         maven {
             // or uri("path/to/node_modules/@react-native-async-storage/async-storage/android/local_repo")

@@ -1,30 +1,31 @@
 # Error handling
 
-All `AsyncStorage` methods throw a specialized error type, `AsyncStorageError`.
-This class extends the standard `Error` class, by adding a `type` property to help identify the issue.
+All `AsyncStorage` methods throw a specialized error type called `AsyncStorageError`.  
+This class extends the standard `Error` class and adds a `type` property to make it easier to identify the specific
+issue.
 
 ## Error types
 
-The error type is an enum `AsyncStorageError.Type` with the following possible values:
+Errors are categorized using the `AsyncStorageError.Type` enum, which includes the following values:
 
 ### NativeModuleError
 
-Raised when the RN native module itself fails — for example,
-the module is null at app startup, or not initialized correctly.
+Occurs when the React Native native module fails - for example, if the module is null at app startup or not initialized
+correctly.
 
 ### WebStorageError
 
-Web only, when an IndexedDB operation fails.
-[See IndexedDB error codes](https://developer.mozilla.org/en-US/docs/Web/API/IDBRequest/error.
+Occurs on the Web when an IndexedDB operation fails.
+[See IndexedDB error codes](https://developer.mozilla.org/en-US/docs/Web/API/IDBRequest/errori)
 
 ### SqliteStorageError
 
-Raised when SQLite itself fails on iOS, macOS, or Android.
-[See SQLite error codes](https://www.sqlite.org/rescode.html).
+Occurs when SQLite itself fails on iOS, macOS, or Android.
+[See SQLite error codes](https://www.sqlite.org/rescode.html)
 
 ### OtherStorageError
 
-Raised for other storage-related failures that don’t fit into the categories above.
+Used for storage-related failures that don’t fall into the other categories.  
 Examples include:
 
 - Storage not initialized correctly
@@ -35,7 +36,7 @@ Examples include:
 
 ### UnknownError
 
-A catch-all for cases where the system cannot classify the error.
+A catch-all for errors that cannot be classified into any of the defined categories.
 
 ## Example of error handling
 

@@ -1,21 +1,20 @@
 # Migration to v3
 
-AsyncStorage v3 introduces some breaking changes to simplify the API and make it more consistent.
+AsyncStorage v3 introduces a few breaking changes to simplify the API and make it more consistent.
 
 ## Key changes:
 
 ### Installation changes
 
-Android requires local maven repo to be added in your `build.gradle(.kts)` file. Head over to [Installation step for Android](index.md#android) to learn more.
-
+Android requires a local Maven repository to be added to your `build.gradle(.kts)` file. Head over to the [Installation step for Android](index.md#android) to learn more.
 
 ### `AsyncStorage` is now instance-based
 
 In v3, AsyncStorage is no longer a singleton.  
-Each instance represents an **isolated storage area**, providing separation between data sets. Head over to [Usage page](api/usage.md#creating-a-storage) to learn more.
+Each instance represents an **isolated storage area**, providing separation between data sets. Head over to the [Usage page](api/usage.md#creating-a-storage) to learn more.
 
 ```typescript
-// create seperate storages
+// create separate storages
 const userStorage = createAsyncStorage('user');
 const cacheStorage = createAsyncStorage('cache');
 ```
@@ -25,31 +24,51 @@ const cacheStorage = createAsyncStorage('cache');
 To make upgrading smoother, the default export continues to reference the v2 implementation.
 This ensures that:
 
-- Your app continues to access previously stored data.
+- Your app can continue to access previously stored data.
 - You can migrate incrementally to v3 instances.
 
 ```typescript
-// Still works (uses v2 backend)
+// Still works (uses the v2 backend)
 import AsyncStorage from '@react-native-async-storage/async-storage';
 await AsyncStorage.setItem('foo', 'bar');
 ```
 
-### Callbacks removed — Promises only
+### Callbacks removed - Promises only
 
-All methods are now Promise-based.
+All methods are now promise-based.
 The old callback arguments have been removed to make the API simpler and more consistent.
 
 ### Removed merge functionality
 
-AsyncStorage's "merge" behavior has historically been inconsistent across platforms. Rather than enforcing a platform-specific merging strategy, the merge API has been removed to avoid ambiguity.
+AsyncStorage's "merge" behavior has historically been inconsistent across platforms.
+Rather than enforcing a platform-specific merging strategy, the merge API has been removed to avoid ambiguity.
+
+### Removed `useAsyncStorage` hook
+
+The `useAsyncStorage` hook has been removed due to implementation issues.  
+It will be reintroduced in a future release with an improved design.
+
+If you need it, here's the old version:
+
+```typescript
+export function useAsyncStorage(key: string): AsyncStorageHook {
+  return {
+    getItem: (...args) => AsyncStorage.getItem(key, ...args),
+    setItem: (...args) => AsyncStorage.setItem(key, ...args),
+    mergeItem: (...args) => AsyncStorage.mergeItem(key, ...args),
+    removeItem: (...args) => AsyncStorage.removeItem(key, ...args),
+  };
+}
+```
 
 ### Errors are more predictable now
 
-All errors now thrown from `AsyncStorage` are instances of `AsyncStorageError` containing `type` of the error it represents. Head over to [Errors page](api/errors.md) to learn more.
+All errors thrown by `AsyncStorage` are now instances of `AsyncStorageError`, each containing a `type` property that indicates the kind of error.
+For more details, head over to the [Errors page](api/errors.md).
 
 ### Method signature changes
 
-The core methods
+The core methods:
 
 - `getItem`
 - `setItem`
@@ -57,11 +76,11 @@ The core methods
 - `getAllKeys`
 - `clear`
 
-retain their signatures from v2, ensuring backward compatibility.
+retain their signatures as in v2, ensuring backward compatibility.
 
 #### multiGet
 
-Renamed to `getMany` and returns a `Record<string, string | null>`, following a "what you request is what you get" rule: every key you pass in the request appears in the returned object, with `null` for keys that don’t exist in storage.
+Renamed to `getMany`, this method returns a `Record<string, string | null>` and follows a "what you request is what you get" rule: every key provided in the request appears in the returned object, with `null` for keys that don’t exist, or have `null` value, in storage.
 
 ```diff
 -  multiGet: (
@@ -74,7 +93,7 @@ Renamed to `getMany` and returns a `Record<string, string | null>`, following a 
 
 #### multiSet
 
-Renamed to `setMany`, accepts a `Record<string, string>` of key-value entries.
+Renamed to `setMany`, this method accepts a `Record<string, string>` containing key-value pairs.
 
 ```diff
 -  multiSet: (
@@ -87,7 +106,7 @@ Renamed to `setMany`, accepts a `Record<string, string>` of key-value entries.
 
 #### multiRemove
 
-Renamed to `removeMany`, accepts list of keys.
+Renamed to `removeMany`, this method accepts a list of keys to remove.
 
 ```diff
 -  multiRemove: (

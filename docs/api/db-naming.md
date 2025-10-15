@@ -1,13 +1,14 @@
 ## How `databaseName` is used
 
-When creating a new storage instance with `createAsyncStorage(databaseName)`, the provided `databaseName` determines where and how the underlying database file is stored on each platform.
-This ensures that storages are scoped by name and do not leak data between one another.
+When creating a new storage instance with `createAsyncStorage(databaseName)`, the provided `databaseName` determines the
+location and structure of the underlying database file on each platform.  
+This ensures that each storage instance is scoped by name and prevents data from leaking between instances.
 
 ### iOS & macOS
 
-On Apple platforms, the storage is located under the app’s `Application Support` directory.
-The `databaseName` is normalized into a file path with the `.sqlite` extension.
-Each `databaseName` creates its own subdirectory inside `async-storage/databases`.
+On Apple platforms, storage is located in the app’s `Application Support` directory.  
+The `databaseName` is normalized into a file path with the `.sqlite` extension, and each `databaseName` creates its own
+subdirectory inside `async-storage/databases`.
 
 Directory:
 
@@ -33,9 +34,9 @@ createAsyncStorage(`user-${userId}`);
 
 ### Android
 
-On Android, databases are stored inside the app’s internal files directory.
-The `databaseName` is normalized into a file path with the `.sqlite` extension.
-Each `databaseName` creates its own subdirectory inside `async-storage/databases`.
+On Android, databases are stored in the app’s internal files directory.  
+The `databaseName` is normalized into a file path with the `.sqlite` extension, and each `databaseName` creates its own
+subdirectory inside `async-storage/databases`.
 
 Directory:
 
@@ -61,8 +62,8 @@ createAsyncStorage(`user-${userId}`);
 
 ### Web
 
-On Web, `databaseName` corresponds directly to the name of the IndexedDB database.
-The `async-storage` grouping is abstracted away, but the uniqueness of the name is still guaranteed.
+On the Web, `databaseName` corresponds directly to the name of the IndexedDB database.  
+Although the `async-storage` grouping is abstracted away, the name remains unique across instances.
 
 Example:
 
@@ -77,5 +78,5 @@ Creates database named `user-1234`:
 
 ### Windows
 
-On Windows, scoped storages are not supported.
-The API always falls back to the legacy v2 storage implementation, which ignores `databaseName`.
+On the Web, `databaseName` corresponds directly to the name of the IndexedDB database.  
+Although the `async-storage` grouping is abstracted away, the name remains unique across instances.

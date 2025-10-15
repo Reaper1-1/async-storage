@@ -1,15 +1,17 @@
 !!! info
 
-    Brownfield integration is supported on **Android**, **iOS** and **macOS**.
+    Brownfield integration is supported on **Android**, **iOS**, and **macOS**.
 
-`AsyncStorage` is built on a shared storage layer (`SharedStorage`) that can also be accessed directly from native code.
-This is useful in brownfield scenarios, where your app combines React Native and native code, and you want both layers to read/write from the same storage consistently.
+`AsyncStorage` is built on a shared storage layer (`SharedStorage`) that can also be accessed directly from native
+code.  
+This is especially useful in brownfield scenarios, where your app combines React Native and native code, allowing both
+layers to read from and write to the same storage consistently.
 
 All platforms provide a thread-safe singleton registry called `StorageRegistry` to manage storage instances.
 
 ### Android
 
-On Android, `StorageRegistry` is public singleton, which is used to share `SharedStorage` instances with Native module.
+On Android, `StorageRegistry` is a public singleton, which is used to share `SharedStorage` instances with the native module.
 Multiple calls with the same name return the same singleton instance, ensuring consistent access.
 
 ```kotlin
@@ -30,7 +32,7 @@ runBlocking {
 
 ### iOS / macOS
 
-On iOS/macOS, the `StorageRegistry` singleton provides the same functionality in Swift/Objc.
+On iOS and macOS, the `StorageRegistry` singleton provides the same functionality in Swift and Objective-C.
 
 ```swift
 import SharedAsyncStorage
