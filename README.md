@@ -1,7 +1,7 @@
 # React Native Async Storage
 
 Async Storage is an asynchronous, unencrypted, persistent key-value storage solution for your React Native application.
-It provides a simple API compatible with the [Web Storage API]((https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API)), with additional extensions for batch operations and multi-database support.
+It provides a simple API compatible with the [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API), with additional extensions for batch operations and multi-database support.
 
 
 ## Supported platforms

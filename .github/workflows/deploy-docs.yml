@@ -26,7 +26,6 @@ jobs:
       - name: Prepare MkDocs
         run: |
           pip install --no-deps -r .github/requirements.txt
-          .github/scripts/prepare-mkdocs.sh
       # required for mike
       - name: Setup git user
         run: ./setup-ci-git-user.sh

@@ -14,6 +14,13 @@ making changes.
 - `yarn test:ts`: Run `tsc` type check.
 - `yarn test:format`: Run `prettier` check for formatting mistakes.
 
+
+You can also run unit tests for `shared-storage`, using one of gradle task:
+
+- `./gradlew testAndroidHostTest`
+- `./gradlew macosArm64Test`
+- `./gradlew iosSimulatorArm64Test`
+
 ## Sending a pull request
 
 When you're sending a pull request:
