@@ -10,7 +10,6 @@ plugins {
     alias(libs.plugins.skie)
 }
 
-
 /**
  * Windows as native target is not currently supported by Room db.
  * https://issuetracker.google.com/issues/363195546
@@ -41,11 +40,11 @@ kotlin {
     listOf(iosX64(), iosArm64(), iosSimulatorArm64(), macosArm64(), macosX64()).forEach {
         it.binaries.framework {
             baseName = xcfName
+            isStatic = true
             xcf.add(this)
             binaryOption("bundleId", "org.asyncstorage.shared_storage")
         }
     }
-
 
     sourceSets {
         commonMain {

@@ -1,5 +1,6 @@
 #!/bin/sh
 
+set -e
 
 MODULE_NAME="shared-storage"
 RN_MODULE_DIR="packages/async-storage"
@@ -18,31 +19,58 @@ APPLE_RN_OUTPUT_DIR="$RN_MODULE_DIR/apple/Frameworks"
 
 
 build_android() {
-  echo "👷 Assembling android shared-storage"
+  log "👷 Assembling android shared-storage"
   ./gradlew :$MODULE_NAME:$ANDROID_BUILD_TASK
 
-  echo "Publishing binaries to local repo"
+  log "Publishing binaries to local repo"
   ./gradlew :$MODULE_NAME:$ANDROID_PUBLISH_TASK
 
-  echo "Remove old local repo"
+  log "Remove old local repo"
   rm -rf $ANDROID_RN_OUTPUT_DIR/$ANDROID_OUTPUT_NAME
 
-  echo "Moving local repo to RN target"
+  log "Moving local repo to RN target"
   mv $ANDROID_OUTPUT_DIR/$ANDROID_OUTPUT_NAME $ANDROID_RN_OUTPUT_DIR/$ANDROID_OUTPUT_NAME
-  echo "all done"
+
+  log "🚀 all done"
 }
 
 build_apple() {
-  echo "👷 Assembling apple shared-storage"
+  log "👷 Assembling apple shared-storage"
   ./gradlew :$MODULE_NAME:$APPLE_BUILD_TASK
 
-  echo "recreate Frameworks dir"
+  log "recreate Frameworks dir"
   rm -rf $APPLE_RN_OUTPUT_DIR
   mkdir $APPLE_RN_OUTPUT_DIR
 
-  echo "move xcframework to RN module"
+  log "move xcframework to RN module"
   mv $APPLE_OUTPUT_DIR/$APPLE_OUTPUT_NAME $APPLE_RN_OUTPUT_DIR/$APPLE_OUTPUT_NAME
-  echo "all done"
+
+
+  # because osx is using symlinks for versioning, distributing its framework via
+  # npm won't work - compression via tar breaks the link.
+  # therefore this script resolves the symlinks into actual folders, to match
+  # expected structure by macos.
+  MAC_OS_FRAMEWORK="$APPLE_RN_OUTPUT_DIR/SharedAsyncStorage.xcframework/macos-arm64_x86_64/SharedAsyncStorage.framework"
+
+  log "fixing macos symlinks"
+
+  # symlinks
+  rm "$MAC_OS_FRAMEWORK/Headers" "$MAC_OS_FRAMEWORK/Modules" "$MAC_OS_FRAMEWORK/Resources" "$MAC_OS_FRAMEWORK/SharedAsyncStorage"
+
+  cp -r --copy-content "$MAC_OS_FRAMEWORK/Versions/A/Headers" -t "$MAC_OS_FRAMEWORK/"
+  cp -r --copy-content "$MAC_OS_FRAMEWORK/Versions/A/Modules" -t "$MAC_OS_FRAMEWORK/"
+  cp -r --copy-content "$MAC_OS_FRAMEWORK/Versions/A/Resources" -t "$MAC_OS_FRAMEWORK/"
+  cp --copy-content "$MAC_OS_FRAMEWORK/Versions/A/SharedAsyncStorage" -t "$MAC_OS_FRAMEWORK/"
+
+  # clear versions, not needed
+  rm -r "$MAC_OS_FRAMEWORK/Versions"
+
+  log "🚀 all done"
+}
+
+log() {
+  local message="$1"
+  echo "[AsyncStorage] $message"
 }
 
 TARGET=$1
