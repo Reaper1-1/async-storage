@@ -32,7 +32,7 @@ The data in one storage instance is scoped to its name: using different names en
 
 !!! warning "Windows platform"
 
-    As of AsyncStorage v3.0, Windows platform does not support scoped storages. It fallsback to previous implementation - single storage per application.
+    As of AsyncStorage v3.0, Windows platform does not support scoped storages. It falls back to previous implementation - single storage per application.
 
 ## Using a storage
 

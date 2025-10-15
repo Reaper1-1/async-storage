@@ -29,7 +29,26 @@ npm install @react-native-async-storage/async-storage
 yarn add @react-native-async-storage/async-storage
 ```
 
-On iOS/macOS, don’t forget to install pods:
+### Android
+
+Inside your `android/build.gradle(.kts)` file, add link to local maven repo:
+
+```groovy
+allprojects {
+    repositories {
+        // ... others like google(), mavenCenterl()
+
+        maven {
+            // or uri("path/to/node_modules/@react-native-async-storage/async-storage/android/local_repo")
+            url = uri(project(":react-native-async-storage_async-storage").file("local_repo"))
+        }
+    }
+}
+```
+
+### iOS/macOS
+
+Install cocoapods dependencies:
 
 ```shell
 # inside macos/ios directory
