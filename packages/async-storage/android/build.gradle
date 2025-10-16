@@ -1,7 +1,7 @@
 buildscript {
-    ext.getExtOrDefault = { name ->
-        return rootProject.ext.has(name) ? rootProject.ext.get(name) : project.properties['AsyncStorage_' + name]
-    }
+    apply from: "config.gradle"
+    def kotlinVersion = ext.AsyncStorage.kotlinVersion
+    def kspVersion = ext.AsyncStorage.kspVersion
 
     repositories {
         google()
@@ -11,12 +11,13 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:8.7.2"
         // noinspection DifferentKotlinGradleVersion
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${getExtOrDefault('KOTLIN_VERSION')}"
-        classpath "com.google.devtools.ksp:symbol-processing-gradle-plugin:${getExtOrDefault('KSP_VERSION')}"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}"
+        classpath "com.google.devtools.ksp:symbol-processing-gradle-plugin:${kspVersion}"
     }
 }
 
 
+apply from: "config.gradle"
 apply plugin: "com.android.library"
 apply plugin: "kotlin-android"
 apply plugin: "com.facebook.react"
@@ -24,22 +25,15 @@ apply plugin: "com.facebook.react"
 // ksp/room is required to support legacy storage
 apply plugin: 'com.google.devtools.ksp'
 
-def getExtOrDefault(name) {
-    return rootProject.ext.has(name) ? rootProject.ext.get(name) : (project.properties["AsyncStorage_" + name])
-}
-
-def isNewArchitectureEnabled() {
-    return project.hasProperty("newArchEnabled") && project.newArchEnabled == "true"
-}
 
 android {
     namespace "org.asyncstorage"
 
-    compileSdkVersion getExtOrDefault("compileSdkVersion").toInteger()
+    compileSdkVersion project.ext.AsyncStorage.compileSdk
 
     defaultConfig {
-        minSdkVersion getExtOrDefault("minSdkVersion").toInteger()
-        targetSdkVersion getExtOrDefault("targetSdkVersion").toInteger()
+        minSdkVersion project.ext.AsyncStorage.minSdk
+        targetSdkVersion project.ext.AsyncStorage.targetSdk
     }
 
     buildFeatures {
@@ -73,7 +67,7 @@ android {
                     "generated/jni"
             ]
 
-            if (isNewArchitectureEnabled()) {
+            if (project.ext.AsyncStorage.isNewArch) {
                 kotlin.srcDirs += ['src/newarch']
                 java.srcDirs += ['src/newarch']
             } else {
@@ -95,7 +89,7 @@ dependencies {
 
 
     // ksp/room is required to support legacy storage
-    def room_version = getExtOrDefault("ROOM_VERSION")
+    def room_version = project.ext.AsyncStorage.roomVersion
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     ksp "androidx.room:room-compiler:$room_version"
