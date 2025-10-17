@@ -19,7 +19,6 @@ It provides a simple API compatible with the [Web Storage API](https://developer
 |-----------------|-----------------|
 | React Native    | 0.76            |
 | Kotlin          | 2.1.0           |
-| KSP             | 2.1.0-1.0.28    |
 | Android min sdk | 24              |
 
 
@@ -45,8 +44,8 @@ allprojects {
         // ... others like google(), mavenCentral()
 
         maven {
-            // or uri("path/to/node_modules/@react-native-async-storage/async-storage/android/local_repo")
             url = uri(project(":react-native-async-storage_async-storage").file("local_repo"))
+            // or uri("path/to/node_modules/@react-native-async-storage/async-storage/android/local_repo")
         }
     }
 }

@@ -4,9 +4,33 @@ AsyncStorage v3 introduces a few breaking changes to simplify the API and make i
 
 ## Key changes:
 
+### Requirements
+
+Here is the table describing minimum requirements for v3:
+
+| Component       | Minimum Version |
+|-----------------|-----------------|
+| React Native    | 0.76            |
+| Kotlin          | 2.1.0           |
+| Android min sdk | 24              |
+
+
+
 ### Installation changes
 
-Android requires a local Maven repository to be added to your `build.gradle(.kts)` file. Head over to the [Installation step for Android](index.md#android) to learn more.
+Android requires a local Maven repository to be added to your `android/build.gradle(.kts)`:
+```groovy
+allprojects {
+    repositories {
+        // ... others like google(), mavenCentral()
+
+        maven {
+            url = uri(project(":react-native-async-storage_async-storage").file("local_repo"))
+            // or uri("path/to/node_modules/@react-native-async-storage/async-storage/android/local_repo")
+        }
+    }
+}
+```
 
 ### `AsyncStorage` is now instance-based
 
