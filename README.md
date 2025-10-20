@@ -15,11 +15,13 @@ It provides a simple API compatible with the [Web Storage API](https://developer
 
 ## Supported versions
 
-| Component       | Minimum Version |
-|-----------------|-----------------|
-| React Native    | 0.76            |
-| Kotlin          | 2.1.0           |
-| Android min sdk | 24              |
+| Component                | Minimum Version |
+|--------------------------|-----------------|
+| kotlin                   | 2.1.0           |
+| ios/android React Native | 0.76            |
+| android min sdk          | 24              |
+| macOS React Native       | 0.78            |
+| macOS min target         | 12              |
 
 
 ---
