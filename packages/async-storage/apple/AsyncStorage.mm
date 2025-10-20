@@ -6,48 +6,52 @@
 @implementation AsyncStorage
 RCT_EXPORT_MODULE(RNAsyncStorage)
 
-- (void)getValues:(nonnull NSString *)dbName
-             keys:(nonnull NSArray *)keys
-          resolve:(nonnull RCTPromiseResolveBlock)resolve
-           reject:(nonnull RCTPromiseRejectBlock)reject
+RCT_EXPORT_METHOD(getValues
+                  : (nonnull NSString *)dbName keys
+                  : (nonnull NSArray *)keys resolve
+                  : (RCTPromiseResolveBlock)resolve reject
+                  : (RCTPromiseRejectBlock)reject)
 {
-
     RNStorage *db = [StorageRegistry.shared getRNStorageWithDbName:dbName];
     [db getWithKeys:keys resolver:resolve rejecter:reject];
 }
 
-- (void)setValues:(nonnull NSString *)dbName
-           values:(nonnull NSArray<NSDictionary *> *)values
-          resolve:(nonnull RCTPromiseResolveBlock)resolve
-           reject:(nonnull RCTPromiseRejectBlock)reject
+RCT_EXPORT_METHOD(setValues
+                  : (nonnull NSString *)dbName values
+                  : (nonnull NSArray<NSDictionary *> *)values resolve
+                  : (nonnull RCTPromiseResolveBlock)resolve reject
+                  : (nonnull RCTPromiseRejectBlock)reject)
 {
 
     RNStorage *db = [StorageRegistry.shared getRNStorageWithDbName:dbName];
     [db setWithValues:values resolver:resolve rejecter:reject];
 }
 
-- (void)removeValues:(nonnull NSString *)dbName
-                keys:(nonnull NSArray *)keys
-             resolve:(nonnull RCTPromiseResolveBlock)resolve
-              reject:(nonnull RCTPromiseRejectBlock)reject
+RCT_EXPORT_METHOD(removeValues
+                  : (nonnull NSString *)dbName keys
+                  : (nonnull NSArray *)keys resolve
+                  : (nonnull RCTPromiseResolveBlock)resolve reject
+                  : (nonnull RCTPromiseRejectBlock)reject)
 {
 
     RNStorage *db = [StorageRegistry.shared getRNStorageWithDbName:dbName];
     [db removeWithKeys:keys resolver:resolve rejecter:reject];
 }
 
-- (void)clearStorage:(nonnull NSString *)dbName
-             resolve:(nonnull RCTPromiseResolveBlock)resolve
-              reject:(nonnull RCTPromiseRejectBlock)reject
+RCT_EXPORT_METHOD(clearStorage
+                  : (nonnull NSString *)dbName resolve
+                  : (nonnull RCTPromiseResolveBlock)resolve reject
+                  : (nonnull RCTPromiseRejectBlock)reject)
 {
 
     RNStorage *db = [StorageRegistry.shared getRNStorageWithDbName:dbName];
     [db clearWithResolver:resolve rejecter:reject];
 }
 
-- (void)getKeys:(nonnull NSString *)dbName
-        resolve:(nonnull RCTPromiseResolveBlock)resolve
-         reject:(nonnull RCTPromiseRejectBlock)reject
+RCT_EXPORT_METHOD(getKeys
+                  : (nonnull NSString *)dbName resolve
+                  : (nonnull RCTPromiseResolveBlock)resolve reject
+                  : (nonnull RCTPromiseRejectBlock)reject)
 {
 
     RNStorage *db = [StorageRegistry.shared getRNStorageWithDbName:dbName];
@@ -56,9 +60,10 @@ RCT_EXPORT_MODULE(RNAsyncStorage)
 
 #pragma mark - Legacy Storage
 
-- (void)legacy_multiGet:(nonnull NSArray *)keys
-                resolve:(nonnull RCTPromiseResolveBlock)resolve
-                 reject:(nonnull RCTPromiseRejectBlock)reject
+RCT_EXPORT_METHOD(legacy_multiGet
+                  : (nonnull NSArray *)keys resolve
+                  : (nonnull RCTPromiseResolveBlock)resolve reject
+                  : (nonnull RCTPromiseRejectBlock)reject)
 {
     RNCAsyncStorage *legacy = [RNCAsyncStorage sharedInstance];
 
@@ -87,9 +92,10 @@ RCT_EXPORT_MODULE(RNAsyncStorage)
     });
 }
 
-- (void)legacy_multiSet:(nonnull NSArray *)kvPairs
-                resolve:(nonnull RCTPromiseResolveBlock)resolve
-                 reject:(nonnull RCTPromiseRejectBlock)reject
+RCT_EXPORT_METHOD(legacy_multiSet
+                  : (nonnull NSArray *)kvPairs resolve
+                  : (nonnull RCTPromiseResolveBlock)resolve reject
+                  : (nonnull RCTPromiseRejectBlock)reject)
 {
     RNCAsyncStorage *legacy = [RNCAsyncStorage sharedInstance];
 
@@ -110,9 +116,10 @@ RCT_EXPORT_MODULE(RNAsyncStorage)
     });
 }
 
-- (void)legacy_multiRemove:(nonnull NSArray *)keys
-                   resolve:(nonnull RCTPromiseResolveBlock)resolve
-                    reject:(nonnull RCTPromiseRejectBlock)reject
+RCT_EXPORT_METHOD(legacy_multiRemove
+                  : (nonnull NSArray *)keys resolve
+                  : (nonnull RCTPromiseResolveBlock)resolve reject
+                  : (nonnull RCTPromiseRejectBlock)reject)
 {
     RNCAsyncStorage *legacy = [RNCAsyncStorage sharedInstance];
 
@@ -130,8 +137,9 @@ RCT_EXPORT_MODULE(RNAsyncStorage)
     });
 }
 
-- (void)legacy_getAllKeys:(nonnull RCTPromiseResolveBlock)resolve
-                   reject:(nonnull RCTPromiseRejectBlock)reject
+RCT_EXPORT_METHOD(legacy_getAllKeys
+                  : (nonnull RCTPromiseResolveBlock)resolve reject
+                  : (nonnull RCTPromiseRejectBlock)reject)
 {
     RNCAsyncStorage *legacy = [RNCAsyncStorage sharedInstance];
 
@@ -149,8 +157,9 @@ RCT_EXPORT_MODULE(RNAsyncStorage)
     });
 }
 
-- (void)legacy_clear:(nonnull RCTPromiseResolveBlock)resolve
-              reject:(nonnull RCTPromiseRejectBlock)reject
+RCT_EXPORT_METHOD(legacy_clear
+                  : (nonnull RCTPromiseResolveBlock)resolve reject
+                  : (nonnull RCTPromiseRejectBlock)reject)
 {
 
     RNCAsyncStorage *legacy = [RNCAsyncStorage sharedInstance];
@@ -169,9 +178,10 @@ RCT_EXPORT_MODULE(RNAsyncStorage)
     });
 }
 
-- (void)legacy_multiMerge:(nonnull NSArray *)kvPairs
-                  resolve:(nonnull RCTPromiseResolveBlock)resolve
-                   reject:(nonnull RCTPromiseRejectBlock)reject
+RCT_EXPORT_METHOD(legacy_multiMerge
+                  : (nonnull NSArray *)kvPairs resolve
+                  : (nonnull RCTPromiseResolveBlock)resolve reject
+                  : (nonnull RCTPromiseRejectBlock)reject)
 {
     // merge is removed
     resolve(nil);
