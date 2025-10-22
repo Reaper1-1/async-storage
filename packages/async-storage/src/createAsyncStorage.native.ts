@@ -3,12 +3,26 @@ import NativeAsyncStorage, {
   type Spec as NativeAsyncStorageSpec,
 } from "./native-module/NativeAsyncStorage";
 import { AsyncStorageError } from "./AsyncStorageError";
+import { Platform } from "react-native";
+
+let visionOsWarned = false;
 
 /**
  * Creates a new AsyncStorage instance bound to a given database name.
  * @param databaseName - The name of the database to open or create.
  */
 export function createAsyncStorage(databaseName: string): AsyncStorage {
+  if (Platform.OS === "ios" && Platform.isVision) {
+    if (!visionOsWarned) {
+      visionOsWarned = true;
+      // eslint-disable-next-line
+      console.warn(
+        "[AsyncStorage] Warning: Creating custom storages is not supported on visionOS. Falling back to the legacy implementation."
+      );
+    }
+    return getLegacyStorage();
+  }
+
   return new AsyncStorageImpl(databaseName);
 }
 

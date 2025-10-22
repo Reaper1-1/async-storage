@@ -1,11 +1,11 @@
+#if !os(visionOS) // not supported
 import React
 import SharedAsyncStorage
-
 
 @objc
 public class RNStorage: NSObject {
     private let db: SharedStorage
-    
+
     init(db: SharedStorage) {
         self.db = db
     }
@@ -118,3 +118,4 @@ extension NSError {
         return nil
     }
 }
+#endif

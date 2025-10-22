@@ -1,3 +1,4 @@
+#if !os(visionOS) // not supported
 import SharedAsyncStorage
 
 /**
@@ -49,3 +50,4 @@ public class StorageRegistry: NSObject {
         }()
     }
 }
+#endif

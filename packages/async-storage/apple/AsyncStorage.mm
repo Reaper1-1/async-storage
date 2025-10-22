@@ -1,11 +1,14 @@
 #import "AsyncStorage.h"
-
-#import "AsyncStorage-Swift.h"
 #import "RNCAsyncStorage.h"  // legacy storage
+
+#if !TARGET_OS_VISION
+#import "AsyncStorage-Swift.h"
+#endif
 
 @implementation AsyncStorage
 RCT_EXPORT_MODULE(RNAsyncStorage)
 
+#if !TARGET_OS_VISION // visionos not supported for SharedStorage
 RCT_EXPORT_METHOD(getValues
                   : (nonnull NSString *)dbName keys
                   : (nonnull NSArray *)keys resolve
@@ -57,6 +60,7 @@ RCT_EXPORT_METHOD(getKeys
     RNStorage *db = [StorageRegistry.shared getRNStorageWithDbName:dbName];
     [db allKeysWithResolver:resolve rejecter:reject];
 }
+#endif
 
 #pragma mark - Legacy Storage
 
