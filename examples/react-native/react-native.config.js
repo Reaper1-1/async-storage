@@ -11,6 +11,9 @@ const project = (() => {
       macos: {
         sourceDir: "macos",
       },
+      visionos: {
+        sourceDir: "visionos",
+      },
       windows: {
         sourceDir: "windows",
         solutionFile: "Example.sln",

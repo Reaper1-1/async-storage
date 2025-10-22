@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StatusBar, useColorScheme, View } from "react-native";
+import { StatusBar, useColorScheme, View, Text, Platform } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { TabButton } from "./components/TabButton";
 import BasicTests from "./tests/BasicTests";
@@ -11,10 +11,23 @@ function App(): React.JSX.Element {
     "basic" | "legacy-basic" | "perf" | "legacy-perf"
   >("basic");
 
+  function getPlatform() {
+    switch (Platform.OS) {
+      case "ios": {
+        return Platform.isVision ? "visionOS" : "iOS";
+      }
+      default:
+        return Platform.OS;
+    }
+  }
+
   return (
     <SafeAreaProvider>
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: "white", padding: 16 }}>
         <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
+        <Text style={{ fontSize: 24, color: "red" }}>
+          Platform: {getPlatform()}
+        </Text>
 
         <View
           style={{
