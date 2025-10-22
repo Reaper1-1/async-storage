@@ -3,7 +3,6 @@
 Async Storage is an asynchronous, unencrypted, persistent key-value storage solution for your React Native application.
 It provides a simple API compatible with the [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API), with additional extensions for batch operations and multi-database support.
 
-
 ## Supported platforms
 
 - **Android** (SQLite backend via Room KMP)
@@ -12,17 +11,15 @@ It provides a simple API compatible with the [Web Storage API](https://developer
 - **macOS** (SQLite backend via Room KMP)
 - **Windows** (legacy fallback, single database only)
 
-
 ## Supported versions
 
 | Component                | Minimum Version |
-|--------------------------|-----------------|
+| ------------------------ | --------------- |
 | kotlin                   | 2.1.0           |
 | ios/android React Native | 0.76            |
 | android min sdk          | 24              |
 | macOS React Native       | 0.78            |
 | macOS min target         | 12              |
-
 
 ---
 
@@ -84,7 +81,6 @@ async function demo() {
 ```
 
 Head over to [Usage page](api/usage.md) to learn more.
-
 
 ## License
 

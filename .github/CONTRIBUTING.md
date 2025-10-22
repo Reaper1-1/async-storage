@@ -6,14 +6,14 @@ your feedback about anything, so please let us know.
 
 ## Tests
 
-We use TypeScript for type check, `eslint` with `prettier` for
-linting/formatting. All tests are run on Github Actions for all opened pull requests, but you should use them locally when
+We use TypeScript for type check, `eslint` with `prettier` for linting/formatting. All tests are run on Github Actions
+for all opened pull requests, but you should use them locally
+when
 making changes.
 
 - `yarn test:lint`: Run `eslint` check.
 - `yarn test:ts`: Run `tsc` type check.
 - `yarn test:format`: Run `prettier` check for formatting mistakes.
-
 
 You can also run unit tests for `shared-storage`, using one of gradle task:
 
@@ -31,16 +31,16 @@ When you're sending a pull request:
   test/check.
 - Please make sure that all tests are passing on your local machine.
 - Please make sure you've run formatters and linters locally.
-  - In VS Code, you can press ⇧+Alt+F or ⇧⌥F to format the current file.
-    - To format C++ and Objective-C files, make sure you have the
-      [C/C++ extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)
-      installed.
-    - To format JavaScript files, please install
-      [Prettier extension](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode).
-  - From the command line, you can run `yarn format:c` and `yarn format:js` to
-    format C-based languages and JavaScript respectively. The first command
-    requires that you've already installed
-    [ClangFormat](https://clang.llvm.org/docs/ClangFormat.html).
+    - In VS Code, you can press ⇧+Alt+F or ⇧⌥F to format the current file.
+        - To format C++ and Objective-C files, make sure you have the
+          [C/C++ extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)
+          installed.
+        - To format JavaScript files, please install
+          [Prettier extension](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode).
+    - From the command line, you can run `yarn format:c` and `yarn format:js` to
+      format C-based languages and JavaScript respectively. The first command
+      requires that you've already installed
+      [ClangFormat](https://clang.llvm.org/docs/ClangFormat.html).
 - Follow the template when opening a PR.
 
 ## Commits and versioning
@@ -68,7 +68,7 @@ Most notably prefixes you'll see:
 
 ## Release process
 
-We use [Changeset](https://github.com/changesets/changesets) to manage releases. 
+We use [Changeset](https://github.com/changesets/changesets) to manage releases.
 In your PR, run `yarn changeset` to create a new changeset, describing your changes.
 The Changeset Bot will help you out during opening a PR.
 

@@ -9,18 +9,17 @@ AsyncStorage v3 introduces a few breaking changes to simplify the API and make i
 Here is the table describing minimum requirements for v3:
 
 | Component                | Minimum Version |
-|--------------------------|-----------------|
+| ------------------------ | --------------- |
 | kotlin                   | 2.1.0           |
 | ios/android React Native | 0.76            |
 | android min sdk          | 24              |
 | macOS React Native       | 0.78            |
 | macOS min target         | 12              |
 
-
-
 ### Installation changes
 
 Android requires a local Maven repository to be added to your `android/build.gradle(.kts)`:
+
 ```groovy
 allprojects {
     repositories {
@@ -41,8 +40,8 @@ Each instance represents an **isolated storage area**, providing separation betw
 
 ```typescript
 // create separate storages
-const userStorage = createAsyncStorage('user');
-const cacheStorage = createAsyncStorage('cache');
+const userStorage = createAsyncStorage("user");
+const cacheStorage = createAsyncStorage("cache");
 ```
 
 ### Default export still points to v2 storage
@@ -55,8 +54,8 @@ This ensures that:
 
 ```typescript
 // Still works (uses the v2 backend)
-import AsyncStorage from '@react-native-async-storage/async-storage';
-await AsyncStorage.setItem('foo', 'bar');
+import AsyncStorage from "@react-native-async-storage/async-storage";
+await AsyncStorage.setItem("foo", "bar");
 ```
 
 ### Callbacks removed - Promises only
@@ -142,4 +141,3 @@ Renamed to `removeMany`, this method accepts a list of keys to remove.
 
 + removeMany(keys: string[]): Promise<void>;
 ```
-

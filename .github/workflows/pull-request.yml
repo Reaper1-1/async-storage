@@ -26,8 +26,7 @@ jobs:
     strategy:
       matrix:
         os: [macos-latest, ubuntu-24.04]
-        testName:
-          [testAndroidHostTest, macosArm64Test, iosSimulatorArm64Test]
+        testName: [testAndroidHostTest, macosArm64Test, iosSimulatorArm64Test]
         exclude:
           - testName: testAndroidHostTest
             os: macos-latest
