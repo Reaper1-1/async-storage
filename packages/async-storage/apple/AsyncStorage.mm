@@ -1,4 +1,5 @@
 #import "AsyncStorage.h"
+
 #import "RNCAsyncStorage.h"  // legacy storage
 
 #if !TARGET_OS_VISION
@@ -8,7 +9,7 @@
 @implementation AsyncStorage
 RCT_EXPORT_MODULE(RNAsyncStorage)
 
-#if !TARGET_OS_VISION // visionos not supported for SharedStorage
+#if !TARGET_OS_VISION  // visionos not supported for SharedStorage
 RCT_EXPORT_METHOD(getValues
                   : (nonnull NSString *)dbName keys
                   : (nonnull NSArray *)keys resolve

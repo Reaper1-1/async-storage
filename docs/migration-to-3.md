@@ -9,17 +9,16 @@ AsyncStorage v3 introduces a few breaking changes to simplify the API and make i
 Compatibility table for React Native:
 
 | React Native | Minimum Version |
-|--------------|-----------------|
+| ------------ | --------------- |
 | ios/android  | 0.76            |
 | macOS        | 0.78            |
 | visionOS     | 0.79            |
 | windows      | 0.79            |
 
-
 Other components:
 
 | Component        | Version |
-|------------------|---------|
+| ---------------- | ------- |
 | kotlin           | 2.1.0   |
 | android min sdk  | 24      |
 | ios min target   | 13      |

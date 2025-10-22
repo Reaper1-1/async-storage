@@ -17,17 +17,16 @@ It provides a simple API compatible with the [Web Storage API](https://developer
 Compatibility table for React Native:
 
 | React Native | Minimum Version |
-|--------------|-----------------|
+| ------------ | --------------- |
 | ios/android  | 0.76            |
 | macOS        | 0.78            |
 | visionOS     | 0.79            |
 | windows      | 0.79            |
 
-
 Other components:
 
 | Component        | Version |
-|------------------|---------|
+| ---------------- | ------- |
 | kotlin           | 2.1.0   |
 | android min sdk  | 24      |
 | ios min target   | 13      |

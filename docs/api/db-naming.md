@@ -76,7 +76,6 @@ Creates database named `user-1234`:
 
 ![web-db-naming-1.png](../assets/db-naming-web-1.png)
 
-
 ### Windows and visionOS
 
-Creating multiple storages is not supported on Windows and visionOS targets. 
+Creating multiple storages is not supported on Windows and visionOS targets.
