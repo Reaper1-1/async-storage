@@ -6,15 +6,23 @@ AsyncStorage v3 introduces a few breaking changes to simplify the API and make i
 
 ### Requirements
 
-Here is the table describing minimum requirements for v3:
+Compatibility table for React Native:
 
-| Component                | Minimum Version |
-| ------------------------ | --------------- |
-| kotlin                   | 2.1.0           |
+| React Native             | Minimum Version |
+|--------------------------|-----------------|
 | ios/android React Native | 0.76            |
-| android min sdk          | 24              |
 | macOS React Native       | 0.78            |
-| macOS min target         | 12              |
+| visionOS React Native    | 0.79            |
+| tvOS React Native        | 0.79            |
+
+
+Other components:
+
+| Component        | Minimum Version |
+|------------------|-----------------|
+| kotlin           | 2.1.0           |
+| android min sdk  | 24              |
+| macOS min target | 12              |
 
 ### Installation changes
 
