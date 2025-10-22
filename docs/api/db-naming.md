@@ -76,7 +76,7 @@ Creates database named `user-1234`:
 
 ![web-db-naming-1.png](../assets/db-naming-web-1.png)
 
-### Windows
 
-On the Web, `databaseName` corresponds directly to the name of the IndexedDB database.  
-Although the `async-storage` grouping is abstracted away, the name remains unique across instances.
+### Windows and visionOS
+
+Creating multiple storages is not supported on Windows and visionOS targets. 

@@ -37,6 +37,11 @@ Data in one storage instance is isolated, ensuring that different names do not s
 
     Windows does not support scoped storages. It falls back to the previous v2 implementation, which provides a single storage per application.
 
+!!! warning "visionOS"
+
+    visionOS does not support scoped storages. It falls back to the previous v2 implementation, which provides a single storage per application.
+
+
 ## Using a storage
 
 After creating a storage instance, the storage is ready to use.

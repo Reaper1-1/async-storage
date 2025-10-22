@@ -9,6 +9,7 @@ It provides a simple API compatible with the [Web Storage API](https://developer
 - **iOS** (SQLite backend via Room KMP)
 - **Web** (IndexedDB backend)
 - **macOS** (SQLite backend via Room KMP)
+- **visionOS** (legacy fallback, single database only)
 - **Windows** (legacy fallback, single database only)
 
 ## Compatibility
@@ -20,16 +21,17 @@ Compatibility table for React Native:
 | ios/android  | 0.76            |
 | macOS        | 0.78            |
 | visionOS     | 0.79            |
-| tvOS         | 0.79            |
+| windows      | 0.79            |
 
 
 Other components:
 
-| Component        | Minimum Version |
-|------------------|-----------------|
-| kotlin           | 2.1.0           |
-| android min sdk  | 24              |
-| macOS min target | 12              |
+| Component        | Version |
+|------------------|---------|
+| kotlin           | 2.1.0   |
+| android min sdk  | 24      |
+| ios min target   | 13      |
+| macOS min target | 12      |
 
 ---
 
