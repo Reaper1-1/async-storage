@@ -16,13 +16,15 @@ Multiple calls with the same name return the same singleton instance, ensuring c
 
 ```kotlin
 import android.content.Context
+import kotlinx.coroutines.runBlocking
+import org.asyncstorage.shared_storage.Entry
 import org.asyncstorage.shared_storage.SharedStorage
 import org.asyncstorage.storage.StorageRegistry
-import kotlinx.coroutines.runBlocking
 
 // access shared storage via StorageRegistry
 val storage: SharedStorage = StorageRegistry.getStorage(ctx, "my-users")
 
+// runBlocking only for a demonstration
 runBlocking {
     storage.setValues(listOf(Entry("email", "john@example.com")))
     val values = storage.getValues(listOf("email"))
@@ -35,6 +37,7 @@ runBlocking {
 On iOS and macOS, the `StorageRegistry` singleton provides the same functionality in Swift and Objective-C.
 
 ```swift
+import AsyncStorage
 import SharedAsyncStorage
 
 // access shared storage via StorageRegistry
