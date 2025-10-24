@@ -5,11 +5,11 @@ It provides a simple API compatible with the [Web Storage API](https://developer
 
 ## Supported platforms
 
-- **Android** (SQLite backend via Room KMP)
-- **iOS** (SQLite backend via Room KMP)
-- **Web** (IndexedDB backend)
-- **macOS** (SQLite backend via Room KMP)
+- **Android** (SQLite)
+- **iOS** (SQLite)
+- **macOS** (SQLite)
 - **visionOS** (legacy fallback, single database only)
+- **Web** (IndexedDB backend)
 - **Windows** (legacy fallback, single database only)
 
 ## Compatibility
