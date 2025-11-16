@@ -2,12 +2,11 @@
 "@react-native-async-storage/async-storage": major
 ---
 
-Async Storage v3
-
 Initial release of upcoming version v3.
 Please visit [Async Storage docs to learn more](https://react-native-async-storage.github.io/)
 
 ## Breaking changes:
+
 
 - Async Storage uses "scoped storages", where you need to create a storage instance before using it
 - Default export is a singleton storage that uses v2/v1 storage, for easier transition
