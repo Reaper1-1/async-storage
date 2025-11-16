@@ -7,7 +7,6 @@ Please visit [Async Storage docs to learn more](https://react-native-async-stora
 
 ## Breaking changes:
 
-
 - Async Storage uses "scoped storages", where you need to create a storage instance before using it
 - Default export is a singleton storage that uses v2/v1 storage, for easier transition
 - An extra installation step is required for android

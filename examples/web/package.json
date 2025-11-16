@@ -6,7 +6,6 @@
   "scripts": {
     "dev": "vite",
     "start": "vite",
-    "build": "tsc -b && vite build",
     "test:lint": "eslint .",
     "test:ts": "tsc --noEmit -p tsconfig.app.json",
     "preview": "vite preview"

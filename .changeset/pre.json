@@ -8,5 +8,7 @@
     "@react-native-async-storage/async-storage": "2.2.0",
     "@react-native-async-storage/eslint-config": "0.0.0"
   },
-  "changesets": []
+  "changesets": [
+    "quick-dragons-run"
+  ]
 }
