@@ -79,14 +79,11 @@ import { createAsyncStorage } from "@react-native-async-storage/async-storage";
 const storage = createAsyncStorage("appDB");
 
 async function demo() {
-  // save value under "userToken" key
   await storage.setItem("userToken", "abc123");
-
-  // read value stored at "userToken" key
+  
   const token = await storage.getItem("userToken");
   console.log("Stored token:", token); // abc123
-
-  // remove value from storage
+    
   await storage.removeItem("userToken");
 }
 ```

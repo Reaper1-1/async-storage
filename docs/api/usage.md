@@ -12,6 +12,14 @@ It mirrors the Web Storage API, with additional support for batch operations.
 **Note:** AsyncStorage only stores strings. To save objects, arrays, or other non-string values, serialize them with
 `JSON.stringify` before storing, and use `JSON.parse` when reading them back.
 
+## Scoped storage
+
+Each storage instance has its own isolated data, independent of other instances, based on the name you give it. This is known as **scoped storage**.
+
+!!! warning "Windows and visionOS support"
+
+    Windows and visionOS do not support scoped storages. It falls back to the previous v2 implementation, which provides a single storage per application.
+
 ## Creating a storage
 
 Create a new storage instance by calling `createAsyncStorage` with a unique database name:
@@ -25,21 +33,6 @@ import { createAsyncStorage } from "@react-native-async-storage/async-storage";
 
 const userStorage = createAsyncStorage("john");
 ```
-
-Each instance is uniquely identified by its name.
-Data in one storage instance is isolated, ensuring that different names do not share data.
-
-!!! note "Web"
-
-    On the Web, AsyncStorage uses [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API), which supports scoped storages.
-
-!!! warning "Windows"
-
-    Windows does not support scoped storages. It falls back to the previous v2 implementation, which provides a single storage per application.
-
-!!! warning "visionOS"
-
-    visionOS does not support scoped storages. It falls back to the previous v2 implementation, which provides a single storage per application.
 
 ## Using a storage
 
@@ -59,7 +52,7 @@ await userStorage.setItem("username", "doe_john");
 // previously stored value is overriden
 await userStorage.setItem("username", "john_doe");
 
-// read current value
+
 let username = await userStorage.getItem("username");
 console.log(username); // "john_doe"
 
@@ -81,13 +74,11 @@ applied, or none if an error occurs.
 - `removeMany` deletes multiple keys; non-existing keys are ignored without errors.
 
 ```typescript
-// store values
 await userStorage.setMany({
   email: "john@example.com",
   age: "30",
 });
 
-// read multiple items
 const data = await userStorage.getMany(["email", "age", "username"]);
 console.log(data);
 // {
@@ -96,7 +87,6 @@ console.log(data);
 //   username: null, // key doesn't exist
 // }
 
-// remove multiple items
 // non-existing keys are ignored
 await userStorage.removeMany(["email", "age", "not-here"]);
 ```
