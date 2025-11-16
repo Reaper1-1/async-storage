@@ -7,6 +7,8 @@ on:
       - "docs/**"
       - "mkdocs.yml"
       - "packages/async-storage/CHANGELOG.md"
+      - ".github/CONTRIBUTING.md"
+      - "README.md"
   workflow_dispatch:
 jobs:
   deploy-docs:
@@ -40,4 +42,6 @@ jobs:
         run: |
           git remote add docs https://github.com/react-native-async-storage/react-native-async-storage.github.io.git
       - name: Deploy Docs with mike
-        run: mike deploy -u -r docs --push ${{ steps.version.outputs.versionDocs }} latest
+        run: | 
+          mike deploy -r docs ${{ steps.version.outputs.versionDocs }} -u --push latest
+          mike set-default -r docs ${{ steps.version.outputs.versionDocs }} --push
