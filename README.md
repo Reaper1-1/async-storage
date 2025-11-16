@@ -80,10 +80,10 @@ const storage = createAsyncStorage("appDB");
 
 async function demo() {
   await storage.setItem("userToken", "abc123");
-  
+
   const token = await storage.getItem("userToken");
   console.log("Stored token:", token); // abc123
-    
+
   await storage.removeItem("userToken");
 }
 ```

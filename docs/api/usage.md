@@ -52,7 +52,6 @@ await userStorage.setItem("username", "doe_john");
 // previously stored value is overriden
 await userStorage.setItem("username", "john_doe");
 
-
 let username = await userStorage.getItem("username");
 console.log(username); // "john_doe"
 
