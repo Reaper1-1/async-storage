@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.0.0-next.1
+
+### Patch Changes
+
+- 300cba3: update ios setup for cocoapods
+
 ## 3.0.0-next.0
 
 ### Major Changes
