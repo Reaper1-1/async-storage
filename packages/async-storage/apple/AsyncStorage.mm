@@ -3,7 +3,13 @@
 #import "RNCAsyncStorage.h"  // legacy storage
 
 #if !TARGET_OS_VISION
+
+#if __has_include("AsyncStorage-Swift.h")
 #import "AsyncStorage-Swift.h"
+#elif __has_include(<AsyncStorage/AsyncStorage-Swift.h>)
+#import <AsyncStorage/AsyncStorage-Swift.h>
+#endif
+
 #endif
 
 @implementation AsyncStorage

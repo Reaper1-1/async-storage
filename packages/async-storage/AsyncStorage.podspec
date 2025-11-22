@@ -15,11 +15,10 @@ Pod::Spec.new do |s|
   s.resource_bundles = { "AsyncStorage_resources" => "apple/PrivacyInfo.xcprivacy" }
 
   s.source_files = "apple/**/*.{h,m,mm,cpp,swift}"
-  s.private_header_files = "apple/**/*.h"
   s.swift_version = "5.9.2"
 
-  s.ios.vendored_frameworks = "apple/Frameworks/SharedAsyncStorage.xcframework"
-  s.osx.vendored_frameworks = "apple/Frameworks/SharedAsyncStorage.xcframework"
+  s.ios.vendored_frameworks = "apple-frameworks/SharedAsyncStorage.xcframework"
+  s.osx.vendored_frameworks = "apple-frameworks/SharedAsyncStorage.xcframework"
 
 
   install_modules_dependencies(s)

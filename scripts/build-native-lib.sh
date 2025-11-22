@@ -14,7 +14,7 @@ ANDROID_PUBLISH_TASK="publishAndroidPublicationToLocalRepoRepository"
 APPLE_BUILD_TASK="assembleSharedAsyncStorageXCFramework"
 APPLE_OUTPUT_NAME="SharedAsyncStorage.xcframework"
 APPLE_OUTPUT_DIR="$MODULE_NAME/build/XCFrameworks/release"
-APPLE_RN_OUTPUT_DIR="$RN_MODULE_DIR/apple/Frameworks"
+APPLE_RN_OUTPUT_DIR="$RN_MODULE_DIR/apple-frameworks"
 
 
 

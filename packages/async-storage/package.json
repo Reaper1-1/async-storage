@@ -24,6 +24,7 @@
     "lib",
     "android",
     "apple",
+    "apple-frameworks",
     "windows",
     "*.podspec",
     "!apple/build",

@@ -28,7 +28,7 @@ lib/
 
 # native shared-storage binaries
 android/local_repo
-apple/Frameworks
+apple-frameworks
 
 # React Native Codegen
 apple/generated
