@@ -9,6 +9,7 @@
     "@react-native-async-storage/eslint-config": "0.0.0"
   },
   "changesets": [
+    "brave-pens-invite",
     "metal-peas-know",
     "quick-dragons-run"
   ]

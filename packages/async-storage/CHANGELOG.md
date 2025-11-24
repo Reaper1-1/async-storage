@@ -1,5 +1,11 @@
 # Change Log
 
+## 3.0.0-next.2
+
+### Patch Changes
+
+- e9061f9: fix: re-deploy android
+
 ## 3.0.0-next.1
 
 ### Patch Changes
