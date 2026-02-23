@@ -1,0 +1,65 @@
+package org.asyncstorage.shared_storage
+
+import co.touchlab.kermit.Logger
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import org.asyncstorage.shared_storage.database.DatabaseFiles
+import org.asyncstorage.shared_storage.database.StorageDatabase
+import org.asyncstorage.shared_storage.database.StorageEntry
+
+/**
+ * Default implementation of [SharedStorage] interface.
+ *
+ * Storage always returns entries that were requested - if requested `key` is not in database
+ * the result is not omitted and Entry(`key`, null) is returned.
+ *
+ * Note about [getValuesFlow]: Since SQLite database trigger notifications only on table level, not
+ * row level, non-observed requested keys will trigger emits. Therefor, flow returned has
+ * .distinctUntilChanged to mimic row level update.
+ */
+internal class SharedStorageImpl(val database: StorageDatabase, files: DatabaseFiles) :
+    SharedStorage {
+
+    private val storage = database.storageDao()
+    private val log = Logger.withTag("AsyncStorage:${files.databaseName}")
+
+    init {
+        log.i { "Storage opened at ${files.directoryAbsolutePath}" }
+    }
+
+    override suspend fun getValues(keys: List<String>): List<Entry> =
+        catchStorageException(log) { storage.getValues(keys).toRequestedEntry(keys) }
+
+    override fun getValuesFlow(keys: List<String>): Flow<List<Entry>> =
+        storage
+            .getValuesFlow(keys)
+            .map { list -> list.toRequestedEntry(keys) }
+            .distinctUntilChanged()
+            .catchStorageException(log)
+
+    override suspend fun setValues(entries: List<Entry>): List<Entry> =
+        catchStorageException(log) {
+            val values = entries.map(Entry::toStorageEntry)
+            storage.setValuesAndGet(values).toRequestedEntry(entries.map { it.key })
+        }
+
+    override suspend fun removeValues(keys: List<String>) =
+        catchStorageException(log) { storage.removeValues(keys) }
+
+    override suspend fun getKeys(): List<String> = catchStorageException(log) { storage.getKeys() }
+
+    override fun getKeysFlow(): Flow<List<String>> =
+        storage.getKeysFlow().catchStorageException(log)
+
+    override suspend fun clear() = catchStorageException(log) { storage.clear() }
+
+
+    private fun List<StorageEntry>.toRequestedEntry(keys: List<String>): List<Entry> {
+        val lookup = associateBy { it.key }
+        return keys.map { key ->
+            lookup[key]?.toEntry() ?: Entry(key, null)
+        }
+    }
+
+}

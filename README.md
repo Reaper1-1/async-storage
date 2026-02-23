@@ -1,51 +1,94 @@
 # React Native Async Storage
 
-An asynchronous, unencrypted, persistent, key-value storage system for React
-Native.
+Async Storage is an asynchronous, unencrypted, persistent key-value storage solution for your React Native application.
+It provides a simple API compatible with the [Web Storage API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API), with additional extensions for batch operations and multi-database support.
 
 ## Supported platforms
 
-- Android
-- iOS
-- [macOS](https://github.com/react-native-async-storage/async-storage/releases/tag/v1.8.1)
-- [visionOS](https://github.com/react-native-async-storage/async-storage/releases/tag/v1.22.0)
-- [Web](https://github.com/react-native-async-storage/async-storage/releases/tag/v1.9.0)
-- [Windows](https://github.com/react-native-async-storage/async-storage/releases/tag/v1.10.0)
+- **Android** (SQLite)
+- **iOS** (SQLite)
+- **macOS** (SQLite)
+- **visionOS** (legacy fallback, single database only)
+- **Web** (IndexedDB backend)
+- **Windows** (legacy fallback, single database only)
 
-## Getting Started
+## Compatibility
 
-Head over to the
-[documentation](https://react-native-async-storage.github.io/async-storage/docs/install)
-to learn more.
+Compatibility table for React Native:
 
-## Running E2E locally
+| React Native | Minimum Version |
+| ------------ | --------------- |
+| ios/android  | 0.76            |
+| macOS        | 0.78            |
+| visionOS     | 0.79            |
+| windows      | 0.79            |
+
+Other components:
+
+| Component        | Version |
+| ---------------- | ------- |
+| kotlin           | 2.1.0   |
+| android min sdk  | 24      |
+| ios min target   | 13      |
+| macOS min target | 12      |
+
+---
+
+## Installation
+
+```shell
+# Using npm
+npm install @react-native-async-storage/async-storage@next
+
+# Using yarn
+yarn add @react-native-async-storage/async-storage@next
+```
 
 ### Android
 
-1. Create and start Android Emulator with Play services, API level 29
-2. Build app and run tests
-   ```shell
-   yarn bundle:android
-   yarn build:e2e:android
-   yarn test:e2e:android
-   ```
+Inside your `android/build.gradle(.kts)` file, add link to local maven repo:
 
-### iOS
+```groovy
+allprojects {
+    repositories {
+        // ... others like google(), mavenCentral()
 
-1. Create and start iPhone 14 simulator with iOS version 16.4
-2. Build app and run tests
-   ```shell
-   yarn bundle:ios
-   yarn build:e2e:ios
-   yarn test:e2e:ios
-   ```
+        maven {
+            url = uri(project(":react-native-async-storage_async-storage").file("local_repo"))
+            // or uri("path/to/node_modules/@react-native-async-storage/async-storage/android/local_repo")
+        }
+    }
+}
+```
 
-## Contribution
+### iOS/macOS
 
-Pull requests are welcome. Please open an issue first to discuss what you would
-like to change.
+Install cocoapods dependencies:
 
-See the [CONTRIBUTING](.github/CONTRIBUTING.md) file for more information.
+```shell
+# inside macos/ios directory
+pod install
+```
+
+## Usage
+
+```typescript
+import { createAsyncStorage } from "@react-native-async-storage/async-storage";
+
+// create a storage instance
+const storage = createAsyncStorage("appDB");
+
+async function demo() {
+  await storage.setItem("userToken", "abc123");
+
+  const token = await storage.getItem("userToken");
+  console.log("Stored token:", token); // abc123
+
+  await storage.removeItem("userToken");
+}
+```
+
+Head over to [Usage page](api/usage.md) to learn more.
 
 ## License
 

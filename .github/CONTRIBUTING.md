@@ -1,22 +1,25 @@
 # Contributing to React Native Async Storage
 
 Thank you for helping out with Async Storage! We'd like to make contributions as
-pleasent as possible, so here's a small guide of how we see it. Happy to hear
+pleasant as possible, so here's a small guide of how we see it. Happy to hear
 your feedback about anything, so please let us know.
 
 ## Tests
 
-We use TypeScript for type check, `eslint` with `prettier` for
-linting/formatting, `jest/detox` for tests (unit and e2e). All tests are run on
-CircleCI for all opened pull requests, but you should use them locally when
+We use TypeScript for type check, `eslint` with `prettier` for linting/formatting. All tests are run on Github Actions
+for all opened pull requests, but you should use them locally
+when
 making changes.
 
-- `yarn test`: Run all tests, except for e2e (see note below).
 - `yarn test:lint`: Run `eslint` check.
 - `yarn test:ts`: Run `tsc` type check.
-- `yarn test:e2e:<ios|android|macos>`: Runs e2e tests. Before you can run it,
-  you should build the app that can be run, by using
-  `yarn build:e2e:<ios|android|macos>`.
+- `yarn test:format`: Run `prettier` check for formatting mistakes.
+
+You can also run unit tests for `shared-storage`, using one of gradle task:
+
+- `./gradlew testAndroidHostTest`
+- `./gradlew macosArm64Test`
+- `./gradlew iosSimulatorArm64Test`
 
 ## Sending a pull request
 
@@ -28,16 +31,16 @@ When you're sending a pull request:
   test/check.
 - Please make sure that all tests are passing on your local machine.
 - Please make sure you've run formatters and linters locally.
-  - In VS Code, you can press ⇧+Alt+F or ⇧⌥F to format the current file.
-    - To format C++ and Objective-C files, make sure you have the
-      [C/C++ extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)
-      installed.
-    - To format JavaScript files, please install
-      [Prettier extension](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode).
-  - From the command line, you can run `yarn format:c` and `yarn format:js` to
-    format C-based languages and JavaScript respectively. The first command
-    requires that you've already installed
-    [ClangFormat](https://clang.llvm.org/docs/ClangFormat.html).
+    - In VS Code, you can press ⇧+Alt+F or ⇧⌥F to format the current file.
+        - To format C++ and Objective-C files, make sure you have the
+          [C/C++ extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)
+          installed.
+        - To format JavaScript files, please install
+          [Prettier extension](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode).
+    - From the command line, you can run `yarn format:c` and `yarn format:js` to
+      format C-based languages and JavaScript respectively. The first command
+      requires that you've already installed
+      [ClangFormat](https://clang.llvm.org/docs/ClangFormat.html).
 - Follow the template when opening a PR.
 
 ## Commits and versioning
@@ -65,16 +68,15 @@ Most notably prefixes you'll see:
 
 ## Release process
 
-We use [Semantic Release](http://semantic-release.org) to automatically release
-new versions of the library when changes are merged into `main` branch, which
-we plan to keep stable. Bug fixes take priority in the release order.
+We use [Changeset](https://github.com/changesets/changesets) to manage releases.
+In your PR, run `yarn changeset` to create a new changeset, describing your changes.
+The Changeset Bot will help you out during opening a PR.
 
 ## Reporting issues
 
 You can report issues on our
-[bug tracker](https://github.com/react-native-community/react-native-async-storage/issues).
-Please search for existing issues and follow the issue template when opening an
-one.
+[bug tracker](https://github.com/react-native-async-storage/async-storage/issues).
+Please search for existing issues and follow the issue template when opening a one.
 
 ## License
 

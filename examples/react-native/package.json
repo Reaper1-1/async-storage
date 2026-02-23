@@ -1,0 +1,58 @@
+{
+  "name": "example-react-native",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "android": "react-native run-android",
+    "ios": "react-native run-ios",
+    "windows": "install-windows-test-app && react-native run-windows",
+    "macos": "react-native run-macos",
+    "visionos": "react-native run-visionos",
+    "bundle:android": "yarn mkdist && react-native bundle --entry-file index.js --platform android --dev true --bundle-output dist/main.android.jsbundle --assets-dest dist/res",
+    "bundle:ios": "yarn mkdist && react-native bundle --entry-file index.js --platform ios --dev true --bundle-output dist/main.ios.jsbundle --assets-dest dist",
+    "bundle:windows": "yarn mkdist && react-native bundle --entry-file index.js --platform windows --dev true --bundle-output dist/main.windows.bundle --assets-dest dist",
+    "bundle:macos": "yarn mkdist && react-native bundle --entry-file index.js --platform macos --dev true --bundle-output dist/main.macos.bundle --assets-dest dist",
+    "bundle:visionos": "yarn mkdist && react-native bundle --entry-file index.js --platform ios --dev true --bundle-output dist/main.visionos.bundle --assets-dest dist",
+    "test:lint": "eslint .",
+    "test:ts": "tsc --noEmit",
+    "mkdist": "node -e \"require('node:fs').mkdirSync('dist', { recursive: true, mode: 0o755 })\"",
+    "start": "react-native start"
+  },
+  "installConfig": {
+    "hoistingLimits": "workspaces"
+  },
+  "dependencies": {
+    "@callstack/react-native-visionos": "^0.79.0",
+    "react": "19.0.0",
+    "react-native": "0.79.6",
+    "react-native-macos": "^0.79.0",
+    "react-native-safe-area-context": "^5.6.1",
+    "react-native-windows": "^0.79.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.3",
+    "@babel/runtime": "^7.25.0",
+    "@callstack/out-of-tree-platforms": "^0.77.0",
+    "@react-native-async-storage/async-storage": "workspace:*",
+    "@react-native-async-storage/eslint-config": "workspace:*",
+    "@react-native-community/cli": "18.0.0",
+    "@react-native-community/cli-platform-android": "18.0.0",
+    "@react-native-community/cli-platform-ios": "18.0.0",
+    "@react-native/babel-preset": "0.79.6",
+    "@react-native/eslint-config": "0.79.6",
+    "@react-native/metro-config": "0.79.6",
+    "@react-native/typescript-config": "0.79.6",
+    "@rnx-kit/metro-config": "^2.1.0",
+    "@types/jest": "^29.5.13",
+    "@types/react": "^19.0.0",
+    "@types/react-test-renderer": "^19.0.0",
+    "eslint": "9.34.0",
+    "example-common-tests": "workspace:*",
+    "jest": "^29.6.3",
+    "prettier": "3.6.2",
+    "react-native-test-app": "^4.4.7",
+    "react-test-renderer": "19.0.0",
+    "typescript": "5.9.2"
+  }
+}

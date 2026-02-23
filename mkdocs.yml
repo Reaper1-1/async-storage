@@ -1,0 +1,56 @@
+site_name: Async Storage
+repo_url: https://github.com/react-native-async-storage/async-storage
+site_url: https://react-native-async-storage.github.io/
+
+# note: index, contributing and changelog are symlinked
+nav:
+  - Overview: index.md
+  - API:
+      - Usage: api/usage.md
+      - "Database naming": api/db-naming.md
+      - "Error handling": api/errors.md
+      - "Brownfield integration": api/brownfield.md
+  - "Migration to v3": migration-to-3.md
+  - FAQ: faq.md
+  - Contributing: contributing.md
+  - Changelog: changelog.md
+
+theme:
+  name: material
+  palette:
+    primary: custom
+    accent: custom
+  logo: assets/logo.png
+  favicon: assets/logo.png
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - content.code.copy
+  custom_dir: docs/overrides
+
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - admonition
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - toc:
+      permalink: true
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      name: Async Storage
+      link: https://github.com/react-native-async-storage/async-storage
+  version:
+    provider: mike
+    alias: true

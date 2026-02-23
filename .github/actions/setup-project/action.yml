@@ -3,13 +3,13 @@ description: Install required tools
 inputs:
   java-version:
     description: Desired Java version
-    default: "17"
+    default: "21.0.8"
   node-version:
     required: false
     description: node version to install
     # Use pre-installed Node version in Ubuntu 22.04 runner
     # https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2204-Readme.md
-    default: 20.13.1
+    default: 22.18.0
   windows-fix:
     required: false
     description: https://github.com/actions/setup-node/issues/899#issuecomment-1837381044
